@@ -8,7 +8,7 @@ namespace Demo
         public int segments = 10; // アーチのセグメント数
         public float radius = 5f; // アーチの半径
         public float height = 2f; // アーチの高さ
-        public   float colliderSize = 0.2f, debugSize = 0.2f;
+        public float colliderSize = 0.2f, debugSize = 0.2f;
         public Vector3 rotation = new Vector3(0, 90, 0); // アーチの向きを制御するパラメータ
         public Vector3 centerOffset = new Vector3(1, 0, 0); // アーチの中心をずらすオフセット
         public bool showGizmos = true; // Gizmosの表示を制御するbool変数
@@ -45,12 +45,11 @@ namespace Demo
                 colliderObj.transform.position = position + transform.position; // 親オブジェクトの位置を加算
                 colliderObj.transform.parent = this.transform; // 親オブジェクトに設定
 
-                BoxCollider boxCollider = colliderObj.AddComponent<BoxCollider>();
-                boxCollider.size = new Vector3(colliderSize, colliderSize, colliderSize); // サイズを調整
+                SphereCollider sphereCollider = colliderObj.AddComponent<SphereCollider>();
+                sphereCollider.radius = colliderSize; // スフィアの半径を調整
                 segmentColliders.Add(colliderObj);
             }
         }
-
 
         void OnDrawGizmos()
         {
@@ -96,7 +95,6 @@ namespace Demo
 
         void Update()
         {
-            // アーチの位置を更新する場合は、ここにロジックを追加
             CreateColliders(); // 必要に応じてコライダーを再生成
         }
     }

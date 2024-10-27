@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Demo
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class HairController : MonoBehaviour
     {
         public float rotationSpeed = 5f; // オブジェクトの回転速度
@@ -17,20 +18,20 @@ namespace Demo
         private Camera mainCamera; // メインカメラ
         private Rigidbody rb; // Rigidbodyコンポーネント
         private float currentJumpForce = 0f; // 現在のジャンプ力
-        private SphereCollider headCollider; // 頭のコライダー
+        private CapsuleCollider headCollider; // 頭のコライダー
 
         void Start()
         {
             mainCamera = Camera.main; // メインカメラを取得
             rb = GetComponent<Rigidbody>(); // Rigidbodyを取得
-            headCollider = headObj.GetComponent<SphereCollider>(); // 頭のコライダーを取得
+            headCollider = headObj.GetComponent<CapsuleCollider>(); // 頭のコライダーを取得
             Cursor.lockState = CursorLockMode.Locked; // カーソルを画面中央にロック
         }
 
         void Update()
         {
             Move();
-            StickToHead();
+            //StickToHead();
         }
 
         private void StickToHead()
@@ -52,8 +53,25 @@ namespace Demo
         private void Move()
         {
             // WASDキーによる移動
-            float moveX = Input.GetAxis("Horizontal"); // A/Dキーまたは左/右矢印
-            float moveZ = Input.GetAxis("Vertical"); // W/Sキーまたは上/下矢印
+            float moveX = 0f;
+            float moveZ = 0f;
+
+            if (Input.GetKey(KeyCode.A)) // Aキー
+            {
+                moveX = -1f; // 左移動
+            }
+            if (Input.GetKey(KeyCode.D)) // Dキー
+            {
+                moveX = 1f; // 右移動
+            }
+            if (Input.GetKey(KeyCode.W)) // Wキー
+            {
+                moveZ = 1f; // 前進
+            }
+            if (Input.GetKey(KeyCode.S)) // Sキー
+            {
+                moveZ = -1f; // 後退
+            }
 
             Vector3 movement = new Vector3(moveX, 0, moveZ).normalized; // 移動方向のベクトル
             Vector3 moveDirection = mainCamera.transform.TransformDirection(movement);
@@ -93,4 +111,3 @@ namespace Demo
         }
     }
 }
-    
