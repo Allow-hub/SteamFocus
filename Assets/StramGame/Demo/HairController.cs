@@ -19,10 +19,12 @@ namespace Demo
         private Camera mainCamera; // メインカメラ
         private Rigidbody rb; // Rigidbodyコンポーネント
         private float currentJumpForce = 0f; // 現在のジャンプ力
-        private SphereCollider headCollider; // 頭のコライダー
         private SpringJoint springJoint; // Spring Jointを保持する変数
 
-
+        private bool isLerping = false; // Lerp中かどうかのフラグ
+        private Vector3 startLerpPosition; // Lerp開始時の位置
+        private float lerpTime = 0f; // Lerpの時間経過
+        public float lerpDuration = 1f; // Lerpにかける時間（秒）
 
         void Start()
         {
@@ -30,29 +32,41 @@ namespace Demo
             rb = GetComponent<Rigidbody>(); // Rigidbodyを取得
 
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;   
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         void Update()
         {
             Move();
-            //StickToHead();
+
+            // Eキーが押されたらLerp開始
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                isLerping = true;
+                startLerpPosition = transform.position; // 現在の位置を保存
+                lerpTime = 0f; // 時間経過をリセット
+            }
+
+            // Lerp処理
+            if (isLerping)
+            {
+                LerpToHead();
+            }
         }
 
-        private void StickToHead()
+        private void LerpToHead()
         {
-            // 粘着処理
-            float distanceToHead = Vector3.Distance(transform.position, headObj.transform.position);
+            // Lerpの進行度を計算
+            lerpTime += Time.deltaTime;
+            float progress = lerpTime / lerpDuration;
 
-            // 頭のコライダーの半径以内にいるかチェック
-            if (headCollider != null && distanceToHead < headCollider.radius)
+            // 現在位置をLerpで更新
+            transform.position = Vector3.Lerp(startLerpPosition, headObj.transform.position, progress);
+
+            // Lerpが完了したら終了
+            if (progress >= 1f)
             {
-                // 粘着力を加える（Y成分を無視）
-                Vector3 directionToHead = (headObj.transform.position - transform.position).normalized;
-                directionToHead.y = 0; // Y成分を無視
-
-                // 粘着力を加える
-                rb.AddForce(directionToHead * stickForce, ForceMode.Force);
+                isLerping = false; // Lerpを終了
             }
         }
 
@@ -94,58 +108,5 @@ namespace Demo
                 currentJumpForce = constantJumpForce; // 一定の力に設定
             }
         }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            // 当たったオブジェクトが特定のタグを持っている場合（例：Hair）
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                CreateSpringJoint(collision.gameObject.transform.GetChild(0).gameObject);
-                headCollider = collision.gameObject.GetComponent<SphereCollider>(); // コライダーを取得
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            // 当たったオブジェクトが特定のタグを持っていて、Spring Jointが存在する場合
-            if (collision.gameObject.CompareTag("Player") && springJoint != null)
-            {
-                // Spring Jointを無効化
-                springJoint.connectedBody = null; // 接続先をnullにする
-
-            }
-        }
-
-
-
-        public void CreateSpringJoint(GameObject target)
-        {
-            // Spring Jointが既に存在する場合は、ターゲットを更新する
-            if (springJoint != null)
-            {
-                springJoint.connectedBody = target.GetComponent<Rigidbody>(); // 新しいターゲットのRigidbodyを設定
-                return; // 早期リターン
-            }
-
-            // Spring Jointを追加
-            if (springJoint == null)
-                springJoint = gameObject.AddComponent<SpringJoint>();
-
-            // ターゲットのRigidbodyを取得
-            Rigidbody targetRb = target.GetComponent<Rigidbody>();
-            if (targetRb != null)
-            {
-                springJoint.connectedBody = targetRb; // 接続先のRigidbodyを設定
-            }
-
-            // Spring Jointのプロパティを設定
-            springJoint.spring = power; // バネの強さ
-            springJoint.damper = 1f; // 減衰
-            springJoint.minDistance = 0f; // 最小距離
-            springJoint.maxDistance = stickDistance; // 最大距離
-        }
-
-
-
     }
 }
