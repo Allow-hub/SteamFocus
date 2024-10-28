@@ -7,6 +7,7 @@ namespace Demo
     [RequireComponent(typeof(Rigidbody))]
     public class HairController : MonoBehaviour
     {
+        public float power = 40;
         public float rotationSpeed = 5f; // オブジェクトの回転速度
         public float moveSpeed = 5f; // 移動速度
         public float maxJumpForce = 5f; // 最大ジャンプ力
@@ -18,14 +19,18 @@ namespace Demo
         private Camera mainCamera; // メインカメラ
         private Rigidbody rb; // Rigidbodyコンポーネント
         private float currentJumpForce = 0f; // 現在のジャンプ力
-        private CapsuleCollider headCollider; // 頭のコライダー
+        private SphereCollider headCollider; // 頭のコライダー
+        private SpringJoint springJoint; // Spring Jointを保持する変数
+
+
 
         void Start()
         {
             mainCamera = Camera.main; // メインカメラを取得
             rb = GetComponent<Rigidbody>(); // Rigidbodyを取得
-            headCollider = headObj.GetComponent<CapsuleCollider>(); // 頭のコライダーを取得
-            Cursor.lockState = CursorLockMode.Locked; // カーソルを画面中央にロック
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;   
         }
 
         void Update()
@@ -40,10 +45,11 @@ namespace Demo
             float distanceToHead = Vector3.Distance(transform.position, headObj.transform.position);
 
             // 頭のコライダーの半径以内にいるかチェック
-            if (distanceToHead < headCollider.radius)
+            if (headCollider != null && distanceToHead < headCollider.radius)
             {
                 // 粘着力を加える（Y成分を無視）
-                Vector3 directionToHead = new Vector3(headObj.transform.position.x - transform.position.x, 0, headObj.transform.position.z - transform.position.z).normalized;
+                Vector3 directionToHead = (headObj.transform.position - transform.position).normalized;
+                directionToHead.y = 0; // Y成分を無視
 
                 // 粘着力を加える
                 rb.AddForce(directionToHead * stickForce, ForceMode.Force);
@@ -56,22 +62,10 @@ namespace Demo
             float moveX = 0f;
             float moveZ = 0f;
 
-            if (Input.GetKey(KeyCode.A)) // Aキー
-            {
-                moveX = -1f; // 左移動
-            }
-            if (Input.GetKey(KeyCode.D)) // Dキー
-            {
-                moveX = 1f; // 右移動
-            }
-            if (Input.GetKey(KeyCode.W)) // Wキー
-            {
-                moveZ = 1f; // 前進
-            }
-            if (Input.GetKey(KeyCode.S)) // Sキー
-            {
-                moveZ = -1f; // 後退
-            }
+            if (Input.GetKey(KeyCode.A)) moveX = -1f; // 左移動
+            if (Input.GetKey(KeyCode.D)) moveX = 1f; // 右移動
+            if (Input.GetKey(KeyCode.W)) moveZ = 1f; // 前進
+            if (Input.GetKey(KeyCode.S)) moveZ = -1f; // 後退
 
             Vector3 movement = new Vector3(moveX, 0, moveZ).normalized; // 移動方向のベクトル
             Vector3 moveDirection = mainCamera.transform.TransformDirection(movement);
@@ -91,23 +85,67 @@ namespace Demo
             // ジャンプ処理（押している間飛ぶ）
             if (Input.GetKey(KeyCode.Space)) // スペースキーが押されている間
             {
-                // 現在のジャンプ力を増加させる
-                currentJumpForce += jumpIncreaseRate * Time.deltaTime;
-
-                // 最大ジャンプ力を超えないように制限
-                if (currentJumpForce > maxJumpForce)
-                {
-                    currentJumpForce = maxJumpForce;
-                }
-
-                // 上方向の力を加える（Y成分のみ）
-                rb.AddForce(Vector3.up * currentJumpForce, ForceMode.Force);
+                currentJumpForce += jumpIncreaseRate * Time.deltaTime; // 現在のジャンプ力を増加
+                currentJumpForce = Mathf.Clamp(currentJumpForce, 0, maxJumpForce); // 最大ジャンプ力を制限
+                rb.AddForce(Vector3.up * currentJumpForce, ForceMode.Force); // 上方向の力を加える
             }
             else
             {
-                // スペースキーが離されたら、現在のジャンプ力をリセット
                 currentJumpForce = constantJumpForce; // 一定の力に設定
             }
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            // 当たったオブジェクトが特定のタグを持っている場合（例：Hair）
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                CreateSpringJoint(collision.gameObject.transform.GetChild(0).gameObject);
+                headCollider = collision.gameObject.GetComponent<SphereCollider>(); // コライダーを取得
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            // 当たったオブジェクトが特定のタグを持っていて、Spring Jointが存在する場合
+            if (collision.gameObject.CompareTag("Player") && springJoint != null)
+            {
+                // Spring Jointを無効化
+                springJoint.connectedBody = null; // 接続先をnullにする
+
+            }
+        }
+
+
+
+        public void CreateSpringJoint(GameObject target)
+        {
+            // Spring Jointが既に存在する場合は、ターゲットを更新する
+            if (springJoint != null)
+            {
+                springJoint.connectedBody = target.GetComponent<Rigidbody>(); // 新しいターゲットのRigidbodyを設定
+                return; // 早期リターン
+            }
+
+            // Spring Jointを追加
+            if (springJoint == null)
+                springJoint = gameObject.AddComponent<SpringJoint>();
+
+            // ターゲットのRigidbodyを取得
+            Rigidbody targetRb = target.GetComponent<Rigidbody>();
+            if (targetRb != null)
+            {
+                springJoint.connectedBody = targetRb; // 接続先のRigidbodyを設定
+            }
+
+            // Spring Jointのプロパティを設定
+            springJoint.spring = power; // バネの強さ
+            springJoint.damper = 1f; // 減衰
+            springJoint.minDistance = 0f; // 最小距離
+            springJoint.maxDistance = stickDistance; // 最大距離
+        }
+
+
+
     }
 }
