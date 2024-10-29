@@ -108,5 +108,10 @@ namespace Demo
                 currentJumpForce = constantJumpForce; // ˆê’è‚Ì—Í‚Éİ’è
             }
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+
+        }
     }
 }

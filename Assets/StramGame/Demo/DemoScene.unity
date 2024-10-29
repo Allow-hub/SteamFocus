@@ -1469,7 +1469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &218236927
 Transform:
   m_ObjectHideFlags: 0
@@ -3927,7 +3927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &705046939
 Transform:
   m_ObjectHideFlags: 0
@@ -4828,7 +4828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &910785029
 Transform:
   m_ObjectHideFlags: 0
@@ -5407,7 +5407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1019557025
 Transform:
   m_ObjectHideFlags: 0
@@ -6388,7 +6388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1234526470
 Transform:
   m_ObjectHideFlags: 0
@@ -7811,7 +7811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777155f17ca444d46a6d85acbe05a27b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
   rotationSpeed: 10
 --- !u!4 &1545660685 stripped
 Transform:
@@ -9234,7 +9234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1807229036
 Transform:
   m_ObjectHideFlags: 0
@@ -9706,15 +9706,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dceeabc14d371e449cd5a64b40cd173,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1567479427}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dceeabc14d371e449cd5a64b40cd173,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 416075184}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dceeabc14d371e449cd5a64b40cd173,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1843612984}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dceeabc14d371e449cd5a64b40cd173,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1567479427}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4dceeabc14d371e449cd5a64b40cd173,
         type: 3}
       insertIndex: -1
@@ -9974,7 +9974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1859199022
 Transform:
   m_ObjectHideFlags: 0
@@ -10794,7 +10794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2055174004
 Transform:
   m_ObjectHideFlags: 0
