@@ -8,11 +8,13 @@ namespace Demo
     {
         public float moveSpeed = 5f;   // 移動速度
         public float rotationSpeed = 10f; // 回転速度
+        public float forceMultiplier = 10f; // 力の倍率
         private Rigidbody rb;
         [SerializeField] private KeyCode front = KeyCode.W;
-        [SerializeField] private KeyCode back = KeyCode.W; 
-        [SerializeField] private KeyCode left = KeyCode.W;
-        [SerializeField] private KeyCode right = KeyCode.W;
+        [SerializeField] private KeyCode back = KeyCode.S; // 修正
+        [SerializeField] private KeyCode left = KeyCode.A; // 修正
+        [SerializeField] private KeyCode right = KeyCode.D; // 修正
+
         void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -35,6 +37,12 @@ namespace Demo
 
             // 実際の移動はFixedUpdateで行う
             MoveCharacter(movement);
+
+            // 左クリックで前方に力を加える
+            if (Input.GetMouseButtonDown(0))
+            {
+                AddForceForward();
+            }
         }
 
         private void MoveCharacter(Vector3 movement)
@@ -49,5 +57,14 @@ namespace Demo
                 rb.MovePosition(rb.position + movement * Time.deltaTime);
             }
         }
+
+        private void AddForceForward()
+        {
+            // 前方に力を加える
+            Vector3 forwardForce = transform.forward * forceMultiplier;
+            Vector3 upwardForce = Vector3.up * forceMultiplier; // 上向きの力
+            rb.AddForce(forwardForce + upwardForce, ForceMode.Impulse); // 前方と上向きの力を加える
+        }
+
     }
 }
