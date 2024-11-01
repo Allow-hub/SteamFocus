@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace Demo
 {
     public class Player : MonoBehaviour
@@ -39,7 +38,7 @@ namespace Demo
             MoveCharacter(movement);
 
             // 左クリックで前方に力を加える
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 AddForceForward();
             }
