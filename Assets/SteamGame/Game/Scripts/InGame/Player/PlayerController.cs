@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TechC
@@ -19,7 +20,8 @@ namespace TechC
         [SerializeField] private float forwardForce = 10f;  // タックルの前方の力
         [SerializeField] private float upwardForce = 5f;    // タックルの上方の力
 
-
+        [Header("Jump")]
+        [SerializeField] private float jumpForce = 3;
         
         private void Awake()
         {
@@ -29,11 +31,13 @@ namespace TechC
         private void OnEnable()
         {
             PlayerInput.onAttackEvent += Attack;
+            PlayerInput.onJumpEvent += Jump;
         }
 
         private void OnDisable()
         {
-            PlayerInput.onAttackEvent -= Attack;         
+            PlayerInput.onAttackEvent -= Attack;     
+            PlayerInput.onJumpEvent -= Jump;
         }
 
         private void FixedUpdate()
@@ -57,10 +61,14 @@ namespace TechC
         /// </summary>
         private void Attack()
         {
-            Debug.Log("A");
             // タックルの力を計算
             Vector3 tackleDirection = transform.forward * forwardForce + Vector3.up * upwardForce;
             rb.AddForce(tackleDirection, ForceMode.Impulse); // インパルスで力を適用
+        }
+
+        private void Jump()
+        {
+            rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
         }
     }
 }
