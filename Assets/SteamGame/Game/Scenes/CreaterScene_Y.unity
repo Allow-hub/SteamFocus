@@ -393,8 +393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: 2
   player: {fileID: 2104109834}
-  distance: 5
-  height: 2
+  distance: 20
+  height: 15
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,13 +564,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.16390029
       objectReference: {fileID: 0}
     - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.144247
+      value: 10.234247
       objectReference: {fileID: 0}
     - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
         type: 3}
@@ -658,6 +673,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
+      propertyPath: jumpForce
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
       propertyPath: rotationSpeed
       value: 2
       objectReference: {fileID: 0}
@@ -669,7 +689,7 @@ PrefabInstance:
     - target: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.71
+      value: 11.8
       objectReference: {fileID: 0}
     - target: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
@@ -724,5 +744,5 @@ SceneRoots:
   - {fileID: 203844589}
   - {fileID: 1160234427}
   - {fileID: 7618844634258615639}
-  - {fileID: 1218076249}
   - {fileID: 1754944755}
+  - {fileID: 1218076249}
