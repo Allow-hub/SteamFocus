@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 961739752}
   - component: {fileID: 961739751}
   - component: {fileID: 961739750}
+  - component: {fileID: 961739754}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -378,6 +379,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961739754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961739749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0815a2a7b0c7b149b626dac7b87e87f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 2
+  player: {fileID: 2104109834}
+  distance: 5
+  height: 2
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +617,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e89ffdada8347d4a9fbd9491b6ebda9, type: 3}
+--- !u!4 &2104109834 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7618844634258615639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7618844634258615639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -618,6 +641,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 732d52c1fea654c4dace062804a3c281, type: 2}
+    - target: {fileID: 4252443102567149848, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252443102567149848, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252443102567149848, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       propertyPath: rotationSpeed
