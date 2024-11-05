@@ -6,14 +6,12 @@ namespace TechC
     {
         private Rigidbody rb;
 
-        // 空中で強くする下向きの力の割合
         [SerializeField] private float gravityMultiplier = 5f; // 重力を何倍にするか
-
-        // 地面に近いときの調整（地面との距離が近いときに重力を弱くする）
         [SerializeField] private float groundCheckDistance = 0.1f; // 地面との距離
+        [SerializeField] private float gravityApplyInterval = 0.5f; // 重力強化の間隔
 
-        // 空中にいるかどうかを示すフラグ
         private bool isHeavy = true; // 初期状態では空中にいると仮定
+        private float gravityTimer = 0f; // 重力強化のタイマー
 
         private void Awake()
         {
@@ -22,22 +20,30 @@ namespace TechC
 
         private void Update()
         {
-            // オブジェクトが空中にいる間は下向きの力を強化する
+            // オブジェクトが空中にいる場合の重力制御
             if (transform.position.y > groundCheckDistance)
             {
-                if (!isHeavy) // 空中にいるが、重力が強化されていない場合
+                if (!isHeavy)
                 {
-                    isHeavy = true; // 重力強化フラグをオンにする
+                    isHeavy = true;
                 }
 
-                // 空中にいる場合、追加の重力を加える
-                ApplyDownwardForce();
+                // 重力強化のタイマーを進行させる
+                gravityTimer += Time.deltaTime;
+                if (gravityTimer >= gravityApplyInterval)
+                {
+                    // Intervalが経過したら下向きの力を強化する
+                    ApplyDownwardForce();
+                    gravityTimer = 0f; // タイマーをリセット
+                }
             }
             else
             {
-                if (isHeavy) // 地面に接触した場合、フラグを戻して重力強化を解除
+                // 地面に接触している場合、重力強化を解除しタイマーをリセット
+                if (isHeavy)
                 {
                     isHeavy = false;
+                    gravityTimer = 0f;
                 }
             }
         }
@@ -56,11 +62,10 @@ namespace TechC
         // 衝突時の処理（地面にぶつかったときに重力を戻す）
         private void OnCollisionEnter(Collision col)
         {
-            // 衝突したとき、オブジェクトが地面に接触したら重力の強化を解除
-            if (col.relativeVelocity.magnitude > 0.1f) // 衝突した際の条件
+            if (col.relativeVelocity.magnitude > 0.1f)
             {
-                isHeavy = false; // 地面に接触したらフラグを解除
-                Debug.Log("Debris hit the ground, gravity normal."); // デバッグ用
+                isHeavy = false;
+                Debug.Log("Debris hit the ground, gravity normal.");
             }
         }
 
@@ -69,7 +74,7 @@ namespace TechC
         {
             if (col.relativeVelocity.magnitude < 0.1f)
             {
-                isHeavy = true; // 空中に戻ったら重力を強化
+                isHeavy = true;
                 Debug.Log("Debris is in the air, gravity enhanced.");
             }
         }
