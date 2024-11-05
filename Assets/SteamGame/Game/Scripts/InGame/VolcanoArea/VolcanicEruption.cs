@@ -14,12 +14,11 @@ namespace TechC
         [SerializeField] private float maxInterval, minInterval;
         [SerializeField] private GameObject player;
 
-        [SerializeField] private Vector2 xRange, zRange;
-        [SerializeField] private Vector2 yRange;  // Y軸のランダム範囲（最小高度、最大高度）
-        float radius = 5f;  // 任意の半径
-
-        [Header("飛ばす力の範囲")]
+        [SerializeField] private Vector2 xRange,zRange;  // Y軸のランダム範囲（最小高度、最大高度）
         [SerializeField] private Vector2 forceRange; // 飛ばす力の範囲（最小力、最大力）
+
+        [Header("プレイヤー周囲の半径")]
+        [SerializeField] private float throwAngle = 45;
 
         [Header("Reference")]
         [SerializeField] private ObjectPool objectPool; // ObjectPoolを参照
@@ -41,7 +40,6 @@ namespace TechC
         private void Update()
         {
             if (GameManager.I == null) return;
-            // 火山エリアではないときリターン
             if (!GameManager.I.IsVolcanoArea()) return;
 
             elapsedTime += Time.deltaTime;
@@ -49,43 +47,62 @@ namespace TechC
             {
                 elapsedTime = 0;
                 currentInterval = Random.Range(minInterval, maxInterval);
-                Shot(); // Intervalが過ぎたら岩を飛ばす
+                Shot();
             }
         }
 
         /// <summary>
-        /// 岩をプレイヤーの周囲にランダムに飛ばす
+        /// プレイヤーの周囲の半径3以内にランダムに岩を飛ばす
         /// </summary>
         private void Shot()
         {
-            // 飛ばす岩をランダムに選ぶ
             GameObject selectedDebris = debris[Random.Range(0, debris.Length)];
-
-            // ObjectPool から岩のオブジェクトを取得
             GameObject newDebris = objectPool.GetObject(selectedDebris);
 
-            // 新しく取得した岩を適切な位置に配置
-            newDebris.transform.position = transform.position;  // このスクリプトがアタッチされているオブジェクト（火山）の位置に岩を生成
+            newDebris.transform.position = transform.position;
             newDebris.transform.rotation = Quaternion.identity;
 
-            // Rigidbodyを取得して、岩に力を加えて飛ばす
             Rigidbody rb = newDebris.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // Random.insideUnitCircle でランダムな位置を決定（2D平面上）
-                Vector2 randomPos = Random.insideUnitCircle * radius;
+                Vector3 randomPos = new Vector3(
+                        player.transform.position.x+Random.Range(xRange.x,xRange.y),
+                        player.transform.position.y,
+                        player.transform.position.z+Random.Range(zRange.x, zRange.y)
+                );
 
-                // プレイヤーの位置を基準にランダムな位置を計算（Y軸はランダム）
-                Vector3 randomDirection = new Vector3(randomPos.x, Random.Range(yRange.x, yRange.y), randomPos.y) + player.transform.position;
+                Vector3 targetPos = CalculateVelocity(transform.position, randomPos, throwAngle);
+                rb.AddForce(targetPos * rb.mass, ForceMode.Impulse);
+            }
+        }
+        /// <summary>
+        /// 標的に命中する射出速度の計算
+        /// </summary>
+        /// <param name="pointA">射出開始座標</param>
+        /// <param name="pointB">標的の座標</param>
+        /// <returns>射出速度</returns>
+        private Vector3 CalculateVelocity(Vector3 pointA, Vector3 pointB, float angle)
+        {
+            // 射出角をラジアンに変換
+            float rad = angle * Mathf.PI / 180;
 
-                // プレイヤーの位置からランダムな位置への方向
-                Vector3 direction = (randomDirection - player.transform.position).normalized;
+            // 水平方向の距離x
+            float x = Vector2.Distance(new Vector2(pointA.x, pointA.z), new Vector2(pointB.x, pointB.z));
 
-                // 飛ばす力の大きさ（調整可能）
-                float force = Random.Range(forceRange.x, forceRange.y); // forceRangeを使って力をランダムに決定
+            // 垂直方向の距離y
+            float y = pointA.y - pointB.y;
 
-                // 力を加える
-                rb.AddForce(direction * force * 100, ForceMode.Impulse); // 飛ばす方向と力を加えます
+            // 斜方投射の公式を初速度について解く
+            float speed = Mathf.Sqrt(-Physics.gravity.y * Mathf.Pow(x, 2) / (2 * Mathf.Pow(Mathf.Cos(rad), 2) * (x * Mathf.Tan(rad) + y)));
+
+            if (float.IsNaN(speed))
+            {
+                // 条件を満たす初速を算出できなければVector3.zeroを返す
+                return Vector3.zero;
+            }
+            else
+            {
+                return (new Vector3(pointB.x - pointA.x, x * Mathf.Tan(rad), pointB.z - pointA.z).normalized * speed);
             }
         }
     }
