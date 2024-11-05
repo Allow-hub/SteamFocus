@@ -945,7 +945,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -1014,7 +1014,6 @@ GameObject:
   - component: {fileID: 1524564498}
   - component: {fileID: 1524564497}
   - component: {fileID: 1524564496}
-  - component: {fileID: 1524564495}
   m_Layer: 0
   m_Name: Reflection
   m_TagString: Untagged
@@ -1022,25 +1021,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1524564495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524564494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20b9488e8346e6445b175d59f4d2cd5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Offset: 0.3
-  m_LayerMask: -1
-  m_Scope: 0
-  m_Renderers: []
-  m_TextureScale: 1
-  m_AllowHDR: 0
-  m_AllowMSAA: 0
 --- !u!114 &1524564496
 MonoBehaviour:
   m_ObjectHideFlags: 0
