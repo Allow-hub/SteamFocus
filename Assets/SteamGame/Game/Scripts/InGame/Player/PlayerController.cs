@@ -15,19 +15,21 @@ namespace TechC
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float rotationSpeed = 2;
+        [SerializeField] private Camera playerCamera;  // カメラへの参照を追加
 
         [Header("Attack")]
-        [SerializeField] private float forwardForce = 10f;  // タックルの前方の力
-        [SerializeField] private float upwardForce = 5f;    // タックルの上方の力
+        [SerializeField] private float forwardForce = 10f;
+        [SerializeField] private float upwardForce = 5f;
 
         [Header("Jump")]
         [SerializeField] private float jumpForce = 3;
-        
+
         private void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
             rb = GetComponent<Rigidbody>();
         }
+
         private void OnEnable()
         {
             PlayerInput.onAttackEvent += Attack;
@@ -36,7 +38,7 @@ namespace TechC
 
         private void OnDisable()
         {
-            PlayerInput.onAttackEvent -= Attack;     
+            PlayerInput.onAttackEvent -= Attack;
             PlayerInput.onJumpEvent -= Jump;
         }
 
@@ -51,24 +53,29 @@ namespace TechC
             Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed * Time.fixedDeltaTime;
 
             if (movement == Vector3.zero) return;
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
+
+            // カメラの水平方向の向きを基準に移動ベクトルを変換
+            Vector3 cameraForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
+            Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
+            Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed * Time.fixedDeltaTime;
+
+            // プレイヤーの向きをカメラの方向に合わせる
+            Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            rb.MovePosition(rb.position + movement);
+
+            // Rigidbodyを使って移動
+            rb.MovePosition(rb.position + adjustedMovement);
         }
 
-        /// <summary>
-        /// タックル
-        /// </summary>
         private void Attack()
         {
-            // タックルの力を計算
             Vector3 tackleDirection = transform.forward * forwardForce + Vector3.up * upwardForce;
-            rb.AddForce(tackleDirection, ForceMode.Impulse); // インパルスで力を適用
+            rb.AddForce(tackleDirection, ForceMode.Impulse);
         }
 
         private void Jump()
         {
-            rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 }
