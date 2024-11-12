@@ -9,11 +9,14 @@ namespace TechC
         [SerializeField] private GameObject wayPointsParent;
         [SerializeField] private GameObject dragonObj;
         [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float downSpeed = 10f;
         [SerializeField] private float rotationSpeed = 2f; // 回転速度を追加
-        [SerializeField] private string downAnim, upAnim,forwardAnim;
+        [SerializeField] private string downAnim, upAnim,forwardAnim,landAnim;
 
         [Header("Reference")]
         [SerializeField] private Animator anim;
+
+
         private Transform[] wayPoints;
         private int currentWaypointIndex = 0;
         private bool isMoving = true;
@@ -61,14 +64,16 @@ namespace TechC
 
                 if (!isUpward)
                 {
-                    anim.SetBool(upAnim, true);
+                    anim.SetBool(forwardAnim, true);
                     anim.SetBool(downAnim, false);
-                    Debug.Log("Up");
+                    ChangeSpeed(moveSpeed);
                 }
                 else
                 {
                     anim.SetBool(upAnim, false);
                     anim.SetBool(downAnim, true);
+                    anim.SetBool(forwardAnim, false);
+                    ChangeSpeed(downSpeed);
                 }
 
                 // 次のウェイポイントに進む
@@ -77,5 +82,7 @@ namespace TechC
                 yield return null;
             }
         }
+
+        private void ChangeSpeed(float value)=>moveSpeed = value;
     }
 }

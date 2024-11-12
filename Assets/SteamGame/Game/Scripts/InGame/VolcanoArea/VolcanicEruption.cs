@@ -10,6 +10,7 @@ namespace TechC
         [Header("火砕流")]
         [Multiline(5)]
         [SerializeField] private string explain;
+        [SerializeField] private Transform shotPos;
         [SerializeField] private GameObject[] debris; // 飛んでくる岩のprefab（プール対象）
         [SerializeField] private float maxInterval, minInterval;
         [SerializeField] private GameObject player;
@@ -59,7 +60,7 @@ namespace TechC
             GameObject selectedDebris = debris[Random.Range(0, debris.Length)];
             GameObject newDebris = objectPool.GetObject(selectedDebris);
 
-            newDebris.transform.position = transform.position;
+            newDebris.transform.position =shotPos.transform.position;
             newDebris.transform.rotation = Quaternion.identity;
 
             Rigidbody rb = newDebris.GetComponent<Rigidbody>();
