@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quicksand : MonoBehaviour
+public class QuickSand : MonoBehaviour
 {
     public float sinkSpeed = 0.5f;  // プレイヤーが沈む速度
     public float increasedDrag = 20.0f;  // 流砂内での空気抵抗
