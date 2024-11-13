@@ -7,6 +7,7 @@ TagManager:
   - Hair
   - QuickSand
   - Floor
+  - Ball
   layers:
   - Default
   - TransparentFX
