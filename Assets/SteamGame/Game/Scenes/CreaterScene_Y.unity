@@ -419,7 +419,9 @@ MonoBehaviour:
   downAnim: IsGride
   upAnim: IsUp
   forwardAnim: IsForward
-  landAnim: 
+  landAnim: IsLand
+  minInterval: 5
+  maxInterval: 9
   anim: {fileID: 2077535664}
 --- !u!1 &360329784
 GameObject:
@@ -657,7 +659,7 @@ Transform:
   m_GameObject: {fileID: 668511031}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.74, z: 0}
+  m_LocalPosition: {x: 0, y: 25.09, z: -0.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -775,8 +777,8 @@ Transform:
   m_GameObject: {fileID: 872576614}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1999998, y: 5.83, z: 0.59000015}
-  m_LocalScale: {x: 7, y: 3, z: 8}
+  m_LocalPosition: {x: -1.1999998, y: 18.5, z: 1.4}
+  m_LocalScale: {x: 14, y: 8, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1914001590}
@@ -806,7 +808,7 @@ Transform:
   m_GameObject: {fileID: 889875488}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 100, z: -30}
+  m_LocalPosition: {x: 0, y: 48.1, z: 96.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1476,6 +1478,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 181d04fb21cd60c43bf34c3636dba84e,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 181d04fb21cd60c43bf34c3636dba84e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 181d04fb21cd60c43bf34c3636dba84e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 181d04fb21cd60c43bf34c3636dba84e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1559,7 +1576,7 @@ Transform:
   m_GameObject: {fileID: 1354499369}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 60}
+  m_LocalPosition: {x: 48.2, y: 0, z: 60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8713,12 +8730,15 @@ MonoBehaviour:
   - {fileID: 272676009922022361, guid: d4167c4d740478c44be4002ef13566dd, type: 3}
   - {fileID: 3487145883928919451, guid: 4d6902f8ad9fc944f85f8732414c9530, type: 3}
   - {fileID: 190589644860952640, guid: d5c2eaf7bfd1ef942971d0c8349a174b, type: 3}
-  maxInterval: 2
-  minInterval: 0.5
+  maxInterval: 8
+  minInterval: 5
   player: {fileID: 99368975}
+  explosionObj: {fileID: 2092237545}
+  explosionDuration: 5
   xRange: {x: -30, y: 30}
   zRange: {x: -30, y: 30}
   forceRange: {x: 50, y: 100}
+  shotCountRange: {x: 1, y: 5}
   throwAngle: 75
   objectPool: {fileID: 1390634628}
 --- !u!4 &1914001590
@@ -8730,7 +8750,7 @@ Transform:
   m_GameObject: {fileID: 1914001588}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.517166, y: -2.7469387, z: 142.8}
+  m_LocalPosition: {x: 4.517166, y: 14.5, z: 142.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8776,9 +8796,12 @@ MonoBehaviour:
   maxInterval: 1
   minInterval: 3
   player: {fileID: 1879470509}
+  explosionObj: {fileID: 0}
+  explosionDuration: 3
   xRange: {x: -30, y: 30}
   zRange: {x: -30, y: 30}
   forceRange: {x: 50, y: 100}
+  shotCountRange: {x: 0, y: 0}
   throwAngle: 75
   objectPool: {fileID: 1390634628}
 --- !u!4 &1965189638
@@ -9004,8 +9027,8 @@ Transform:
   m_GameObject: {fileID: 2092237545}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 24.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 27.6, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1914001590}
@@ -9071,12 +9094,33 @@ VisualEffect:
       - m_Value: 50
         m_Name: Size
         m_Overridden: 1
+      - m_Value: 30
+        m_Name: MainExplosionCount
+        m_Overridden: 1
+      - m_Value: 10
+        m_Name: ExplosionSize
+        m_Overridden: 1
+      - m_Value: 30
+        m_Name: FireCount
+        m_Overridden: 1
+      - m_Value: 10
+        m_Name: FireSize
+        m_Overridden: 1
+      - m_Value: 10
+        m_Name: FireBallSIze
+        m_Overridden: 1
+      - m_Value: 0.5
+        m_Name: FireDelay
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 133.77795, y: 37.789, z: 8.203369, w: 0}
+        m_Name: FlyingParticlesColor
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:

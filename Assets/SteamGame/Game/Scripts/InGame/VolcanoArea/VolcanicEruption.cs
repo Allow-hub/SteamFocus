@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TechC
@@ -13,10 +14,12 @@ namespace TechC
         [SerializeField] private Transform shotPos;
         [SerializeField] private GameObject[] debris; // 飛んでくる岩のprefab（プール対象）
         [SerializeField] private float maxInterval, minInterval;
-        [SerializeField] private GameObject player;
-
+        [SerializeField] private GameObject player,explosionObj;
+        [SerializeField] private float explosionDuration = 3f;
+ 
         [SerializeField] private Vector2 xRange,zRange;  // Y軸のランダム範囲（最小高度、最大高度）
         [SerializeField] private Vector2 forceRange; // 飛ばす力の範囲（最小力、最大力）
+        [SerializeField] private Vector2 shotCountRange;
 
         [Header("プレイヤー周囲の半径")]
         [SerializeField] private float throwAngle = 45;
@@ -26,11 +29,12 @@ namespace TechC
 
         private float elapsedTime = 0;
         private float currentInterval;
-
+        private const float delay = 0.3f;
         private void Awake()
         {
             elapsedTime = 0;
             currentInterval = Random.Range(minInterval, maxInterval);
+            explosionObj.SetActive(false);
         }
 
         void Start()
@@ -48,15 +52,24 @@ namespace TechC
             {
                 elapsedTime = 0;
                 currentInterval = Random.Range(minInterval, maxInterval);
-                Shot();
+                StartCoroutine(ShotDelay(delay,Random.Range((int)shotCountRange.x, (int)shotCountRange.y)));
             }
         }
 
+        private IEnumerator ShotDelay(float delay,int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Shot();
+                yield return new WaitForSeconds(delay);
+            }
+        }
         /// <summary>
         /// プレイヤーの周囲の半径3以内にランダムに岩を飛ばす
         /// </summary>
         private void Shot()
         {
+            StartCoroutine(PlayExplosionEffect());
             GameObject selectedDebris = debris[Random.Range(0, debris.Length)];
             GameObject newDebris = objectPool.GetObject(selectedDebris);
 
@@ -105,6 +118,14 @@ namespace TechC
             {
                 return (new Vector3(pointB.x - pointA.x, x * Mathf.Tan(rad), pointB.z - pointA.z).normalized * speed);
             }
+        }
+
+
+        private IEnumerator PlayExplosionEffect()
+        {
+            explosionObj.SetActive(true);
+            yield return new WaitForSeconds(explosionDuration);
+            explosionObj.SetActive(false);
         }
     }
 }

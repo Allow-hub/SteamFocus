@@ -22,73 +22,20 @@ namespace TechC
             rb = GetComponent<Rigidbody>();  // Rigidbodyの参照を取得
         }
 
+        // オブジェクトが有効になったときの初期設定
         private void OnEnable()
         {
             direction = new Vector3(Random.Range(0, 2), Random.Range(0, 2), Random.Range(0, 2));
             rotationSpeed = Random.Range(rotSpeedRange.x, rotSpeedRange.y);
         }
 
+        // 毎フレーム呼び出され、オブジェクトをランダムな方向に回転させる
         private void Update()
         {
-            transform.Rotate(direction.x * Time.deltaTime * rotationSpeed, direction.y * Time.deltaTime * rotationSpeed, direction.z * Time.deltaTime * rotationSpeed);
-
-            //// オブジェクトが空中にいる場合の重力制御
-            //if (transform.position.y > groundCheckDistance)
-            //{
-            //    if (!isHeavy)
-            //    {
-            //        isHeavy = true;
-            //    }
-
-            //    // 重力強化のタイマーを進行させる
-            //    gravityTimer += Time.deltaTime;
-            //    if (gravityTimer >= gravityApplyInterval)
-            //    {
-            //        // Intervalが経過したら下向きの力を強化する
-            //        ApplyDownwardForce();
-            //        gravityTimer = 0f; // タイマーをリセット
-            //    }
-            //}
-            //else
-            //{
-            //    // 地面に接触している場合、重力強化を解除しタイマーをリセット
-            //    if (isHeavy)
-            //    {
-            //        isHeavy = false;
-            //        gravityTimer = 0f;
-            //    }
-            //}
+            transform.Rotate(direction.x * Time.deltaTime * rotationSpeed,
+                             direction.y * Time.deltaTime * rotationSpeed,
+                             direction.z * Time.deltaTime * rotationSpeed);
         }
 
-        //// 空中にいる間に強い下向きの力を加える
-        //private void ApplyDownwardForce()
-        //{
-        //    if (rb != null && isHeavy)
-        //    {
-        //        // 現在の重力に基づいて強い下向きの力を追加
-        //        Vector3 downwardForce = Physics.gravity * gravityMultiplier;
-        //        rb.AddForce(downwardForce, ForceMode.Acceleration); // 重力を加える
-        //    }
-        //}
-
-        //// 衝突時の処理（地面にぶつかったときに重力を戻す）
-        //private void OnCollisionEnter(Collision col)
-        //{
-        //    if (col.relativeVelocity.magnitude > 0.1f)
-        //    {
-        //        isHeavy = false;
-        //        Debug.Log("Debris hit the ground, gravity normal.");
-        //    }
-        //}
-
-        //// 衝突から浮上している場合など、重力を再適用する場合
-        //private void OnCollisionExit(Collision col)
-        //{
-        //    if (col.relativeVelocity.magnitude < 0.1f)
-        //    {
-        //        isHeavy = true;
-        //        Debug.Log("Debris is in the air, gravity enhanced.");
-        //    }
-        //}
     }
 }
