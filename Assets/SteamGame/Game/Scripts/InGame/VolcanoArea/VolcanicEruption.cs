@@ -21,12 +21,13 @@ namespace TechC
         [SerializeField] private Vector2 forceRange; // 飛ばす力の範囲（最小力、最大力）
         [SerializeField] private Vector2 shotCountRange;
 
+        [SerializeField] private bool canShake = true;
         [Header("プレイヤー周囲の半径")]
         [SerializeField] private float throwAngle = 45;
 
         [Header("Reference")]
         [SerializeField] private ObjectPool objectPool; // ObjectPoolを参照
-
+        [SerializeField] private ChaseCamera chaseCamera;
         private float elapsedTime = 0;
         private float currentInterval;
         private const float delay = 0.3f;
@@ -124,6 +125,8 @@ namespace TechC
         private IEnumerator PlayExplosionEffect()
         {
             explosionObj.SetActive(true);
+            if (canShake)
+                chaseCamera.TriggerShake();
             yield return new WaitForSeconds(explosionDuration);
             explosionObj.SetActive(false);
         }

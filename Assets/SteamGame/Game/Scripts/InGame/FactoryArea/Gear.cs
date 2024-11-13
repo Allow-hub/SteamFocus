@@ -2,32 +2,36 @@ using UnityEngine;
 
 namespace TechC
 {
-    public class ConveyorBelt : MonoBehaviour
+    public class Gear : MonoBehaviour
     {
         [Header("歯車")]
         [Multiline(5)]
         [SerializeField] private string explain;
-        [Header("移動方向と速度")]
-        [SerializeField] private Vector3 moveDirection = new Vector3(1, 0, 0); 
-        [SerializeField] private float speed = 2f;
 
-        private void OnCollisionEnter(Collision collision)
+        [SerializeField] private Vector3 rotateDirection; // 回転方向と速度を設定
+        [SerializeField] private float speed = 5;
+ 
+
+        private void Update()
         {
-            // 衝突したオブジェクトが "Ball" タグを持っているか確認
-            if (collision.gameObject.CompareTag("Ball"))
-            {
-                // オブジェクトをベルトコンベアのように移動させる
-                collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
-            }
+            // 毎フレーム回転を適用
+            transform.Rotate(rotateDirection*speed * Time.deltaTime);
         }
 
-        private void OnCollisionStay(Collision collision)
-        {
-            // 衝突が続いている間もオブジェクトを動かし続ける
-            if (collision.gameObject.CompareTag("Ball"))
-            {
-                collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
-            }
-        }
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.gameObject.CompareTag("Ball"))
+        //    {
+        //        collision.gameObject.transform.parent = transform;
+        //    }
+        //}
+
+        //private void OnCollisionExit(Collision collision)
+        //{
+        //    if (collision.gameObject.CompareTag("Ball"))
+        //    {
+        //        collision.gameObject.transform.parent = null;
+        //    }
+        //}
     }
 }

@@ -37,7 +37,7 @@ namespace TechC
         {
             if (other.CompareTag("Ball"))
             {
-                playerRb = other.GetComponent<Rigidbody>();
+                playerRb = other.gameObject.transform.parent.GetComponent<Rigidbody>();
                 if (playerRb != null)
                 {
                     isPlayerInArea = true;
