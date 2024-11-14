@@ -1,8 +1,8 @@
-using System.Threading.Tasks; // ←追加
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Localization; // ←追加
-using UnityEngine.Localization.Settings; // ←追加
-using TMPro; // ←追加(TMPro版ドロップダウンを使う場合)
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings; 
+using TMPro; 
 
 namespace TechC
 {
