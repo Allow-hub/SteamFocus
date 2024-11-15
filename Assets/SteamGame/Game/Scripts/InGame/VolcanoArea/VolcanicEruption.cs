@@ -18,7 +18,7 @@ namespace TechC
         [SerializeField] private float explosionDuration = 3f;
  
         [SerializeField] private Vector2 xRange,zRange;  // Y軸のランダム範囲（最小高度、最大高度）
-        [SerializeField] private Vector2 forceRange; // 飛ばす力の範囲（最小力、最大力）
+        //[SerializeField] private Vector2 forceRange; // 飛ばす力の範囲（最小力、最大力）
         [SerializeField] private Vector2 shotCountRange;
 
         [SerializeField] private bool canShake = true;
