@@ -225,5 +225,17 @@ namespace TechC
         public void ChangeVolcanoState() => SetState(GameState.Volcano);
         public void ChangeFactoryState() => SetState(GameState.Factory);
         public void ChangeGameClearState() => SetState(GameState.GameClear);
+
+        public bool IsTutorialArea() => currentState == GameState.Tutorial;
+        public bool IsGrasslandArea() => currentState == GameState.Grassland;
+        public bool IsDesertArea() => currentState == GameState.Desert;
+        public bool IsBuildingArea() => currentState == GameState.Building;
+        public bool IsForestArea() => currentState == GameState.Forest;
+        public bool IsMountainArea() => currentState == GameState.Mountain;
+        public bool IsCloudArea() => currentState == GameState.Cloud;
+        public bool IsIceArea() => currentState == GameState.Ice;
+        public bool IsVolcanoArea() => currentState == GameState.Volcano;
+        public bool IsFactoryArea() => currentState == GameState.Factory;
+
     }
 }
