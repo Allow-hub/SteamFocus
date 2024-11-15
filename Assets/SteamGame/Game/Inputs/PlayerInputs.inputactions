@@ -111,6 +111,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d4ed966a-eb9f-495e-8910-680614c1e8bd",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "12a3824f-5f48-4cd5-9eea-6afb7bbb82e7",
                     "path": "",
                     "interactions": "",

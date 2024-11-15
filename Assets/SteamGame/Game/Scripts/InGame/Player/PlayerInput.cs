@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace TechC
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInputManager : MonoBehaviour
     {
         [Header("Controls")]
         [SerializeField] private InputActionAsset inputActionAsset;
@@ -36,43 +36,43 @@ namespace TechC
 
         private void Awake()
         {
-            // ActionMapからアクションを取得
-            var playerActionMap = inputActionAsset.FindActionMap("Player");
-            moveAction = playerActionMap.FindAction("Move");
-            jumpAction = playerActionMap.FindAction("Jump");
-            attackAction = playerActionMap.FindAction("Attack");  // スペースキー用アクションを追加
-            menuAction = playerActionMap.FindAction("Menu");
+            //// ActionMapからアクションを取得
+            //var playerActionMap = inputActionAsset.FindActionMap("Player");
+            //moveAction = playerActionMap.FindAction("Move");
+            //jumpAction = playerActionMap.FindAction("Jump");
+            //attackAction = playerActionMap.FindAction("Attack");  // スペースキー用アクションを追加
+            //menuAction = playerActionMap.FindAction("Menu");
 
-            // 入力アクションのコールバック設定
-            moveAction.performed += OnMove;
-            moveAction.canceled += ctx => moveInput = Vector3.zero;
+            //// 入力アクションのコールバック設定
+            //moveAction.performed += OnMove;
+            //moveAction.canceled += ctx => moveInput = Vector3.zero;
 
-            jumpAction.performed += OnJump;
+            //jumpAction.performed += OnJump;
 
-            attackAction.performed += OnAttack;
+            //attackAction.performed += OnAttack;
         
 
-            menuAction.performed += OnMenu;
+            //menuAction.performed += OnMenu;
 
         }
 
-        private void OnEnable()
-        {
-            // アクションを有効化
-            moveAction.Enable();
-            jumpAction.Enable();
-            attackAction.Enable();
-            menuAction.Enable();
-        }
+        //private void OnEnable()
+        //{
+        //    // アクションを有効化
+        //    moveAction.Enable();
+        //    jumpAction.Enable();
+        //    attackAction.Enable();
+        //    menuAction.Enable();
+        //}
 
-        private void OnDisable()
-        {
-            // アクションを無効化
-            moveAction.Disable();
-            jumpAction.Disable();
-            attackAction.Disable();
-            menuAction.Disable();
-        }
+        //private void OnDisable()
+        //{
+        //    // アクションを無効化
+        //    moveAction.Disable();
+        //    jumpAction.Disable();
+        //    attackAction.Disable();
+        //    menuAction.Disable();
+        //}
 
 
         private void Update()
@@ -88,13 +88,13 @@ namespace TechC
         }
 
         // Moveアクションが実行されたときの処理 (XZ軸)
-        private void OnMove(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
+        public void OnMove(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
 
-        private void OnJump(InputAction.CallbackContext context) =>onJumpEvent?.Invoke();
+        public void OnJump(InputAction.CallbackContext context) =>onJumpEvent?.Invoke();
 
-        private void OnAttack(InputAction.CallbackContext context) => onAttackEvent?.Invoke();
+        public void OnAttack(InputAction.CallbackContext context) => onAttackEvent?.Invoke();
 
-        private void OnMenu(InputAction.CallbackContext context)
+        public void OnMenu(InputAction.CallbackContext context)
         {
 
         }

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace TechC
 {
-    [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(PlayerInputManager))]
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        private PlayerInput playerInput;
+        private PlayerInputManager playerInput;
         private Rigidbody rb;
 
         [Header("Movement")]
@@ -26,20 +26,20 @@ namespace TechC
 
         private void Awake()
         {
-            playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInputManager>();
             rb = GetComponent<Rigidbody>();
         }
 
         private void OnEnable()
         {
-            PlayerInput.onAttackEvent += Attack;
-            PlayerInput.onJumpEvent += Jump;
+            PlayerInputManager.onAttackEvent += Attack;
+            PlayerInputManager.onJumpEvent += Jump;
         }
 
         private void OnDisable()
         {
-            PlayerInput.onAttackEvent -= Attack;
-            PlayerInput.onJumpEvent -= Jump;
+            PlayerInputManager.onAttackEvent -= Attack;
+            PlayerInputManager.onJumpEvent -= Jump;
         }
 
         private void FixedUpdate()
