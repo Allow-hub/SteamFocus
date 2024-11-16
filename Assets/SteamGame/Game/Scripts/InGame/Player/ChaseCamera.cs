@@ -6,7 +6,7 @@ namespace TechC
     public class ChaseCamera : MonoBehaviour
     {
         [SerializeField] private float sensitivity = 2.0f;
-        [SerializeField] private Transform player;
+        private Transform player;
         [SerializeField] private float distance = 5.0f;
         [SerializeField] private float height = 2.0f;
         [SerializeField] private float shakeDuration = 0.5f; // シェイクの時間
@@ -21,9 +21,10 @@ namespace TechC
         private Vector3 shakeOffset = Vector3.zero;
         private float initialShakeMagnitude;
 
-        private void Awake()
+        private void Start()
         {
             cam = Camera.main;
+            player = GameObject.FindWithTag("Player").gameObject.transform;
             initialShakeMagnitude = shakeMagnitude; // 初期のシェイク強度を保存
         }
 
