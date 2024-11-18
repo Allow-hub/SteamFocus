@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_StylizedWater
+  m_Name: Shader Graphs_StylizedWater 1
   m_Shader: {fileID: -6465566751694194690, guid: 34e174000271a5445850605224444a43,
     type: 3}
   m_Parent: {fileID: 0}
@@ -38,21 +38,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FoamAmount: 10
-    - _FoamCutOut: 2
-    - _FoamScale: 100
-    - _FoamSpeed: 10
+    - _FoamAmount: 50
+    - _FoamCutOut: 1.69
+    - _FoamScale: 80
+    - _FoamSpeed: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RefrectionScale: 1
-    - _RefrectionSpeed: 0
-    - _RefrectionStrength: 5
-    - _WaterDepth: 5
+    - _RefrectionScale: 2.6
+    - _RefrectionSpeed: 42.71
+    - _RefrectionStrength: 6.11
+    - _WaterDepth: 3
     m_Colors:
-    - _DeepWaterColor: {r: 0.21668902, g: 0.18600881, b: 3.5849056, a: 0.29803923}
-    - _Direction: {r: 0.1, g: 1, b: 0, a: 0}
+    - _DeepWaterColor: {r: 0.08268094, g: 0.07338021, b: 0.91509426, a: 0.8156863}
+    - _Direction: {r: 0.2, g: -0.3, b: 0, a: 0}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowWaterColor: {r: 0.0396863, g: 0.6846102, b: 0.9019608, a: 0.3137255}
+    - _ShadowWaterColor: {r: 0.0793726, g: 1.4431373, b: 1.8039216, a: 0.27058825}
   m_BuildTextureStacks: []
 --- !u!114 &5457578624232903696
 MonoBehaviour:
