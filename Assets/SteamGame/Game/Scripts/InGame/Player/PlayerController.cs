@@ -8,6 +8,8 @@ namespace TechC
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private Vector3 localGravity;
+
         private PlayerInputController playerInput;
         private Rigidbody rb;
 
@@ -25,6 +27,8 @@ namespace TechC
 
         private void Awake()
         {
+            Physics.gravity = localGravity;
+
             playerInput = GetComponent<PlayerInputController>();
             rb = GetComponent<Rigidbody>();
             playerCamera = Camera.main;
