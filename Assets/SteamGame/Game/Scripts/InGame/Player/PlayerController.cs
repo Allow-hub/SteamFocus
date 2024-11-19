@@ -21,9 +21,13 @@ namespace TechC
         [Header("Attack")]
         [SerializeField] private float forwardForce = 10f;
         [SerializeField] private float upwardForce = 5f;
+        [SerializeField] private float attackCoolTime = 1f;
+        private bool canAttack = true;
 
         [Header("Jump")]
         [SerializeField] private float jumpForce = 3;
+        [SerializeField] private float jumpCoolTime = 1f;
+        private bool canJump = true;
 
         private void Awake()
         {
@@ -65,17 +69,21 @@ namespace TechC
 
         private void HandleJump()
         {
-            if (playerInput.IsJumping)
+            if (playerInput.IsJumping&&canJump)
             {
                 Jump();
+                canJump = false; 
+                StartCoroutine(CoolTime(true));
             }
         }
 
         private void HandleAttack()
         {
-            if (playerInput.IsAttacking)
+            if (playerInput.IsAttacking&&canAttack)
             {
                 Attack();
+                canAttack = false;
+                StartCoroutine(CoolTime(false));
             }
         }
 
@@ -88,6 +96,21 @@ namespace TechC
         private void Jump()
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        private IEnumerator CoolTime(bool isJump)
+        {
+            if (isJump)
+            {
+                yield return new WaitForSeconds(jumpCoolTime);
+                canJump = true;
+            }
+            else
+            {
+                yield return new WaitForSeconds(attackCoolTime);
+                canAttack = true;
+            }
+
         }
     }
 }
