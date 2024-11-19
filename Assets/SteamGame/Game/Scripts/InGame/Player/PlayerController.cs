@@ -50,7 +50,7 @@ namespace TechC
             HandleMovement();
             HandleJump();
             HandleAttack();
-            ClampPlayerPosition();
+            //ClampPlayerPosition();
         }
 
         private void ClampPlayerPosition()
