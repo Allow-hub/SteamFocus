@@ -16,10 +16,10 @@ namespace TechC
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float rotationSpeed = 2;
-        [SerializeField] private SphereCollider sphereCollider; //ボールのクランプ位置
-        private Vector3 center; // SphereColliderの中心
-        private float radius; // SphereColliderの半径
-        private Camera playerCamera;  
+        [SerializeField] private float maxSpeed = 10f;  // 最大速度を追加
+        [SerializeField] private float limitSpeed = 10f; 
+
+        private Camera playerCamera;
 
         [Header("Attack")]
         [SerializeField] private float forwardForce = 10f;
@@ -39,64 +39,66 @@ namespace TechC
             playerInput = GetComponent<PlayerInputController>();
             rb = GetComponent<Rigidbody>();
             playerCamera = Camera.main;
-            // SphereColliderの中心と半径を取得
-            center = sphereCollider.transform.position + sphereCollider.center;
-            radius = sphereCollider.radius;
         }
 
         private void Update()
         {
-            // 入力を直接PlayerController内で処理
-            HandleMovement();
+            // ジャンプやタックルの処理
             HandleJump();
             HandleAttack();
-            //ClampPlayerPosition();
         }
 
-        private void ClampPlayerPosition()
+        private void FixedUpdate()
         {
-            // プレイヤーがSphereColliderの外に出ているかチェック
-            if (Vector3.Distance(transform.position, center) > radius)
-            {
-                // プレイヤーをSphereColliderの内側にクランプ
-                Vector3 direction = (transform.position - center).normalized; // 中心からプレイヤーへの方向
-                transform.position = center + direction * radius; // 新しい位置を計算
-            }
+            // 物理演算を使った移動処理
+            HandleMovement();
         }
 
         private void HandleMovement()
         {
+            //if (!canJump && canAttack) return;
+            // 入力に基づく移動ベクトルを計算
             Vector3 inputVector = playerInput.InputVector;
-            Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed * Time.deltaTime;
+            Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed;
 
             if (movement == Vector3.zero) return;
 
-            // カメラの水平方向の向きを基準に移動ベクトルを変換
+            // カメラの向きに基づいて移動ベクトルを調整
             Vector3 cameraForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
             Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
-            Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed * Time.deltaTime;
+            Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
 
-            // プレイヤーの向きをカメラの方向に合わせる
-            Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            // 移動方向に力を加える（物理的な移動）
+            rb.AddForce(adjustedMovement, ForceMode.VelocityChange);
 
-            // Rigidbodyを使って移動
-            rb.MovePosition(rb.position + adjustedMovement);
+            Vector3 currentVelocity = rb.velocity;
+            if (new Vector3(currentVelocity.x, 0f, currentVelocity.z).magnitude > maxSpeed)
+            {
+                Vector3 clampedVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z).normalized * maxSpeed;
+                rb.velocity = new Vector3(clampedVelocity.x, currentVelocity.y, clampedVelocity.z);
+            }
+
+            // プレイヤーを移動方向に向ける
+            if (adjustedMovement != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
         }
 
         private void HandleJump()
         {
-            if (playerInput.IsJumping&&canJump)
+            if (playerInput.IsJumping && canJump)
             {
                 Jump();
-                canJump = false; 
+                canJump = false;
                 StartCoroutine(CoolTime(true));
             }
         }
 
         private void HandleAttack()
         {
-            if (playerInput.IsAttacking&&canAttack)
+            if (playerInput.IsAttacking && canAttack)
             {
                 Attack();
                 canAttack = false;
@@ -127,7 +129,6 @@ namespace TechC
                 yield return new WaitForSeconds(attackCoolTime);
                 canAttack = true;
             }
-
         }
     }
 }

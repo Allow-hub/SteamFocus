@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 namespace TechC
@@ -27,6 +28,7 @@ namespace TechC
             // 衝突が続いている間もオブジェクトを動かし続ける
             if (collision.gameObject.CompareTag("Ball"))
             {
+                Debug.Log(collision.gameObject);
                 collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
             }
         }
