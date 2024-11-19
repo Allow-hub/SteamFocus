@@ -16,7 +16,10 @@ namespace TechC
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float rotationSpeed = 2;
-        private Camera playerCamera;  // カメラへの参照を追加
+        [SerializeField] private SphereCollider sphereCollider; //ボールのクランプ位置
+        private Vector3 center; // SphereColliderの中心
+        private float radius; // SphereColliderの半径
+        private Camera playerCamera;  
 
         [Header("Attack")]
         [SerializeField] private float forwardForce = 10f;
@@ -36,7 +39,9 @@ namespace TechC
             playerInput = GetComponent<PlayerInputController>();
             rb = GetComponent<Rigidbody>();
             playerCamera = Camera.main;
-            Debug.Log(playerCamera);
+            // SphereColliderの中心と半径を取得
+            center = sphereCollider.transform.position + sphereCollider.center;
+            radius = sphereCollider.radius;
         }
 
         private void Update()
@@ -45,6 +50,18 @@ namespace TechC
             HandleMovement();
             HandleJump();
             HandleAttack();
+            ClampPlayerPosition();
+        }
+
+        private void ClampPlayerPosition()
+        {
+            // プレイヤーがSphereColliderの外に出ているかチェック
+            if (Vector3.Distance(transform.position, center) > radius)
+            {
+                // プレイヤーをSphereColliderの内側にクランプ
+                Vector3 direction = (transform.position - center).normalized; // 中心からプレイヤーへの方向
+                transform.position = center + direction * radius; // 新しい位置を計算
+            }
         }
 
         private void HandleMovement()
