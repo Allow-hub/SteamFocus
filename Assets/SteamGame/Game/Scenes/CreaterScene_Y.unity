@@ -366,6 +366,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1754944755}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &99368976 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 8921211680631942251, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1754944755}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &101111640
 GameObject:
   m_ObjectHideFlags: 0
@@ -85822,6 +85828,11 @@ PrefabInstance:
       propertyPath: localGravity.y
       value: -100
       objectReference: {fileID: 0}
+    - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
+      propertyPath: sphereCollider
+      value: 
+      objectReference: {fileID: 99368976}
     - target: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       propertyPath: m_LocalScale.x
