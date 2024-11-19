@@ -63,7 +63,7 @@ Material:
     - _Depth_Fade: 0.09
     - _Lerp: 0.63
     - _NormalStrength: 0.9
-    - _Normal_Strength: 0.4
+    - _Normal_Strength: 0.61
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Reflection: 0.04
@@ -71,14 +71,14 @@ Material:
     - _Refrection: 0.06
     - _Smoothness: 0.9
     - _Strength: 0.21
-    - _Water_Lerp: 0.5
+    - _Water_Lerp: 0.46
     m_Colors:
     - _Albedo: {r: 0.057849795, g: 0.9433962, b: 0.7958051, a: 1}
     - _Deep_Water_Color: {r: 0.144, g: 0.5865763, b: 0.72, a: 0.67058825}
     - _Shallow_Water_Color: {r: 0.21298826, g: 0.8275735, b: 0.85882354, a: 0.69411767}
     - _UV: {r: 4, g: 4, b: -0.03, a: 0.7}
-    - _UV1: {r: 4, g: 4, b: -0.03, a: 0.33}
+    - _UV1: {r: -4.63, g: -4, b: -0.03, a: 0.33}
     - _UV2: {r: 5, g: 5, b: 0, a: 0}
-    - _Water_Speed1: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _Water_Speed1: {r: -0.34, g: -0.1, b: 0, a: 0}
     - _Water_Speed2: {r: -0.1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
