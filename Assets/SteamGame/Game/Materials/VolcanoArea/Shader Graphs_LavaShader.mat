@@ -69,7 +69,7 @@ Material:
     - _QueueOffset: 0
     - _ShellControl: 5.13
     m_Colors:
-    - _AnimationControl: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _AnimationControl: {r: 0, g: 0.1, b: 0, a: 0}
     - _LavaColor: {r: 3.3584905, g: 0.45941624, b: 0.8226894, a: 1}
-    - _Velocity: {r: 1, g: 1, b: 0, a: 0}
+    - _Velocity: {r: 1, g: -1, b: 0, a: 0}
   m_BuildTextureStacks: []
