@@ -92,9 +92,15 @@ MonoBehaviour:
   localGravity: {x: 0, y: -100, z: 0}
   moveSpeed: 10
   rotationSpeed: 2
+  maxSpeed: 10
+  accelerationFactor: 5
+  decelerationFactor: 5
+  limitSpeed: 10
+  brakeForce: 15
   forwardForce: 15
   upwardForce: 1
   attackCoolTime: 1
+  attackTime: 1
   jumpForce: 15
   jumpCoolTime: 1
 --- !u!114 &8887404952457074896
@@ -203,6 +209,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7815ed4b-8d96-49a6-9d5d-be6dfd074c3c
     m_ActionName: Player/ReStart[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1858506651844380782}
+        m_TargetAssemblyTypeName: TechC.PlayerInputController, Assembly-CSharp
+        m_MethodName: OnTeam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 219245fa-32ea-4246-89e1-2f5303fecd52
+    m_ActionName: Player/Team[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

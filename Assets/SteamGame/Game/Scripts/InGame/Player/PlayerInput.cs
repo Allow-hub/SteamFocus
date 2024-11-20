@@ -106,6 +106,11 @@ namespace TechC
             }
         }
 
+        public void OnTeam()
+        {
+            Debug.Log("Team");
+        }
+
         public void ReStart()
         {
             GameManager.I.LoadSceneAsync(1);
