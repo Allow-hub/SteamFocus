@@ -15,8 +15,10 @@ namespace TechC
 
         [SerializeField] private float fallSpeedTime = 1;
         [SerializeField] private float stepDelay = 2;
+        [SerializeField] private Vector2 randomFallDelay;
         [SerializeField] private Vector2 fallSpeedLenge;
         private float[] fallSpeed; // 落下速度を管理
+        private Vector3[] floorInitPos;
 
         // 落ちる順番
         public enum FallType
@@ -34,10 +36,11 @@ namespace TechC
             {
                 fallSpeed[i] = UnityEngine.Random.Range(fallSpeedLenge.x, fallSpeedLenge.y); // ランダム速度範囲
             }
-
+            floorInitPos = new Vector3[floor.Length];
             // 各フロアを maxY に配置して非アクティブにする
             for (int i = 0; i < floor.Length; i++)
             {
+                floorInitPos[i] = floor[i].transform.position;
                 floor[i].transform.position = maxY.position;
                 floor[i].gameObject.SetActive(false);
             }
@@ -45,26 +48,6 @@ namespace TechC
             // 落下コルーチン開始
             StartCoroutine(Fall());
         }
-
-        private IEnumerator MoveFloorToMinY(GameObject floorObject, float speed)
-        {
-            // アクティブ化
-            floorObject.SetActive(true);
-
-            // フロアが minY に到達するまで移動
-            while (floorObject.transform.position.y > minY.position.y)
-            {
-                floorObject.transform.position = Vector3.MoveTowards(
-                    floorObject.transform.position,
-                    new Vector3(floorObject.transform.position.x, minY.position.y, floorObject.transform.position.z),
-                    speed * Time.deltaTime);
-                yield return null;
-            }
-
-            // minY に到達したら非アクティブ化
-            floorObject.SetActive(false);
-        }
-
 
         private void Lottery()
         {
@@ -100,32 +83,48 @@ namespace TechC
 
         private IEnumerator StepFall()
         {
+            for(int i=0;i<floor.Length;i++)
+            {
+                floor[i].transform.position = floorInitPos[i];
+            }
             for (int i = 0; i < floor.Length; i++)
             {
                 GameObject currentFloor = floor[i];
-                StartCoroutine(MoveFloorToMinY(currentFloor, fallSpeedTime)); // 2秒で落下
+                StartCoroutine(MoveFloorToMinY(currentFloor, fallSpeedTime)); 
                 yield return new WaitForSeconds(stepDelay); 
             }
         }
         private IEnumerator RandomFall()
         {
-            // floorをランダムな順番で並べ替え
-            GameObject[] shuffledFloors = ShuffleArray(floor);
-
-            foreach (GameObject currentFloor in shuffledFloors)
+            for (int i = 0; i < floor.Length; i++)
             {
-                // 対応する floor のインデックスを取得
-                int floorIndex = Array.IndexOf(floor, currentFloor);
-
-                // fallSpeed 配列から速度を取得
-                float speed = fallSpeed[floorIndex];
-
-                // 落下開始
-                StartCoroutine(MoveFloorToMinY(currentFloor, speed));
-
-                // ランダムなディレイを設定
-                yield return new WaitForSeconds(UnityEngine.Random.Range(0.2f, 1f));
+                floor[i].transform.position = floorInitPos[i];
             }
+            for (int i = 0; i < floor.Length; i++)
+            {
+                GameObject currentFloor = floor[i];
+                StartCoroutine(MoveFloorToMinY(currentFloor, UnityEngine.Random.Range(fallSpeedLenge.x,fallSpeedLenge.y)));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(randomFallDelay.x, randomFallDelay.y));
+            }
+        }
+
+        private IEnumerator MoveFloorToMinY(GameObject floorObject, float speed)
+        {
+            // アクティブ化
+            floorObject.SetActive(true);
+
+            // フロアが minY に到達するまで移動
+            while (floorObject.transform.position.y > minY.position.y)
+            {
+                floorObject.transform.position = Vector3.MoveTowards(
+                    floorObject.transform.position,
+                    new Vector3(floorObject.transform.position.x, minY.position.y, floorObject.transform.position.z),
+                    speed * Time.deltaTime);
+                yield return null;
+            }
+
+            // minY に到達したら非アクティブ化
+            floorObject.SetActive(false);
         }
 
 
@@ -140,17 +139,6 @@ namespace TechC
             return true;
         }
 
-        private GameObject[] ShuffleArray(GameObject[] array)
-        {
-            GameObject[] newArray = (GameObject[])array.Clone();
-            for (int i = 0; i < newArray.Length; i++)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, newArray.Length);
-                GameObject temp = newArray[i];
-                newArray[i] = newArray[randomIndex];
-                newArray[randomIndex] = temp;
-            }
-            return newArray;
-        }
+    
     }
 }

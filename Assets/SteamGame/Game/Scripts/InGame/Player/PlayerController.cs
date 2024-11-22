@@ -16,11 +16,9 @@ namespace TechC
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;            // 基本移動速度
         [SerializeField] private float rotationSpeed = 2f;        // 回転速度
-        [SerializeField] private float maxSpeed = 10f;            // 最大速度
-        [SerializeField] private float accelerationFactor = 5f;   // 加速係数
-        [SerializeField] private float decelerationFactor = 5f;  // 減速係数
-        [SerializeField] private float limitSpeed = 10f;         // 移動の制限速度
-        [SerializeField] private float brakeForce = 15f;         // 逆方向の力（ブレーキ）の強さ
+        [SerializeField] private float limit = 1.2f;             // ボールの速度の何倍まで許容するか
+        [SerializeField] private float decelerationFactor = 2f;   // 減速の強さ
+        [SerializeField] private Rigidbody ballRb;
 
         private Camera playerCamera;
 
@@ -39,6 +37,10 @@ namespace TechC
 
         private void Awake()
         {
+            if(ballRb == null)
+            {
+              ballRb =  GameObject.Find("Ball").gameObject.GetComponent<Rigidbody>();
+            }
             Physics.gravity = localGravity;
 
             playerInput = GetComponent<PlayerInputController>();
@@ -57,6 +59,7 @@ namespace TechC
         {
             // 物理演算を使った移動処理
             HandleMovement();
+            LimitSpeed();
         }
 
         private void HandleMovement()
@@ -72,40 +75,9 @@ namespace TechC
             Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
             Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
 
-            // 加速度に基づいて移動ベクトルを調整
-            Vector3 currentVelocity = rb.velocity;
-            Vector3 targetVelocity = adjustedMovement * moveSpeed;
-
-            // 現在の速度と目標速度の差から加速・減速を制御
-            Vector3 velocityDifference = targetVelocity - currentVelocity;
-            Vector3 acceleration = velocityDifference.normalized * accelerationFactor * Time.deltaTime;
-
-            if (velocityDifference.magnitude < 0)
-            {
-                // 減速
-                acceleration = velocityDifference.normalized * decelerationFactor * Time.deltaTime;
-            }
-
-            // 移動方向に力を加える（物理的な移動）
-            rb.AddForce(acceleration, ForceMode.VelocityChange);
-
-            // 最大速度を超えた場合、逆方向にブレーキをかける
-            if (new Vector3(currentVelocity.x, 0f, currentVelocity.z).magnitude > maxSpeed)
-            {
-                // 現在の速度に対して逆方向の力を加える
-                Vector3 brakeDirection = new Vector3(currentVelocity.x, 0f, currentVelocity.z).normalized;
-                Vector3 brakeForceDirection = -brakeDirection * brakeForce;
-
-                // 逆方向の力を加える
-                rb.AddForce(brakeForceDirection, ForceMode.Acceleration);
-            }
-
-            // 速度の制限
-            if (new Vector3(currentVelocity.x, 0f, currentVelocity.z).magnitude > maxSpeed && !isTaking)
-            {
-                Vector3 clampedVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z).normalized * maxSpeed;
-                rb.velocity = new Vector3(clampedVelocity.x, currentVelocity.y, clampedVelocity.z);
-            }
+            // プレイヤーの速度を直接設定
+            Vector3 targetVelocity = adjustedMovement;
+            rb.AddForce(targetVelocity * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
             // プレイヤーを移動方向に向ける
             if (adjustedMovement != Vector3.zero)
@@ -114,6 +86,25 @@ namespace TechC
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
+        private void LimitSpeed()
+        {
+            float ballSpeed = ballRb.velocity.magnitude;
+            if (ballSpeed == 0) return;  // ボールが停止している場合、計算を行わない
+
+            float speedRatio = rb.velocity.magnitude / (ballSpeed * limit);
+
+            // speedRatioがNaNまたは無限大にならないようにチェック
+            if (float.IsNaN(speedRatio) || float.IsInfinity(speedRatio) || speedRatio <= 1)
+            {
+                return;  // 無効な値の場合は処理をスキップ
+            }
+            // プレイヤーの速度がボールの速度のn倍を超えている場合
+            Vector3 reverseForce = -rb.velocity.normalized * moveSpeed * (speedRatio - 1);
+
+            // 減速の強さを調整する
+            rb.AddForce(reverseForce * decelerationFactor * Time.deltaTime, ForceMode.Acceleration);
+        }
+
 
         private void HandleJump()
         {
