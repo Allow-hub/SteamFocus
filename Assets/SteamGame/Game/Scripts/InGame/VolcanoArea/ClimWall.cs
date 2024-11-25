@@ -17,6 +17,8 @@ namespace TechC
         [SerializeField] private float stepDelay = 2;
         [SerializeField] private Vector2 randomFallDelay;
         [SerializeField] private Vector2 fallSpeedLenge;
+
+        [SerializeField] private float stepProbably;
         private float[] fallSpeed; // 落下速度を管理
         private Vector3[] floorInitPos;
 
@@ -30,12 +32,7 @@ namespace TechC
 
         private void Start()
         {
-            // 落下速度を初期化
-            fallSpeed = new float[floor.Length];
-            for (int i = 0; i < fallSpeed.Length; i++)
-            {
-                fallSpeed[i] = UnityEngine.Random.Range(fallSpeedLenge.x, fallSpeedLenge.y); // ランダム速度範囲
-            }
+         
             floorInitPos = new Vector3[floor.Length];
             // 各フロアを maxY に配置して非アクティブにする
             for (int i = 0; i < floor.Length; i++)
@@ -51,9 +48,17 @@ namespace TechC
 
         private void Lottery()
         {
-            // ランダムにFallTypeを決定
-            FallType randomType = (FallType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(FallType)).Length);
-            currentType = randomType;
+            float rand = UnityEngine.Random.Range(0, 100);
+            if(rand <=stepProbably)
+            {
+                currentType = FallType.Step;
+            }
+            else
+            {
+                currentType= FallType.Random;
+            }
+            //FallType randomType = (FallType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(FallType)).Length);
+            //currentType = randomType;
         }
 
         /// <summary>
@@ -69,15 +74,17 @@ namespace TechC
                 switch (currentType)
                 {
                     case FallType.Step:
-                        yield return StartCoroutine(StepFall());
+                        yield return  StartCoroutine(StepFall());
                         break;
                     case FallType.Random:
-                        yield return StartCoroutine(RandomFall());
+                        yield return StartCoroutine(RandomFall());  
                         break;
+             
                 }
 
                 // 全ての floor が minY に到達したことを確認
                 yield return new WaitUntil(() => AllFloorsReachedMinY());
+                yield return new WaitForSeconds(0.5f); //AllFloorsReachedMinY()の処理順がminYまでの移動のwhileよりも判定が速いため
             }
         }
 
@@ -86,14 +93,21 @@ namespace TechC
             for(int i=0;i<floor.Length;i++)
             {
                 floor[i].transform.position = floorInitPos[i];
+
             }
+
             for (int i = 0; i < floor.Length; i++)
             {
                 GameObject currentFloor = floor[i];
-                StartCoroutine(MoveFloorToMinY(currentFloor, fallSpeedTime)); 
-                yield return new WaitForSeconds(stepDelay); 
+                currentFloor.SetActive(true );
+                StartCoroutine(MoveFloorToMinY(currentFloor, fallSpeedTime));
+                yield return new WaitForSeconds(stepDelay);
+
             }
+            yield return new WaitUntil(() => AllFloorsReachedMinY());
+
         }
+
         private IEnumerator RandomFall()
         {
             for (int i = 0; i < floor.Length; i++)
@@ -103,27 +117,29 @@ namespace TechC
             for (int i = 0; i < floor.Length; i++)
             {
                 GameObject currentFloor = floor[i];
-                StartCoroutine(MoveFloorToMinY(currentFloor, UnityEngine.Random.Range(fallSpeedLenge.x,fallSpeedLenge.y)));
+                currentFloor.SetActive(true);
+
+                StartCoroutine(MoveFloorToMinY(currentFloor, UnityEngine.Random.Range(fallSpeedLenge.x, fallSpeedLenge.y)));
                 yield return new WaitForSeconds(UnityEngine.Random.Range(randomFallDelay.x, randomFallDelay.y));
             }
+            yield return new WaitUntil(() => AllFloorsReachedMinY());
+
         }
+
+
 
         private IEnumerator MoveFloorToMinY(GameObject floorObject, float speed)
         {
-            // アクティブ化
-            floorObject.SetActive(true);
-
-            // フロアが minY に到達するまで移動
+            // フロアが minY に到達するまで非同期で移動
             while (floorObject.transform.position.y > minY.position.y)
             {
                 floorObject.transform.position = Vector3.MoveTowards(
                     floorObject.transform.position,
                     new Vector3(floorObject.transform.position.x, minY.position.y, floorObject.transform.position.z),
                     speed * Time.deltaTime);
-                yield return null;
+                yield return null; // 次フレームまで待機
             }
-
-            // minY に到達したら非アクティブ化
+            // 到達後、非アクティブ化
             floorObject.SetActive(false);
         }
 
@@ -135,6 +151,11 @@ namespace TechC
             {
                 if (currentFloor.transform.position.y > minY.position.y)
                     return false;
+            }
+            for (int i = 0;i < floor.Length; i++)
+            {
+                GameObject currentFloor = floor[i];
+                currentFloor.transform.position = new Vector3(currentFloor.transform.position.x, minY.position.y, currentFloor.transform.position.z);
             }
             return true;
         }
