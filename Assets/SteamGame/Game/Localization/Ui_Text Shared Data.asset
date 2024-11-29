@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: StartButton
     m_Metadata:
       m_Items: []
+  - m_Id: 5546470453153792
+    m_Key: Title
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
