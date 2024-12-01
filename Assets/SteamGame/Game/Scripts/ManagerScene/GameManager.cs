@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace TechC
 {
@@ -23,9 +24,10 @@ namespace TechC
             Factory,    // 工場エリア
             GameClear
         }
-
+        public float sensitivity = 2;
         public GameState currentState;
-
+        public GameState lastState;
+        [SerializeField] private GameObject menuCanvas;
         private const int targetFrameRate = 144;
 
         protected override void Init()
@@ -40,6 +42,7 @@ namespace TechC
 
             // 初期状態を設定（例: Title）
             SetState(GameState.Tutorial);
+            
         }
 
         private void Update()
@@ -98,7 +101,10 @@ namespace TechC
 
         public void SetState(GameState state)
         {
+            lastState =currentState;
             currentState = state;
+            if(currentState !=GameState.Menu) 
+                menuCanvas.SetActive(false);
 
             switch (currentState)
             {
@@ -181,8 +187,13 @@ namespace TechC
             }
         }
 
+
         private void TitleInit() => ChangeCursorMode(true, CursorLockMode.None);
-        private void MenuInit() => ChangeCursorMode(true, CursorLockMode.None);
+        private void MenuInit()
+        {
+            menuCanvas.SetActive(true);
+            ChangeCursorMode(true, CursorLockMode.None);
+        }
         private void TutorialInit() => ChangeCursorMode(true, CursorLockMode.Locked);
         private void GrasslandInit() => Debug.Log("Initializing Grassland State");
         private void DesertInit() => Debug.Log("Initializing Desert State");
@@ -225,7 +236,7 @@ namespace TechC
         public void ChangeVolcanoState() => SetState(GameState.Volcano);
         public void ChangeFactoryState() => SetState(GameState.Factory);
         public void ChangeGameClearState() => SetState(GameState.GameClear);
-
+        public void ChangeLastState()=> SetState(lastState);
         public bool IsTutorialArea() => currentState == GameState.Tutorial;
         public bool IsGrasslandArea() => currentState == GameState.Grassland;
         public bool IsDesertArea() => currentState == GameState.Desert;

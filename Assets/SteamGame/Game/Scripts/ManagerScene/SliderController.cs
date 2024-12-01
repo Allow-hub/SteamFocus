@@ -10,9 +10,13 @@ namespace TechC
         {
             BgmManager.I.SetBGMVolume(volume);
         }
-        //public void SetSEVolume(float volume)
-        //{
-        //    SEManager.Instance.SetSEVolume(volume);
-        //}
+        public void SetSEVolume(float volume)
+        {
+            SeManager.I.SetSEVolume(volume);
+        }
+        public void SetSensitivity(float volume)
+        {
+            GameManager.I.sensitivity = volume;
+        }
     }
 }

@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: Sound
     m_Metadata:
       m_Items: []
+  - m_Id: 6366773894844416
+    m_Key: Sens
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

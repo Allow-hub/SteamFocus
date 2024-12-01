@@ -119,7 +119,11 @@ namespace TechC
         // Menuアクション（メニュー関連の処理）
         public void OnMenu(InputAction.CallbackContext context)
         {
-            // メニュー関連の処理をここに記述できます
+            if (GameManager.I == null) return;
+            if (GameManager.I.currentState == GameManager.GameState.Menu)
+                GameManager.I.ChangeLastState();
+            else
+                GameManager.I.ChangeMenuState();
         }
 
         // ここで状態をリセットするためのメソッドを追加できます
