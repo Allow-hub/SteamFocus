@@ -28,6 +28,14 @@ MonoBehaviour:
 '
     m_Metadata:
       m_Items: []
+  - m_Id: 6217758993682432
+    m_Localized: Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6243333972037632
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
