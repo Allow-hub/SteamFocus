@@ -6,16 +6,29 @@ namespace TechC
 {
     public class FallenWoodGimmick : MonoBehaviour
     {
-        [SerializeField] GameObject wood;
-        Rigidbody rb;
+        [SerializeField]Å@private GameObject pole;
+        private Rigidbody rb;
+        private bool isFallen = false; // ì|ÇÍÇΩÇ©Ç«Ç§Ç©
 
-        private void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.name == "Player")
+            if (other.CompareTag("Player") && !isFallen)
             {
-                rb = wood.GetComponent<Rigidbody>();
-                rb.velocity = transform.right.normalized * 1;
+                rb = pole.GetComponent<Rigidbody>();
+                rb.AddTorque(transform.forward * 20f, ForceMode.Impulse);
+                isFallen = true;
+                //StartCoroutine(StopMove());
             }
         }
+
+        /*IEnumerator StopMove()
+        {
+            yield return new WaitForSeconds(10f);
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            rb.isKinematic = true;
+        }*/
     }
 }
