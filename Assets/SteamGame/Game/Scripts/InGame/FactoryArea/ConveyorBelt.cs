@@ -15,16 +15,6 @@ namespace TechC
         [Header("レイヤー設定")]
         [SerializeField] private LayerMask layerMask;  // 衝突するレイヤーを指定
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            // 衝突したオブジェクトのレイヤーが指定されたレイヤーか確認
-            if (((1 << collision.gameObject.layer) & layerMask) != 0)
-            {
-                // オブジェクトをベルトコンベアのように移動させる
-                collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
-            }
-        }
-
         private void OnCollisionStay(Collision collision)
         {
             // 衝突が続いている間もオブジェクトを動かし続ける
@@ -32,7 +22,8 @@ namespace TechC
             {
                 Debug.Log("A");
                 Debug.Log(collision.gameObject);
-                collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
+                var rb = collision.gameObject.GetComponent<Rigidbody>();
+                rb.MovePosition( rb.position + moveDirection.normalized * speed * Time.deltaTime);
             }
         }
     }
