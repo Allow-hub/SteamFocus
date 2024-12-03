@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace TechC
@@ -13,10 +12,13 @@ namespace TechC
         [SerializeField] private Vector3 moveDirection = new Vector3(1, 0, 0); // グローバル変数で移動方向を定義
         [SerializeField] private float speed = 2f;
 
+        [Header("レイヤー設定")]
+        [SerializeField] private LayerMask layerMask;  // 衝突するレイヤーを指定
+
         private void OnCollisionEnter(Collision collision)
         {
-            // 衝突したオブジェクトが "Ball" タグを持っているか確認
-            if (collision.gameObject.CompareTag("Ball"))
+            // 衝突したオブジェクトのレイヤーが指定されたレイヤーか確認
+            if (((1 << collision.gameObject.layer) & layerMask) != 0)
             {
                 // オブジェクトをベルトコンベアのように移動させる
                 collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
@@ -26,8 +28,9 @@ namespace TechC
         private void OnCollisionStay(Collision collision)
         {
             // 衝突が続いている間もオブジェクトを動かし続ける
-            if (collision.gameObject.CompareTag("Ball"))
+            if (((1 << collision.gameObject.layer) & layerMask) != 0)
             {
+                Debug.Log("A");
                 Debug.Log(collision.gameObject);
                 collision.gameObject.transform.position += moveDirection.normalized * speed * Time.deltaTime;
             }

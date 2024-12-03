@@ -27,13 +27,22 @@ namespace TechC
         [SerializeField] private float upwardForce = 5f;          // 攻撃時の上方力
         [SerializeField] private float attackCoolTime = 1f;       // 攻撃のクールタイム
         [SerializeField] private float attackTime = 1f;           // アタック後に待機する時間
+        [SerializeField] private float teamAttackForwardForce;
+        [SerializeField] private float teamAttackUpwardForce;
+
         private bool canAttack = true;
         private bool isTaking = false;                             // アタック中フラグ
+
+        private float initForwardForce;
+        private float initUpwardForce;
 
         [Header("Jump")]
         [SerializeField] private float jumpForce = 3f;            // ジャンプ力
         [SerializeField] private float jumpCoolTime = 1f;         // ジャンプのクールタイム
+        [SerializeField] private float teamJumpForce;
         private bool canJump = true;
+
+        private float initJumpForce;
 
         private void Awake()
         {
@@ -46,6 +55,10 @@ namespace TechC
             playerInput = GetComponent<PlayerInputController>();
             rb = GetComponent<Rigidbody>();
             playerCamera = Camera.main;
+            initForwardForce = forwardForce;
+            initUpwardForce = upwardForce;
+            initJumpForce = jumpForce;
+
         }
 
         private void Update()
@@ -159,5 +172,6 @@ namespace TechC
             yield return new WaitForSeconds(attackTime);
             isTaking = false;  // アタック終了
         }
+
     }
 }

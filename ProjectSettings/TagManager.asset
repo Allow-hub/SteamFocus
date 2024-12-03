@@ -8,6 +8,7 @@ TagManager:
   - QuickSand
   - Floor
   - Ball
+  - Swing
   layers:
   - Default
   - TransparentFX
