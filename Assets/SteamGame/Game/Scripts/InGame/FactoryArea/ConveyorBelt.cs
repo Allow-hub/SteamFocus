@@ -20,8 +20,6 @@ namespace TechC
             // 衝突が続いている間もオブジェクトを動かし続ける
             if (((1 << collision.gameObject.layer) & layerMask) != 0)
             {
-                Debug.Log("A");
-                Debug.Log(collision.gameObject);
                 var rb = collision.gameObject.GetComponent<Rigidbody>();
                 rb.MovePosition( rb.position + moveDirection.normalized * speed * Time.deltaTime);
             }

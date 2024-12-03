@@ -2312,7 +2312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &257333636
 Transform:
   m_ObjectHideFlags: 0
@@ -10022,7 +10022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explain: "\u4E57\u308B\u3068\u30DC\u30FC\u30EB\u304C\u52D5\u304F"
   moveDirection: {x: 1, y: 0, z: 0}
-  speed: 2
+  speed: 50
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -75836,7 +75836,7 @@ PrefabInstance:
     - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 519.5
+      value: 465.7
       objectReference: {fileID: 0}
     - target: {fileID: 1012533470285895348, guid: 4e89ffdada8347d4a9fbd9491b6ebda9,
         type: 3}
@@ -82422,7 +82422,7 @@ PrefabInstance:
     - target: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 519.5
+      value: 465.7
       objectReference: {fileID: 0}
     - target: {fileID: 7290630380983836074, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
