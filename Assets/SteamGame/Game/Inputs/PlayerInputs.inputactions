@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Team",
+                    "type": "Button",
+                    "id": "219245fa-32ea-4246-89e1-2f5303fecd52",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -198,7 +207,7 @@
                 {
                     "name": "",
                     "id": "12a3824f-5f48-4cd5-9eea-6afb7bbb82e7",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -258,6 +267,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ReStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e387e53-3251-420a-b5bc-c7010ab08776",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard",
+                    "action": "Team",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

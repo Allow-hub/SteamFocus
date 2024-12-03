@@ -14,26 +14,33 @@ namespace TechC
         private Rigidbody rb;
 
         [Header("Movement")]
-        [SerializeField] private float moveSpeed = 5f;
-        [SerializeField] private float rotationSpeed = 2;
-        [SerializeField] private float maxSpeed = 10f;  // 最大速度を追加
-        [SerializeField] private float limitSpeed = 10f; 
+        [SerializeField] private float moveSpeed = 5f;            // 基本移動速度
+        [SerializeField] private float rotationSpeed = 2f;        // 回転速度
+        [SerializeField] private float limit = 1.2f;             // ボールの速度の何倍まで許容するか
+        [SerializeField] private float decelerationFactor = 2f;   // 減速の強さ
+        [SerializeField] private Rigidbody ballRb;
 
         private Camera playerCamera;
 
         [Header("Attack")]
-        [SerializeField] private float forwardForce = 10f;
-        [SerializeField] private float upwardForce = 5f;
-        [SerializeField] private float attackCoolTime = 1f;
+        [SerializeField] private float forwardForce = 10f;        // 攻撃時の前方力
+        [SerializeField] private float upwardForce = 5f;          // 攻撃時の上方力
+        [SerializeField] private float attackCoolTime = 1f;       // 攻撃のクールタイム
+        [SerializeField] private float attackTime = 1f;           // アタック後に待機する時間
         private bool canAttack = true;
+        private bool isTaking = false;                             // アタック中フラグ
 
         [Header("Jump")]
-        [SerializeField] private float jumpForce = 3;
-        [SerializeField] private float jumpCoolTime = 1f;
+        [SerializeField] private float jumpForce = 3f;            // ジャンプ力
+        [SerializeField] private float jumpCoolTime = 1f;         // ジャンプのクールタイム
         private bool canJump = true;
 
         private void Awake()
         {
+            if(ballRb == null)
+            {
+              ballRb =  GameObject.Find("Ball").gameObject.GetComponent<Rigidbody>();
+            }
             Physics.gravity = localGravity;
 
             playerInput = GetComponent<PlayerInputController>();
@@ -52,11 +59,11 @@ namespace TechC
         {
             // 物理演算を使った移動処理
             HandleMovement();
+            LimitSpeed();
         }
 
         private void HandleMovement()
         {
-            //if (!canJump && canAttack) return;
             // 入力に基づく移動ベクトルを計算
             Vector3 inputVector = playerInput.InputVector;
             Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed;
@@ -68,15 +75,9 @@ namespace TechC
             Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
             Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
 
-            // 移動方向に力を加える（物理的な移動）
-            rb.AddForce(adjustedMovement, ForceMode.VelocityChange);
-
-            Vector3 currentVelocity = rb.velocity;
-            if (new Vector3(currentVelocity.x, 0f, currentVelocity.z).magnitude > maxSpeed)
-            {
-                Vector3 clampedVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z).normalized * maxSpeed;
-                rb.velocity = new Vector3(clampedVelocity.x, currentVelocity.y, clampedVelocity.z);
-            }
+            // プレイヤーの速度を直接設定
+            Vector3 targetVelocity = adjustedMovement;
+            rb.AddForce(targetVelocity * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
             // プレイヤーを移動方向に向ける
             if (adjustedMovement != Vector3.zero)
@@ -85,6 +86,25 @@ namespace TechC
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
+        private void LimitSpeed()
+        {
+            float ballSpeed = ballRb.velocity.magnitude;
+            if (ballSpeed == 0) return;  // ボールが停止している場合、計算を行わない
+
+            float speedRatio = rb.velocity.magnitude / (ballSpeed * limit);
+
+            // speedRatioがNaNまたは無限大にならないようにチェック
+            if (float.IsNaN(speedRatio) || float.IsInfinity(speedRatio) || speedRatio <= 1)
+            {
+                return;  // 無効な値の場合は処理をスキップ
+            }
+            // プレイヤーの速度がボールの速度のn倍を超えている場合
+            Vector3 reverseForce = -rb.velocity.normalized * moveSpeed * (speedRatio - 1);
+
+            // 減速の強さを調整する
+            rb.AddForce(reverseForce * decelerationFactor * Time.deltaTime, ForceMode.Acceleration);
+        }
+
 
         private void HandleJump()
         {
@@ -98,11 +118,13 @@ namespace TechC
 
         private void HandleAttack()
         {
-            if (playerInput.IsAttacking && canAttack)
+            if (playerInput.IsAttacking && canAttack && !isTaking)
             {
                 Attack();
                 canAttack = false;
+                isTaking = true;  // アタック中フラグを立てる
                 StartCoroutine(CoolTime(false));
+                StartCoroutine(AttackDelay());  // アタック後の遅延を開始
             }
         }
 
@@ -129,6 +151,13 @@ namespace TechC
                 yield return new WaitForSeconds(attackCoolTime);
                 canAttack = true;
             }
+        }
+
+        private IEnumerator AttackDelay()
+        {
+            // アタック後、指定時間待機
+            yield return new WaitForSeconds(attackTime);
+            isTaking = false;  // アタック終了
         }
     }
 }

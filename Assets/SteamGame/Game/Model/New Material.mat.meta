@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/SteamGame/Game/Model/New Material.mat.meta
+guid: 5e297e3ccdedb0647ab1b79135719567
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+========
+guid: be972b554ae6dd64a80a78139a970256
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+>>>>>>>> parent of a972ff63 (草原ギミックの作成):Assets/SteamGame/Game/Model/New Terrain.asset.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

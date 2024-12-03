@@ -5,7 +5,6 @@ namespace TechC
 {
     public class ChaseCamera : MonoBehaviour
     {
-        [SerializeField] private float sensitivity = 2.0f;
         private Transform player;
         [SerializeField] private float distance = 5.0f;
         [SerializeField] private float height = 2.0f;
@@ -31,8 +30,8 @@ namespace TechC
         private void Update()
         {
             // マウスの動きを取得
-            float mouseX = Input.GetAxis("Mouse X") * sensitivity;
-            float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+            float mouseX = Input.GetAxis("Mouse X") * GameManager.I.sensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * GameManager.I.sensitivity;
 
             // 上下回転を更新
             rotationX -= mouseY;

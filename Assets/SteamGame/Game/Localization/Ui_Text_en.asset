@@ -19,7 +19,25 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1293835702272
-    m_Localized: Suta-to
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5546470453153792
+    m_Localized: 'Bubble Tower
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6217758993682432
+    m_Localized: Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6243333972037632
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6366773894844416
+    m_Localized: Sens
     m_Metadata:
       m_Items: []
   references:

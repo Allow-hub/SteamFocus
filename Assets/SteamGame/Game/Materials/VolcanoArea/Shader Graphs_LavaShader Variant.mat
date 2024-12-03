@@ -29,9 +29,9 @@ Material:
     - _HeatControl: 1
     - _Metallic: 0.49
     m_Colors:
-    - _AnimationControl: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _AnimationControl: {r: 0, g: -0.1, b: 0, a: 0}
     - _LavaColor: {r: 1.6792455, g: 0.28154525, b: 0.2373802, a: 1}
-    - _Velocity: {r: 2, g: 2, b: 0, a: 0}
+    - _Velocity: {r: 1, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3801127575238964875
 MonoBehaviour:
