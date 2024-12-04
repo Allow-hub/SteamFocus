@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace TechC
 {
     [RequireComponent(typeof(PlayerInputController))]
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviourPunCallbacks
     {
         [SerializeField] private Vector3 localGravity;
 
@@ -63,16 +64,22 @@ namespace TechC
 
         private void Update()
         {
-            // ジャンプやタックルの処理
-            HandleJump();
-            HandleAttack();
+            if (photonView.IsMine)
+            {
+                // ジャンプやタックルの処理
+                HandleJump();
+                HandleAttack();
+            }
         }
 
         private void FixedUpdate()
         {
-            // 物理演算を使った移動処理
-            HandleMovement();
-            LimitSpeed();
+            if (photonView.IsMine)
+            {
+                // 物理演算を使った移動処理
+                HandleMovement();
+                LimitSpeed();
+            }
         }
 
         private void HandleMovement()

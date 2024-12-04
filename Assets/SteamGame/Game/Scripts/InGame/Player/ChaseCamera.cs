@@ -29,6 +29,9 @@ namespace TechC
 
         private void Update()
         {
+            if(player==null)
+                player = GameObject.FindWithTag("Player").gameObject.transform;
+            if (player == null) return;
             // マウスの動きを取得
             float mouseX = Input.GetAxis("Mouse X") * GameManager.I.sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * GameManager.I.sensitivity;
@@ -49,6 +52,8 @@ namespace TechC
             cam.transform.LookAt(player.position + Vector3.up * height);
         }
 
+
+    
         public void TriggerShake()
         {
             StopAllCoroutines(); // 既存のシェイクがあれば停止

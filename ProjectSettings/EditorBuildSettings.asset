@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/SteamGame/Game/Scenes/CreaterScene_Y.unity
+    guid: cbe0befee653fa24f95437f0c64ac22d
+  - enabled: 0
     path: Assets/SteamGame/Game/Scenes/Title.unity
     guid: a8891f1048449aa499ecfc67a14126fa
-  - enabled: 1
+  - enabled: 0
     path: Assets/SteamGame/Game/Scenes/Tower.unity
     guid: 3a556679d1f53264f80b14168181faf6
   - enabled: 0
