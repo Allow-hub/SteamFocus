@@ -10,32 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: Ui_Text_ja
+  m_Name: UI_en
   m_EditorClassIdentifier: 
   m_LocaleId:
-    m_Code: ja
-  m_SharedData: {fileID: 11400000, guid: 01a9cd21a5481b6469e6c1d6e6121351, type: 2}
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 08563b9aa925d1844bebcc12ec8a4729, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 1293835702272
-    m_Localized: "\u30B9\u30BF\u30FC\u30C8"
+  - m_Id: 12022845440
+    m_Localized: Start
     m_Metadata:
       m_Items: []
-  - m_Id: 5546470453153792
-    m_Localized: "\u30D0\u30D6\u30EB\u306E\u5854"
+  - m_Id: 428353654784
+    m_Localized: "Bubble\u3000Tower"
     m_Metadata:
       m_Items: []
-  - m_Id: 6217758993682432
-    m_Localized: "\u8A2D\u5B9A"
+  - m_Id: 722403725312
+    m_Localized: Setting
     m_Metadata:
       m_Items: []
-  - m_Id: 6243333972037632
-    m_Localized: "\u30B5\u30A6\u30F3\u30C9"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6366773894844416
-    m_Localized: "\u30AB\u30E1\u30E9\u611F\u5EA6"
+  - m_Id: 835381497856
+    m_Localized: Sens
     m_Metadata:
       m_Items: []
   references:

@@ -473,7 +473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sens
+  m_text: "\u611F\u5EA6"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f6d05ed0dad616b41bbf30f6a0373695, type: 2}
   m_sharedMaterial: {fileID: -114621293425611385, guid: f6d05ed0dad616b41bbf30f6a0373695,
@@ -565,9 +565,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: GUID:01a9cd21a5481b6469e6c1d6e6121351
+      m_TableCollectionName: GUID:08563b9aa925d1844bebcc12ec8a4729
     m_TableEntryReference:
-      m_KeyId: 6366773894844416
+      m_KeyId: 835381497856
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -575,7 +575,19 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 322198341}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   references:
     version: 2
     RefIds: []
@@ -2564,9 +2576,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: GUID:01a9cd21a5481b6469e6c1d6e6121351
+      m_TableCollectionName: GUID:08563b9aa925d1844bebcc12ec8a4729
     m_TableEntryReference:
-      m_KeyId: 6217758993682432
+      m_KeyId: 722403725312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

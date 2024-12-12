@@ -10,40 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: Ui_Text Shared Data
+  m_Name: UI Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: Ui_Text
-  m_TableCollectionNameGuidString: 01a9cd21a5481b6469e6c1d6e6121351
+  m_TableCollectionName: UI
+  m_TableCollectionNameGuidString: 08563b9aa925d1844bebcc12ec8a4729
   m_Entries:
-  - m_Id: 1293835702272
+  - m_Id: 12022845440
     m_Key: StartButton
     m_Metadata:
       m_Items: []
-  - m_Id: 5546470453153792
+  - m_Id: 428353654784
     m_Key: Title
     m_Metadata:
       m_Items: []
-  - m_Id: 6217758993682432
+  - m_Id: 722403725312
     m_Key: Setting
     m_Metadata:
       m_Items: []
-  - m_Id: 6243333972037632
-    m_Key: Sound
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6366773894844416
+  - m_Id: 835381497856
     m_Key: Sens
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 6055525425979588632
+    rid: 2020531013850234888
   references:
     version: 2
     RefIds:
-    - rid: 6055525425979588632
+    - rid: 2020531013850234888
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
         asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1731556999790
+        m_CustomEpoch: 1733985891919

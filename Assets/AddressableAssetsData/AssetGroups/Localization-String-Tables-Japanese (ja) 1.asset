@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-Assets-Shared
+  m_Name: Localization-String-Tables-Japanese (ja) 1
   m_EditorClassIdentifier: 
-  m_GroupName: Localization-Assets-Shared
+  m_GroupName: Localization-String-Tables-Japanese (ja) 1
   m_Data:
     m_SerializedData: []
-  m_GUID: f27b89ff21e0f7544840a2d1cd188c6c
+  m_GUID: 4e15b124893d228449a86216551c7f36
   m_SerializeEntries:
-  - m_GUID: 08563b9aa925d1844bebcc12ec8a4729
-    m_Address: Assets/SteamGame/Game/Localization/UI Shared Data.asset
+  - m_GUID: 70893ca045b7a4d40972bfba9efa1a23
+    m_Address: UI_ja
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Locale-ja
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: a3e44e32e4017ca43ba1e233abf1a467, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 75f058c535894594dbbdaa4105eaad61, type: 2}
-    - {fileID: 11400000, guid: 8ef9603d121ddbb4c993524a989d4ad8, type: 2}
+    - {fileID: 11400000, guid: 7158ea6d157cde143a575b4d3fd048bd, type: 2}
+    - {fileID: 11400000, guid: 0510f391412aef54bb4db68fe74374a3, type: 2}
