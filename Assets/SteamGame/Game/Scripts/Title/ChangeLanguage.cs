@@ -9,7 +9,7 @@ namespace TechC
     public class ChangeLanguage : MonoBehaviour
     {
         [SerializeField] private TMP_Dropdown dropdown_tmp; // 画面上のドロップダウン
-
+  
         // ドロップダウンの値が変更された時のイベントから呼び出す用
         public void ChangeSelected()
         {
