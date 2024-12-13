@@ -69,7 +69,7 @@ Material:
     - _Reflection: 0.04
     - _Reflection_Refraction: 0.12
     - _Refrection: 0.06
-    - _Smoothness: 0.9
+    - _Smoothness: 0.703
     - _Strength: 0.21
     - _Water_Lerp: 0.46
     m_Colors:

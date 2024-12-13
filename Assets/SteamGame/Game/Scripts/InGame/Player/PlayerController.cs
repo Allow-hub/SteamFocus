@@ -11,6 +11,7 @@ namespace TechC
     {
         [SerializeField] private Vector3 localGravity;
 
+        [SerializeField] private Animator anim;
         private PlayerInputController playerInput;
         private Rigidbody rb;
 
@@ -20,6 +21,7 @@ namespace TechC
         [SerializeField] private float limit = 1.2f;             // ボールの速度の何倍まで許容するか
         [SerializeField] private float decelerationFactor = 2f;   // 減速の強さ
         [SerializeField] private Rigidbody ballRb;
+        private const string walkAnimName = "IsWalking";
 
         private Camera playerCamera;
 
@@ -31,6 +33,7 @@ namespace TechC
         [SerializeField] private float teamAttackForwardForce;
         [SerializeField] private float teamAttackUpwardForce;
 
+        private const string attackAnimName = "IsAttacking";
         private bool canAttack = true;
         private bool isTaking = false;                             // アタック中フラグ
 
@@ -41,6 +44,8 @@ namespace TechC
         [SerializeField] private float jumpForce = 3f;            // ジャンプ力
         [SerializeField] private float jumpCoolTime = 1f;         // ジャンプのクールタイム
         [SerializeField] private float teamJumpForce;
+
+        private const string jumpAnimName = "IsJumping";
         private bool canJump = true;
 
         private float initJumpForce;
@@ -88,7 +93,12 @@ namespace TechC
             Vector3 inputVector = playerInput.InputVector;
             Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed;
 
-            if (movement == Vector3.zero) return;
+            if (inputVector == Vector3.zero)
+            {
+                // 止まっている場合、移動アニメーションを停止
+                anim.SetBool(walkAnimName, false);
+                return;
+            }
 
             // カメラの向きに基づいて移動ベクトルを調整
             Vector3 cameraForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
@@ -105,7 +115,11 @@ namespace TechC
                 Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
+
+            // 移動中はアニメーションを発火
+            anim.SetBool(walkAnimName, true);
         }
+
         private void LimitSpeed()
         {
             float ballSpeed = ballRb.velocity.magnitude;
@@ -125,17 +139,16 @@ namespace TechC
             rb.AddForce(reverseForce * decelerationFactor * Time.deltaTime, ForceMode.Acceleration);
         }
 
-
         private void HandleJump()
         {
             if (playerInput.IsJumping && canJump)
             {
                 Jump();
                 canJump = false;
+                anim.SetTrigger(jumpAnimName);  
                 StartCoroutine(CoolTime(true));
             }
         }
-
         private void HandleAttack()
         {
             if (playerInput.IsAttacking && canAttack && !isTaking)
@@ -143,10 +156,12 @@ namespace TechC
                 Attack();
                 canAttack = false;
                 isTaking = true;  // アタック中フラグを立てる
+                anim.SetTrigger(attackAnimName);  
                 StartCoroutine(CoolTime(false));
                 StartCoroutine(AttackDelay());  // アタック後の遅延を開始
             }
         }
+
 
         private void Attack()
         {
@@ -156,8 +171,8 @@ namespace TechC
 
         private void Jump()
         {
-            Break(Vector3.zero);
-            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //Break(Vector3.zero);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
         private IEnumerator CoolTime(bool isJump)
@@ -165,11 +180,15 @@ namespace TechC
             if (isJump)
             {
                 yield return new WaitForSeconds(jumpCoolTime);
+                anim.SetBool(jumpAnimName,false);
+
                 canJump = true;
             }
             else
             {
                 yield return new WaitForSeconds(attackCoolTime);
+                anim.SetBool(attackAnimName,false);
+
                 canAttack = true;
             }
         }
@@ -231,7 +250,6 @@ namespace TechC
             playerRb.velocity = Vector3.zero; // 現在の速度をリセット
             playerRb.AddForce(launchVelocity, ForceMode.VelocityChange);
         }
-
 
     }
 }

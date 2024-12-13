@@ -42,15 +42,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FoamAmount: 50
-    - _FoamCutOut: 3
-    - _FoamScale: 80
+    - _FoamAmount: 20
+    - _FoamCutOut: 20
+    - _FoamScale: 4
     - _FoamSpeed: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RefrectionScale: 2.6
-    - _RefrectionSpeed: 1
-    - _RefrectionStrength: 1
+    - _RefrectionScale: 0.5
+    - _RefrectionSpeed: 3
+    - _RefrectionStrength: 10
     - _WaterDepth: 5
     m_Colors:
     - _DeepWaterColor: {r: 0.08268094, g: 0.07338021, b: 0.91509426, a: 0.8156863}
