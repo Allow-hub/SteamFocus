@@ -1190,7 +1190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explain: "\u89E6\u308C\u308B\u3068\u7206\u767A\n\u5439\u3063\u98DB\u3070\u3055\u308C\u308B"
-  explosionForce: 1000
+  explosionForce: 20
   explosionRadius: 5
   upwardsModifier: 1
 --- !u!135 &192921350
@@ -63861,17 +63861,17 @@ PrefabInstance:
     - target: {fileID: 6471127942086673656, guid: 8c786d49e320ae44fb46102199aa167d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 465.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6471127942086673656, guid: 8c786d49e320ae44fb46102199aa167d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1751
+      value: 16.7
       objectReference: {fileID: 0}
     - target: {fileID: 6471127942086673656, guid: 8c786d49e320ae44fb46102199aa167d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.8
+      value: -23
       objectReference: {fileID: 0}
     - target: {fileID: 6471127942086673656, guid: 8c786d49e320ae44fb46102199aa167d,
         type: 3}
