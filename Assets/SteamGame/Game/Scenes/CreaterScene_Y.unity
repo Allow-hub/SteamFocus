@@ -5490,6 +5490,9 @@ MonoBehaviour:
   shakeDuration: 1
   shakeMagnitude: 3
   dampingSpeed: 10
+  wallLayers:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &967709875
 GameObject:
   m_ObjectHideFlags: 0

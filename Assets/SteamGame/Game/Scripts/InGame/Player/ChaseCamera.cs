@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace TechC
@@ -20,6 +21,25 @@ namespace TechC
         private Vector3 shakeOffset = Vector3.zero;
         private float initialShakeMagnitude;
 
+
+        [Header("WallCheck")]
+        // 現在の位置
+        private Vector3 targetPosition;
+
+        // 目的地
+        private Vector3 desiredPosition;
+
+        // 壁の衝突情報
+        private RaycastHit wallHit;
+
+        // 壁に当たった位置
+        private Vector3 wallHitPosition;
+
+        // 衝突する壁のレイヤー
+        [SerializeField] private LayerMask wallLayers;
+
+        
+
         private void Start()
         {
             cam = Camera.main;
@@ -29,9 +49,11 @@ namespace TechC
 
         private void Update()
         {
-            if(player==null)
+            if (player == null)
                 player = GameObject.FindWithTag("Player").gameObject.transform;
+
             if (player == null) return;
+
             // マウスの動きを取得
             float mouseX = Input.GetAxis("Mouse X") * GameManager.I.sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * GameManager.I.sensitivity;
@@ -46,14 +68,26 @@ namespace TechC
             // プレイヤーの位置を基にカメラの位置を計算
             Vector3 offset = new Vector3(0, height, -distance);
             Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
-            cam.transform.position = player.position + rotation * offset + shakeOffset;
+
+            targetPosition = player.position;  // プレイヤーの現在位置
+            desiredPosition = targetPosition + rotation * offset; // 目的地を計算
+
+            // 壁チェック
+            if (WallCheck())
+            {
+                // 壁に衝突している場合、カメラ位置を調整
+                desiredPosition = wallHitPosition + (desiredPosition - targetPosition).normalized * 0.5f; // 衝突点の手前に少しカメラを配置
+            }
+
+            // カメラの位置を更新
+            cam.transform.position = desiredPosition + shakeOffset;
 
             // カメラの回転を更新
             cam.transform.LookAt(player.position + Vector3.up * height);
         }
 
 
-    
+
         public void TriggerShake()
         {
             StopAllCoroutines(); // 既存のシェイクがあれば停止
@@ -81,5 +115,19 @@ namespace TechC
 
             shakeOffset = Vector3.zero; // シェイク終了時にオフセットをリセット
         }
+        private bool WallCheck()
+        {
+            if (Physics.Raycast(targetPosition, desiredPosition - targetPosition, out wallHit, Vector3.Distance(targetPosition, desiredPosition), wallLayers, QueryTriggerInteraction.Ignore))
+            {
+                Debug.Log("A");
+                wallHitPosition = wallHit.point; // 壁に衝突した位置を保存
+                return true; // 壁に衝突した
+            }
+            else
+            {
+                return false; // 壁に衝突しなかった
+            }
+        }
+
     }
 }
