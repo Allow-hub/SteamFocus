@@ -19,6 +19,15 @@ namespace TechC
         private bool isWaiting = false; // í‚é~íÜÇ©Ç«Ç§Ç©
         private float currentSpeed = 0.0f; // åªç›ë¨ìx
 
+        private Rigidbody rb;
+
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+
+            rb.isKinematic = true;
+        }
+
         void Update()
         {
             if (!isWaiting)
@@ -41,13 +50,13 @@ namespace TechC
             {
                 // â¡ë¨
                 currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, accelerated * Time.deltaTime);
-                Debug.Log(currentSpeed);
+                // Debug.Log(currentSpeed);
             }
             else if (distance <= dynamicDecelerationDistance && distance > 0.1f)
             {                
                 // å∏ë¨
                 currentSpeed = Mathf.Lerp(currentSpeed, 0, decelerationRate * Time.deltaTime);
-                Debug.Log(currentSpeed);
+                // Debug.Log(currentSpeed);
             }
             else
             {
@@ -59,8 +68,9 @@ namespace TechC
             currentSpeed = Mathf.Max(currentSpeed, minSpeed);
 
             // à⁄ìÆèàóù
-           
-            transform.position += direction.normalized * currentSpeed * Time.deltaTime;
+           Vector3 movePosition = transform.position + direction.normalized * currentSpeed * Time.deltaTime;
+            rb.MovePosition(movePosition);
+
             // ëÃÇÃå¸Ç´
             RotateTowards(direction);
         }
@@ -91,9 +101,20 @@ namespace TechC
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                Vector3 targeting = (Ball.transform.position - this.transform.position).normalized;
-                collision.transform.Translate(targeting.x * 1, targeting.y * 1, 0);
+                Rigidbody ballRigdbody = collision.gameObject.GetComponent<Rigidbody>();
+
+                if (ballRigdbody != null)
+                {
+                    Vector3 targeting = (Ball.transform.position - this.transform.position).normalized;
+
+                    float forceStrength = 900f;
+                    ballRigdbody.AddForce(targeting * forceStrength);
+
+                    // Debug.Log("è’ìÀÇµÇΩ");
+                }
             }
+
+            
         }
     }
 }
