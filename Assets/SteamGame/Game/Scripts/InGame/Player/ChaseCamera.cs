@@ -43,16 +43,17 @@ namespace TechC
         private void Start()
         {
             cam = Camera.main;
-            player = GameObject.FindWithTag("Player").gameObject.transform;
+            player = FindPlayerTransform();
             initialShakeMagnitude = shakeMagnitude; // 初期のシェイク強度を保存
         }
 
         private void Update()
         {
             if (player == null)
-                player = GameObject.FindWithTag("Player").gameObject.transform;
-
-            if (player == null) return;
+            {
+                player = FindPlayerTransform();
+                if (player == null) return;
+            }
 
             // マウスの動きを取得
             float mouseX = Input.GetAxis("Mouse X") * GameManager.I.sensitivity;
@@ -129,5 +130,9 @@ namespace TechC
             }
         }
 
+        private Transform FindPlayerTransform()
+        {
+            return GameObject.FindWithTag("Player")?.transform;
+        }
     }
 }
