@@ -1,6 +1,5 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TechC
@@ -105,10 +104,10 @@ namespace TechC
             Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
             Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
 
-            // プレイヤーの速度を直接設定
-            Vector3 targetVelocity = adjustedMovement;
-            rb.AddForce(targetVelocity * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
-
+            // プレイヤーの移動
+            // 他の物理演算との干渉を防ぐために座標操作で移動させている
+            rb.MovePosition(rb.position + adjustedMovement * Time.deltaTime);
+            
             // プレイヤーを移動方向に向ける
             if (adjustedMovement != Vector3.zero)
             {
