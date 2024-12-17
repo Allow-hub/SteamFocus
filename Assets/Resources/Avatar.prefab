@@ -312,6 +312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4336218738097607408, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336218738097607408, guid: b6573509c565b4a44b781ff0644ebae6,
+        type: 3}
       propertyPath: m_CollisionDetection
       value: 2
       objectReference: {fileID: 0}
@@ -494,10 +499,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 861380997948666274, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4867767780264952362}
-    - targetCorrespondingSourceObject: {fileID: 861380997948666274, guid: b6573509c565b4a44b781ff0644ebae6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: -5038277756507309519}
     - targetCorrespondingSourceObject: {fileID: 861380997948666274, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
@@ -552,27 +553,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -4867767780264952362}
   - {fileID: -5038277756507309519}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-4867767780264952362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3969826675215591664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &-5038277756507309519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,7 +571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
+  m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &3388267520073585636
 MonoBehaviour:
