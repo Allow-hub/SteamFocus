@@ -12,7 +12,7 @@ public class QuickSand : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // プレイヤーが流砂に入ったとき
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Ball"))
         {
             playerRigidbody = other.GetComponent<Rigidbody>();
             if (playerRigidbody != null)
@@ -26,7 +26,7 @@ public class QuickSand : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // プレイヤーが流砂から出たとき
-        if (other.CompareTag("Player") && playerRigidbody != null)
+        if (other.CompareTag("Ball") && playerRigidbody != null)
         {
             isPlayerInQuicksand = false;
             playerRigidbody.drag = 0.0f;  // 空気抵抗を元に戻す
