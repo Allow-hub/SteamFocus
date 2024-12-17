@@ -24,6 +24,13 @@ namespace TechC
             backObj.SetActive(false);
         }
 
+        private void Start()
+        {
+            if (GameManager.I == null) return;
+
+            GameManager.I.ChangeTitleState();
+        }
+
         private void OnInGame()
         {
             if (GameManager.I == null) return;

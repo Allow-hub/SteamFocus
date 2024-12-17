@@ -41,7 +41,7 @@ namespace TechC
             Application.targetFrameRate = targetFrameRate;
 
             // ‰Šúó‘Ô‚ğİ’èi—á: Titlej
-            SetState(GameState.Title);
+            SetState(GameState.Tutorial);
             
         }
 
