@@ -120,7 +120,6 @@ namespace TechC
         {
             if (Physics.Raycast(targetPosition, desiredPosition - targetPosition, out wallHit, Vector3.Distance(targetPosition, desiredPosition), wallLayers, QueryTriggerInteraction.Ignore))
             {
-                Debug.Log("A");
                 wallHitPosition = wallHit.point; // ï«Ç…è’ìÀÇµÇΩà íuÇï€ë∂
                 return true; // ï«Ç…è’ìÀÇµÇΩ
             }

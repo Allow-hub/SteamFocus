@@ -18,6 +18,8 @@ namespace TechC
             if (collision.gameObject.CompareTag("Ball"))
             {
                 Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+                Debug.Log("A");
+
                 if (rb != null)
                 {
                     // è’ìÀÇµÇΩà íuÇ©ÇÁAddExplosionForceÇ≈îΩî≠Ç≥ÇπÇÈ
