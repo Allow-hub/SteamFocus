@@ -11,6 +11,7 @@ namespace TechC
         [SerializeField] private float rotationSpeed = 30f;
         private float currentAngle = 0f;
         private bool rotatingFoward = true;
+        private bool isBump = false; 
 
 
         void Update()
@@ -36,7 +37,8 @@ namespace TechC
                 }
             }
 
-            transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
+
+            transform.rotation = Quaternion.Euler(-90, currentAngle, 0f);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -45,6 +47,7 @@ namespace TechC
             if (collision.gameObject.CompareTag("Ball"))
             {
                 Debug.Log("”j—ô‚µ‚½");
+                isBump = true;
             }
         }
     }
