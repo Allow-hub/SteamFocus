@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TechC
@@ -16,16 +15,31 @@ namespace TechC
         [SerializeField] private float resetDelay = 2f; // 傾きを戻すまでの待機時間（秒）
 
         private Quaternion initialRotation;
+        private bool isBallOnSeesaw = false;
+        private float elapsedTme = 0;
 
         private void Awake()
         {
             // 初期の回転を保存
             initialRotation = transform.rotation;
         }
+
+
+        private void Update()
+        {
+            if (isBallOnSeesaw) return;
+            elapsedTme += Time.deltaTime;
+            if(elapsedTme > resetDelay)
+            {
+                StartCoroutine(ResetRotation());
+                elapsedTme = 0;
+            }
+        }
         private void OnCollisionEnter(Collision collision)
         {
             if (!collision.gameObject.CompareTag("Ball")) return;
-            StopCoroutine(ResetRotation());
+            elapsedTme = 0;
+            isBallOnSeesaw = true; // ボールがシーソーに乗った
         }
 
         private void OnCollisionStay(Collision collision)
@@ -65,8 +79,7 @@ namespace TechC
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                // ボールが離れた後、指定した時間待ってから傾きを戻す
-                StartCoroutine(ResetRotationAfterDelay());
+                isBallOnSeesaw = false; // ボールが離れた
             }
         }
 
@@ -75,18 +88,23 @@ namespace TechC
             // 指定した時間待機
             yield return new WaitForSeconds(resetDelay);
 
-            // 傾きを戻す
-            StartCoroutine(ResetRotation());
+            // ボールがシーソーから離れた場合のみリセットを開始
+            if (!isBallOnSeesaw)
+            {
+                // 傾きを戻す
+                StartCoroutine(ResetRotation());
+            }
         }
 
         private IEnumerator ResetRotation()
         {
+            // シーソーの回転が初期位置に戻るまでスムーズに補間
             while (Quaternion.Angle(transform.rotation, initialRotation) > 0.1f)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * smoothSpeed);
                 yield return null;
             }
-            transform.rotation = initialRotation;
+            transform.rotation = initialRotation; // 最終的に正確に初期回転に戻す
         }
     }
 }
