@@ -28,34 +28,29 @@ namespace TechC
 
         private void Awake()
         {
-            // 初期化: 各プレハブに対してオブジェクトプールを作成し、初期サイズ分だけオブジェクトを生成
-            if (poolItems == null)
+            if (poolItems == null || poolItems.Length == 0)
             {
-                Debug.LogError("Object Pool is not initialized properly. Please call Initialize() before using the pool.");
+                Debug.LogError("Object Poolの初期化が不足しています。Initializeメソッドを正しく呼び出してください。");
                 return;
             }
 
             foreach (var poolItem in poolItems)
             {
-                GameObject prefab = poolItem.prefab;
-                GameObject parent = poolItem.parent;
-                int initialSize = poolItem.initialSize;
-
-                if (!objectPools.ContainsKey(prefab))
+                if (!objectPools.ContainsKey(poolItem.prefab))
                 {
-                    objectPools[prefab] = new Queue<GameObject>();
+                    objectPools[poolItem.prefab] = new Queue<GameObject>();
                 }
 
-                // 初期サイズ分オブジェクトを生成してプールに格納
-                for (int i = 0; i < initialSize; i++)
+                for (int i = 0; i < poolItem.initialSize; i++)
                 {
-                    GameObject newObject = Instantiate(prefab);
-                    newObject.SetActive(false); // 初期状態は非アクティブ
-                    newObject.transform.SetParent(parent.transform); // Object Pool の子オブジェクトとして配置
-                    objectPools[prefab].Enqueue(newObject);   // プールに格納
+                    GameObject newObject = Instantiate(poolItem.prefab);
+                    newObject.SetActive(false);
+                    newObject.transform.SetParent(poolItem.parent.transform);
+                    objectPools[poolItem.prefab].Enqueue(newObject);
                 }
             }
         }
+
 
         // プレハブからオブジェクトを取得する
         public GameObject GetObject(GameObject prefab)
@@ -78,33 +73,36 @@ namespace TechC
         // オブジェクトをプールに返却する
         public void ReturnObject(GameObject obj)
         {
-            // オブジェクトを非アクティブにしてからプールに戻す
-            obj.SetActive(false);
+            obj.SetActive(false); // オブジェクトを非アクティブにする
             GameObject prefab = GetPrefabFromObject(obj);
 
             if (prefab != null && objectPools.ContainsKey(prefab))
             {
                 obj.transform.SetParent(GetParentFromPrefab(prefab).transform); // プールの親オブジェクトに設定
-                objectPools[prefab].Enqueue(obj);    // プールに戻す
+                objectPools[prefab].Enqueue(obj); // プールに戻す
             }
             else
             {
+                Debug.LogWarning($"オブジェクトの返却が失敗しました: {obj.name}。プールに紐づいていない可能性があります。");
                 Destroy(obj); // プレハブが見つからなければオブジェクトを破棄
             }
         }
+
 
         // オブジェクトからそのプレハブを取得する
         private GameObject GetPrefabFromObject(GameObject obj)
         {
             foreach (var kvp in objectPools)
             {
-                if (kvp.Value.Contains(obj))
+                if (obj.name.Contains(kvp.Key.name)) // 名前が一致する場合に対応
                 {
                     return kvp.Key;
                 }
             }
+            Debug.LogWarning($"対応するプレハブが見つかりませんでした: {obj.name}");
             return null;
         }
+
 
         // プレハブから親オブジェクトを取得する
         private GameObject GetParentFromPrefab(GameObject prefab)

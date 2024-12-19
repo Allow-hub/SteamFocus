@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1408227965992968894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8730189219081672131}
+  - component: {fileID: 1339411271388795892}
+  m_Layer: 0
+  m_Name: ShotCar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8730189219081672131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408227965992968894}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5588602220579191699}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1339411271388795892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408227965992968894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e824b1f05a8947740b741a823206bba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explain: "\u8ECA\u3068\u30D0\u30A4\u30AF\u3092\u30E9\u30F3\u30C0\u30E0\u306B\u524D\u65B9\u306B\u98DB\u3070\u3057\u3066\n\u5439\u3063\u98DB\u3070\u3059"
+  objectPool: {fileID: 0}
+  intervalRange: {x: 1, y: 4}
+  forceRange: {x: 30, y: 50}
+  createRange: {x: 2, y: 5}
+  createObj:
+  - {fileID: 3556458695951136660, guid: d0c947fa9de8d0d478e1f496aa0f5a99, type: 3}
+  - {fileID: 8232485712566602773, guid: c919fe43bbe3fab488604b72af9828e5, type: 3}
+  - {fileID: 5419176925815967055, guid: 8de83c73ec9c5e3448f4af9b5432f0bb, type: 3}
+  appearDuration: 5
+  diraction: {x: 0, y: 0, z: 1}
+  centerPosition: {fileID: 5588602220579191699}
+  areaSize: {x: 30, y: 20}
+--- !u!1 &6540981805204004492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5588602220579191699}
+  m_Layer: 0
+  m_Name: CenterPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5588602220579191699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6540981805204004492}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8730189219081672131}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
