@@ -9,7 +9,6 @@ namespace TechC
         [SerializeField] private float speed = 3f;
         [SerializeField] private Transform[] points;
         [SerializeField] private float waitTime = 1.0f;
-        [SerializeField] private GameObject Ball;
 
         private int currentpointIndex = 0;
         private bool isWaiting = false;
@@ -66,11 +65,25 @@ namespace TechC
         {
             if (direction != Vector3.zero)
             {
+                // 現在のY位置を保持し、XとZを固定
+                Vector3 currentRotation = rb.rotation.eulerAngles;
+
+                // XZ平面上の方向を保つ
                 Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
 
-                Quaternion targetRotation = Quaternion.LookRotation(flatDirection) * Quaternion.Euler(0, 90, 0);
+                // 目標回転を作成（X回転は-90に固定）
+                Quaternion targetRotation = Quaternion.LookRotation(flatDirection) * Quaternion.Euler(0, 180, 0);
 
-                rb.rotation = Quaternion.RotateTowards(rb.rotation, targetRotation, 360 * Time.deltaTime);
+                // X軸とZ軸の回転を保持し、Y軸のみ更新
+                float fixedX = currentRotation.x;
+                float fixedZ = currentRotation.z;
+                float targetY = targetRotation.eulerAngles.y + 180f;
+
+                // 回転を更新
+                Quaternion finalRotation = Quaternion.Euler(fixedX, targetY, fixedZ);
+
+                // 回転のみ変更し、位置には影響を与えないようにする
+                rb.MoveRotation(finalRotation);
             }
         }
     }

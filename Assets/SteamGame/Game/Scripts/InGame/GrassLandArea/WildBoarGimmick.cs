@@ -15,7 +15,7 @@ namespace TechC
         [SerializeField] private float waitTime = 1.0f; // 次の目的地まで待つ時間
         [SerializeField] private GameObject Ball;
 
-        private int currentpointIndex = 0; //現在の目的地のインデックス
+        private int currentPointIndex = 0; //現在の目的地のインデックス
         private bool isWaiting = false; // 停止中かどうか
         private float currentSpeed = 0.0f; // 現在速度
 
@@ -39,7 +39,7 @@ namespace TechC
         private void Move()
         {
             // 現在の目的地までの距離を確認
-            Transform targetPoint = points[currentpointIndex];
+            Transform targetPoint = points[currentPointIndex];
             Vector3 direction = targetPoint.position - transform.position;
             float distance = direction.magnitude;
 
@@ -81,7 +81,7 @@ namespace TechC
             currentSpeed = 0; // 速度をリセット
             yield return new WaitForSeconds(waitTime);
             isWaiting = false; // 停止フラグを解除
-            currentpointIndex = (currentpointIndex + 1) % points.Length; // 次の目的地に切り替え
+            currentPointIndex = (currentPointIndex + 1) % points.Length; // 次の目的地に切り替え
 
         }
 
@@ -91,7 +91,7 @@ namespace TechC
             {
                 // Y軸方向のみで回転を計算
                 Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
-                Quaternion targetRotation = Quaternion.LookRotation(flatDirection) * Quaternion.Euler(0, 90, 0);
+                Quaternion targetRotation = Quaternion.LookRotation(flatDirection) * Quaternion.Euler(0, -90, 0);
                 // 回転を現在の回転に向けてスムーズに補間
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360 * Time.deltaTime);
             }

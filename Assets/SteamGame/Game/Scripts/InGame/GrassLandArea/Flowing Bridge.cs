@@ -7,25 +7,19 @@ namespace TechC
     public class FlowingBridge : MonoBehaviour
     {
         [SerializeField] GameObject bridge;
+        [SerializeField] GameObject spawnPoint;
 
-        private float spawnTimer;
+        private float spawnTimer = 0f;
 
-        private GameObject spawnPoint;
-
-        void Start()
-        {
-            spawnTimer = 0;
-        }
 
         void Update()
         {
             spawnTimer += Time.deltaTime;
 
-            if (spawnTimer <= 0)
+            if (spawnTimer >= 0)
             {
-                GameObject randamPoint = spawnPoint;
-                Instantiate(bridge, randamPoint.transform.position, Quaternion.identity);
-                spawnTimer = 1;
+                Instantiate(bridge, spawnPoint.transform.position, Quaternion.identity);
+                spawnTimer = 0;
             }
 
         }
