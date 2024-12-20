@@ -14,6 +14,8 @@ namespace TechC
 
         [Header("レイヤー設定")]
         [SerializeField] private LayerMask layerMask;  // 衝突するレイヤーを指定
+        [SerializeField] private bool isDrawing;
+        const int gizmosLenge = 30;
 
         private void OnCollisionStay(Collision collision)
         {
@@ -23,6 +25,14 @@ namespace TechC
                 var rb = collision.gameObject.GetComponent<Rigidbody>();
                 rb.MovePosition( rb.position + moveDirection.normalized * speed * Time.deltaTime);
             }
+        }
+        private void OnDrawGizmos()
+        {
+            if (!isDrawing) return;
+            Gizmos.color = Color.red;
+            Vector3 startPoint = transform.position;
+            Vector3 endPoint = startPoint + moveDirection.normalized * gizmosLenge;
+            Gizmos.DrawLine(startPoint, endPoint);
         }
     }
 }
