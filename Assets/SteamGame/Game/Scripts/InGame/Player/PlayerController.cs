@@ -50,6 +50,18 @@ namespace TechC
 
         private float initJumpForce;
 
+        //void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+        //{
+        //    if (info.Sender.IsLocal)
+        //    {
+        //        Debug.Log("自身がネットワークオブジェクトを生成しました");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+        //    }
+        //}
+
         private void Awake()
         {
             if(ballRb == null)

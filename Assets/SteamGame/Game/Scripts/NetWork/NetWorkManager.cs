@@ -7,6 +7,8 @@ namespace TechC
     public class NetWorkManager : MonoBehaviourPunCallbacks
     {
         [SerializeField] private Transform pos;
+        [SerializeField] private Transform avatarParent;
+
         private void Awake()
         {
             PhotonNetwork.NickName = "Player";
@@ -26,7 +28,8 @@ namespace TechC
         {
             // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
             var position =pos.position;
-            PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+            var obj =  PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+            obj.transform.SetParent(avatarParent);
         }
     }
 }

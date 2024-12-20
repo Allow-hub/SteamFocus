@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2248,6 +2248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: {fileID: 98796933}
+  avatarParent: {fileID: 1980267346}
 --- !u!4 &382061798
 Transform:
   m_ObjectHideFlags: 0
@@ -60897,6 +60898,12 @@ Transform:
   - {fileID: 2106493652}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1608838350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3455203271297151185, guid: 5c26fc78e5d507e45a436de302673157,
+    type: 3}
+  m_PrefabInstance: {fileID: 8988348986752331632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1626359559
 GameObject:
   m_ObjectHideFlags: 0
@@ -62751,6 +62758,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 509306616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1980267345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980267346}
+  m_Layer: 0
+  m_Name: AvatarParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1980267346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980267345}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6370785, y: -4.162428, z: 0.80000114}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1999422161
 GameObject:
@@ -64680,7 +64718,7 @@ PrefabInstance:
     - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
         type: 3}
       propertyPath: poolItems.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
         type: 3}
@@ -64696,6 +64734,11 @@ PrefabInstance:
         type: 3}
       propertyPath: poolItems.Array.data[6].name
       value: Bike
+      objectReference: {fileID: 0}
+    - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
+        type: 3}
+      propertyPath: poolItems.Array.data[7].name
+      value: ReinforcementBar
       objectReference: {fileID: 0}
     - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
         type: 3}
@@ -64749,6 +64792,17 @@ PrefabInstance:
       propertyPath: poolItems.Array.data[6].prefab
       value: 
       objectReference: {fileID: 3556458695951136660, guid: d0c947fa9de8d0d478e1f496aa0f5a99,
+        type: 3}
+    - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
+        type: 3}
+      propertyPath: poolItems.Array.data[7].parent
+      value: 
+      objectReference: {fileID: 1608838350}
+    - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
+        type: 3}
+      propertyPath: poolItems.Array.data[7].prefab
+      value: 
+      objectReference: {fileID: 6167285744191758674, guid: e9a2598343145614a87822d120049214,
         type: 3}
     - target: {fileID: 3770086932313449182, guid: 5c26fc78e5d507e45a436de302673157,
         type: 3}
@@ -64850,3 +64904,4 @@ SceneRoots:
   - {fileID: 1383423949}
   - {fileID: 3255337381410959590}
   - {fileID: 89126042674784976}
+  - {fileID: 1980267346}
