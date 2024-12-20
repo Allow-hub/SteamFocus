@@ -10,7 +10,7 @@ namespace TechC
     public class PlayerController : MonoBehaviourPunCallbacks
     {
         [SerializeField] private Vector3 localGravity;
-
+        [SerializeField] private float delayStart = 0.5f;
         [SerializeField] private Animator anim;
         private PlayerInputController playerInput;
         private Rigidbody rb;
@@ -50,17 +50,11 @@ namespace TechC
 
         private float initJumpForce;
 
-        //void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
-        //{
-        //    if (info.Sender.IsLocal)
-        //    {
-        //        Debug.Log("自身がネットワークオブジェクトを生成しました");
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
-        //    }
-        //}
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            StartCoroutine(DelayStart());
+        }
 
         private void Awake()
         {
@@ -81,6 +75,7 @@ namespace TechC
 
         private void Update()
         {
+            if (!GameManager.I.canPlay) return;
             if (photonView.IsMine)
             {
                 // ジャンプやタックルの処理
@@ -91,6 +86,8 @@ namespace TechC
 
         private void FixedUpdate()
         {
+            if (!GameManager.I.canPlay) return;
+
             if (photonView.IsMine)
             {
                 // 物理演算を使った移動処理
@@ -263,5 +260,14 @@ namespace TechC
             playerRb.AddForce(launchVelocity, ForceMode.VelocityChange);
         }
 
+
+        private IEnumerator DelayStart()
+        {
+            rb.isKinematic = true;
+            yield return new WaitUntil(() => GameManager.I.canPlay);
+            yield return new WaitForSeconds(delayStart);
+            rb.isKinematic = false;
+
+        }
     }
 }
