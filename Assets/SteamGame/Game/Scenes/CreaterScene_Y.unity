@@ -1757,7 +1757,7 @@ MonoBehaviour:
   explain: "\u4E57\u308B\u3068\u30DC\u30FC\u30EB\u304C\u52D5\u304F"
   moveDirection: {x: -1, y: 0, z: 0}
   speed: 50
-  avatarParentName: 
+  avatarParentName: AvatarParent
   layerMask:
     serializedVersion: 2
     m_Bits: 256

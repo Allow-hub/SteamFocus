@@ -29,6 +29,7 @@ namespace TechC
             // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
             var position =pos.position;
             var obj =  PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+            if (avatarParent == null) return;
             obj.transform.SetParent(avatarParent);
         }
     }
