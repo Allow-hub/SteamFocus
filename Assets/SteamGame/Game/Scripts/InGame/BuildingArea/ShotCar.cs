@@ -48,8 +48,10 @@ namespace TechC
             if (elapsedTime > currentInterval)
             {
                 for (int i = 0; i < currentCreateNum; i++)
+                {
                     CreateObj();
-                Lottery();
+                    Lottery();
+                }
             }
         }
 
