@@ -29,7 +29,9 @@ namespace TechC
         //    // 衝突が続いている間もオブジェクトを動かし続ける
         //    if (((1 << collision.gameObject.layer) & layerMask) != 0)
         //    {
-        //        avatarParent.transform.SetParent(avatarParent.transform);
+        //        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        //        rb.useGravity = false;
+        //        //avatarParent.transform.SetParent(avatarParent.transform);
         //    }
         //}
         //private void OnCollisionExit(Collision collision)
@@ -37,7 +39,9 @@ namespace TechC
         //    // 衝突が続いている間もオブジェクトを動かし続ける
         //    if (((1 << collision.gameObject.layer) & layerMask) != 0)
         //    {
-        //        avatarParent.transform.parent = null;
+        //        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        //        rb.useGravity = true;
+        //        //avatarParent.transform.parent = null;
         //    }
         //}
         private void OnCollisionStay(Collision collision)
@@ -45,6 +49,7 @@ namespace TechC
             // 衝突が続いている間もオブジェクトを動かし続ける
             if (((1 << collision.gameObject.layer) & layerMask) != 0)
             {
+                Debug.Log("A");
                 var rb = collision.gameObject.GetComponent<Rigidbody>();
                 rb.MovePosition( rb.position + moveDirection.normalized * speed * Time.deltaTime);
             }
