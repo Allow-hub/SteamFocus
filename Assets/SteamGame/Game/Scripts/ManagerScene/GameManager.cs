@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
+using Photon.Realtime;
+using Photon.Pun;
 
 namespace TechC
 {
@@ -11,6 +12,7 @@ namespace TechC
         public enum GameState
         {
             Title,
+            NetWarkSetting,
             Menu,       // メニュー
             Tutorial,
             Grassland,  // 草原エリア
@@ -24,11 +26,17 @@ namespace TechC
             Factory,    // 工場エリア
             GameClear
         }
+
+        public bool isDebug=true;
+        public bool canPlay =false;
+
         public float sensitivity = 2;
         public GameState currentState;
         public GameState lastState;
-        [SerializeField] private GameObject menuCanvas;
+        [SerializeField] private GameObject menuCanvas,matchCanvas;
         private const int targetFrameRate = 144;
+
+        private List<GameObject> activePlayers = new List<GameObject>();
 
         protected override void Init()
         {
@@ -41,7 +49,7 @@ namespace TechC
             Application.targetFrameRate = targetFrameRate;
 
             // 初期状態を設定（例: Title）
-            SetState(GameState.Tutorial);
+            SetState(GameState.NetWarkSetting);
             
         }
 
@@ -92,6 +100,9 @@ namespace TechC
                     break;
                 case GameState.GameClear:
                     HandleGameClearState();
+                    break;
+                case GameState.NetWarkSetting:
+                    HandleNetWarkSettingState();
                     break;
                 default:
                     Debug.LogWarning("Unknown GameState: " + currentState);
@@ -147,6 +158,9 @@ namespace TechC
                 case GameState.GameClear:
                     GameClearInit();
                     break;
+                case GameState.NetWarkSetting:
+                    NetWarkSettingInit();
+                    break;
             }
         }
 
@@ -187,6 +201,21 @@ namespace TechC
             }
         }
 
+        public void AddListPlayer(GameObject obj)
+        {
+            activePlayers.Add(obj);
+        }
+
+        public GameObject GetPlayer(int playerIndex)
+        {
+            if (playerIndex < 0 || playerIndex >= activePlayers.Count)
+            {
+                Debug.LogWarning("Invalid player index: " + playerIndex);
+                return null;
+            }
+            return activePlayers[playerIndex];
+        }
+        public int GetActivePlayerCount() { return activePlayers.Count; }      
 
         private void TitleInit() => ChangeCursorMode(true, CursorLockMode.None);
         private void MenuInit()
@@ -194,7 +223,17 @@ namespace TechC
             menuCanvas.SetActive(true);
             ChangeCursorMode(true, CursorLockMode.None);
         }
-        private void TutorialInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void NetWarkSettingInit()
+        {
+            canPlay = false;
+            matchCanvas.SetActive(true);
+            ChangeCursorMode(true, CursorLockMode.None);
+        }
+
+        private void TutorialInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+        }
         private void GrasslandInit() => Debug.Log("Initializing Grassland State");
         private void DesertInit() => Debug.Log("Initializing Desert State");
         private void BuildingInit() => Debug.Log("Initializing Building State");
@@ -208,6 +247,27 @@ namespace TechC
 
         private void HandleTitleState() => Debug.Log("A");
         private void HandleMenuState() => Debug.Log("Handling Menu State");
+        private void HandleNetWarkSettingState()
+        {
+            int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;  
+            if (isDebug)
+            {
+                if(playerCount == 1)
+                {
+                    canPlay = true;
+                    ChangeTutorialState();
+                } 
+            }
+            else
+            {
+                /// プレイヤーがそろうまでの処理をここに書く
+                if (playerCount == 2)
+                {
+                    canPlay = true;
+                    ChangeTutorialState();
+                }
+            }
+        }
         private void HandleTutorialState() => Debug.Log("Handling Tutorial State");
         private void HandleGrasslandState() => Debug.Log("Handling Grassland State");
         private void HandleDesertState() => Debug.Log("Handling Desert State");
@@ -224,6 +284,7 @@ namespace TechC
         /// ステートを変更したい場合
         /// </summary>
         public void ChangeTitleState() => SetState(GameState.Title);
+        public void ChangeNetWarkSettingState() => SetState(GameState.NetWarkSetting);
         public void ChangeMenuState() => SetState(GameState.Menu);
         public void ChangeTutorialState() => SetState(GameState.Tutorial);
         public void ChangeGrasslandState() => SetState(GameState.Grassland);

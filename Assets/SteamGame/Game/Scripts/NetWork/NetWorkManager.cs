@@ -20,7 +20,9 @@ namespace TechC
         public override void OnConnectedToMaster()
         {
             // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
-            PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+            //PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+            PhotonNetwork.JoinLobby();
+
         }
 
         // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
@@ -31,6 +33,7 @@ namespace TechC
             var obj =  PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
             if (avatarParent == null) return;
             obj.transform.SetParent(avatarParent);
+            GameManager.I.AddListPlayer(obj);
         }
     }
 }
