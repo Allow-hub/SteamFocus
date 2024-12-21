@@ -97,6 +97,7 @@ Transform:
   - {fileID: 7148745726209545272}
   - {fileID: 175392652482599951}
   - {fileID: 6935943734054305595}
+  - {fileID: 8708994257742918854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3770086932313449182
@@ -149,6 +150,10 @@ MonoBehaviour:
     prefab: {fileID: 6167285744191758674, guid: e9a2598343145614a87822d120049214,
       type: 3}
     parent: {fileID: 3455203271297151185}
+    initialSize: 30
+  - name: Bomb
+    prefab: {fileID: 493068205811900896, guid: adc6d7df183803647896aafb2995368b, type: 3}
+    parent: {fileID: 8631211899728538195}
     initialSize: 30
 --- !u!1 &3455203271297151185
 GameObject:
@@ -237,6 +242,37 @@ Transform:
   m_GameObject: {fileID: 6833997695727669866}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3898146121885037436}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8631211899728538195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8708994257742918854}
+  m_Layer: 0
+  m_Name: BombParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8708994257742918854
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8631211899728538195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
