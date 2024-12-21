@@ -25,13 +25,12 @@ namespace TechC
         }
 
      
-        private void OnCollisionStay(Collision collision)
+        private void OnTriggerStay(Collider col)
         {
             // 衝突が続いている間もオブジェクトを動かし続ける
-            if (((1 << collision.gameObject.layer) & layerMask) != 0)
+            if (((1 << col.gameObject.layer) & layerMask) != 0)
             {
-                Debug.Log("A");
-                var rb = collision.gameObject.GetComponent<Rigidbody>();
+                var rb = col.gameObject.GetComponent<Rigidbody>();
                 rb.MovePosition( rb.position + moveDirection.normalized * speed * Time.deltaTime);
             }
         }
