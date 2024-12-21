@@ -24,26 +24,7 @@ namespace TechC
             avatarParent = GameObject.Find(avatarParentName);
         }
 
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    // 衝突が続いている間もオブジェクトを動かし続ける
-        //    if (((1 << collision.gameObject.layer) & layerMask) != 0)
-        //    {
-        //        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-        //        rb.useGravity = false;
-        //        //avatarParent.transform.SetParent(avatarParent.transform);
-        //    }
-        //}
-        //private void OnCollisionExit(Collision collision)
-        //{
-        //    // 衝突が続いている間もオブジェクトを動かし続ける
-        //    if (((1 << collision.gameObject.layer) & layerMask) != 0)
-        //    {
-        //        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-        //        rb.useGravity = true;
-        //        //avatarParent.transform.parent = null;
-        //    }
-        //}
+     
         private void OnCollisionStay(Collision collision)
         {
             // 衝突が続いている間もオブジェクトを動かし続ける
