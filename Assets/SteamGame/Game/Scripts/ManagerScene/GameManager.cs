@@ -249,6 +249,7 @@ namespace TechC
         private void HandleMenuState() => Debug.Log("Handling Menu State");
         private void HandleNetWarkSettingState()
         {
+            if (PhotonNetwork.CurrentRoom == null) return;
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;  
             if (isDebug)
             {
