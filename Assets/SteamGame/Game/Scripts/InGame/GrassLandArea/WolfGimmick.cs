@@ -1,77 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 
 namespace TechC
 {
     public class WolfGimmick : MonoBehaviour
     {
-        [SerializeField] private Transform player;
-        [SerializeField] private float chaseRange = 10f; // 縄張りの半径
-        [SerializeField] private float stopChaseRange = 15f;
-        [SerializeField] private float patrolSpeed = 2f; // 通常時のスピード
-        [SerializeField] private float chaseSpeed = 5f; // 追いかけるときのスピード
-        [SerializeField] private Vector3 initialPosition; // 元の位置
+        [SerializeField] Transform Ball;  // ボールのオブジェクト
+        [SerializeField] string TerritoryTag = "Territory";  // 縄張りのタグ
+        [SerializeField] float TerritoryRadius = 5f;  // 縄張りの半径
 
-        private NavMeshAgent agent;
-        private bool isChasing = false; // 追いかけ状態か
+        private Vector3 originalPosition;  // 狼の元々の位置
+        private NavMeshAgent Nav;  // ナビメッシュエージェント
 
         void Start()
         {
-            agent = GetComponent<NavMeshAgent>();
-
-            if (initialPosition == Vector3.zero)
-            {
-                initialPosition = transform.position;
-            }
-
-            agent.speed = patrolSpeed;
+            Nav = GetComponent<NavMeshAgent>();
+            originalPosition = transform.position;  // 最初の位置を保存
         }
 
         void Update()
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-            if (distanceToPlayer <= chaseRange)
+            // ボールが縄張り内にいるかをチェック
+            if (Vector3.Distance(transform.position, Ball.position) <= TerritoryRadius)
             {
-                StartChasing();
-            }
-            else if (distanceToPlayer > stopChaseRange && isChasing)
-            {
-                StopChasing();
-            }
-
-            if (isChasing)
-            {
-                // プレイヤーを追いかける
-                agent.SetDestination(player.position);
+                // ボールが縄張り内にいる場合、ボールを追いかける
+                if (Ball.CompareTag("Ball"))
+                {
+                    Nav.SetDestination(Ball.position);
+                }
             }
             else
             {
-                // 元の位置に戻る
-                agent.SetDestination(initialPosition);
-            }
-
-        }
-
-        private void StartChasing()
-        {
-            if (isChasing)
-            {
-                isChasing = true;
-                agent.speed = chaseSpeed; // 追いかける速度に切り替え
-                Debug.Log("追跡開始");
+                // ボールが縄張り外に出た場合、元の位置に戻る
+                Nav.SetDestination(originalPosition);
             }
         }
 
-        private void StopChasing()
+        // Optional: トリガーでボールの出入りを検出
+        private void OnTriggerEnter(Collider other)
         {
-            if (isChasing)
+            if (other.CompareTag("Ball"))
             {
-                isChasing = false;
-                agent.speed = patrolSpeed;
-                Debug.Log("追跡停止");
+                // ボールが縄張りに入ったときに追いかける
+                Nav.SetDestination(Ball.position);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Ball"))
+            {
+                // ボールが縄張りから出たときに元の位置に戻る
+                Nav.SetDestination(originalPosition);
             }
         }
     }
