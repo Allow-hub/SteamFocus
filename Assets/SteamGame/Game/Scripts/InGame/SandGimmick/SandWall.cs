@@ -59,7 +59,7 @@ public class SandWall : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("ball"))
         {
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             if (rb != null)
