@@ -52,6 +52,7 @@ namespace TechC
                     CreateObj();
                     Lottery();
                 }
+                EndLottery();
             }
         }
 
@@ -69,6 +70,11 @@ namespace TechC
 
             // ランダムな力とインターバルを設定
             currentForce = Random.Range(forceRange.x, forceRange.y);
+        }
+
+        private void EndLottery()
+        {
+
             currentInterval = Random.Range(intervalRange.x, intervalRange.y);
             currentCreateNum = (int)Random.Range(createRange.x, createRange.y);
 
