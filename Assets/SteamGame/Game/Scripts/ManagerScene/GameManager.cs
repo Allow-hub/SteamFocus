@@ -27,13 +27,13 @@ namespace TechC
             GameClear
         }
 
-        public bool isDebug=true;
-        public bool canPlay =false;
+        public bool isDebug = true;
+        public bool canPlay = false;
 
         public float sensitivity = 2;
         public GameState currentState;
         public GameState lastState;
-        [SerializeField] private GameObject menuCanvas,matchCanvas;
+        [SerializeField] private GameObject menuCanvas, matchCanvas;
         private const int targetFrameRate = 144;
 
         private List<GameObject> activePlayers = new List<GameObject>();
@@ -50,7 +50,7 @@ namespace TechC
 
             // ‰Šúó‘Ô‚ðÝ’èi—á: Titlej
             SetState(GameState.NetWarkSetting);
-            
+
         }
 
         private void Update()
@@ -112,9 +112,9 @@ namespace TechC
 
         public void SetState(GameState state)
         {
-            lastState =currentState;
+            lastState = currentState;
             currentState = state;
-            if(currentState !=GameState.Menu) 
+            if (currentState != GameState.Menu)
                 menuCanvas.SetActive(false);
 
             switch (currentState)
@@ -215,7 +215,7 @@ namespace TechC
             }
             return activePlayers[playerIndex];
         }
-        public int GetActivePlayerCount() { return activePlayers.Count; }      
+        public int GetActivePlayerCount() { return activePlayers.Count; }
 
         private void TitleInit() => ChangeCursorMode(true, CursorLockMode.None);
         private void MenuInit()
@@ -250,14 +250,14 @@ namespace TechC
         private void HandleNetWarkSettingState()
         {
             if (PhotonNetwork.CurrentRoom == null) return;
-            int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;  
+            int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
             if (isDebug)
             {
-                if(playerCount == 1)
+                if (playerCount == 1)
                 {
                     canPlay = true;
                     ChangeTutorialState();
-                } 
+                }
             }
             else
             {
@@ -298,7 +298,7 @@ namespace TechC
         public void ChangeVolcanoState() => SetState(GameState.Volcano);
         public void ChangeFactoryState() => SetState(GameState.Factory);
         public void ChangeGameClearState() => SetState(GameState.GameClear);
-        public void ChangeLastState()=> SetState(lastState);
+        public void ChangeLastState() => SetState(lastState);
         public bool IsTutorialArea() => currentState == GameState.Tutorial;
         public bool IsGrasslandArea() => currentState == GameState.Grassland;
         public bool IsDesertArea() => currentState == GameState.Desert;
