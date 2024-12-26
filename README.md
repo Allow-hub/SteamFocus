@@ -1,10 +1,17 @@
 矢萩担当箇所
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/InGame/Player
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/InGame/BuildingArea
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/InGame/FactoryArea
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/InGame/VolcanoArea
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/ManagerScene
+
 https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Scripts/NetWork
+
 等です
 
 
