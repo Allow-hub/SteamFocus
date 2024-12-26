@@ -14,6 +14,9 @@ https://github.com/Allow-hub/SteamFocus/tree/master/Assets/SteamGame/Game/Script
 
 等です
 
+概要
+
+バブルボールの中に複数人で入り上にのぼる苦行系協力アクションゲーム
 
 制作途中のプロジェクトです 🚧
 現在、このプロジェクトは制作途中です。一部の機能や要素が未完成、または調整中です。
