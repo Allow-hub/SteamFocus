@@ -15,36 +15,52 @@ namespace TechC
         [SerializeField] private float smokeDuration = 2f; // 蒸気エフェクトの表示時間
         [SerializeField] private GameObject smokeEffect;
 
+        [SerializeField] private bool isShooting =false; //常に蒸気を出すかどうか
+
         private bool isPlaying = false;
 
         private bool isPlayerInArea = false;
         private Rigidbody playerRb;
         private float timer;
 
-        private void Awake()
+        private void OnValidate()
         {
-            smokeEffect.SetActive(false);
+            if(!isShooting)
+                smokeEffect.SetActive(false);
+            else
+                smokeEffect.SetActive(true);
         }
 
         private void Update()
         {
-            // 噴射タイミングをカウント
-            if (!isPlaying)
-                timer += Time.deltaTime;
-
-            // 一定時間ごとに噴射を行う
-            if (timer >= steamInterval)
+            if(isShooting)
             {
                 // プレイヤーがエリア内にいる場合、上に飛ばす
                 if (isPlayerInArea && playerRb != null)
                 {
                     LaunchPlayer();
                 }
+            }
+            else
+            {
+                // 噴射タイミングをカウント
+                if (!isPlaying)
+                    timer += Time.deltaTime;
 
-                // 蒸気エフェクトを表示
-                StartCoroutine(ShowSmokeEffect());
+                // 一定時間ごとに噴射を行う
+                if (timer >= steamInterval)
+                {
+                    // プレイヤーがエリア内にいる場合、上に飛ばす
+                    if (isPlayerInArea && playerRb != null)
+                    {
+                        LaunchPlayer();
+                    }
 
-                timer = 0f; // タイマーをリセット
+                    // 蒸気エフェクトを表示
+                    StartCoroutine(ShowSmokeEffect());
+
+                    timer = 0f; // タイマーをリセット
+                }
             }
         }
 

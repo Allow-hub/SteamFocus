@@ -23,6 +23,9 @@ namespace TechC
         [SerializeField]
         private float restitution = 0.5f;
 
+        private float playerRestitution = 0.5f;
+        private Vector2 clampVelocityRange = new Vector2(-200, 200);
+
         private Rigidbody _rb;
         private CapsuleCollider _collider;
 
@@ -96,14 +99,27 @@ namespace TechC
                 if (velocityAlongNormal > 0)
                     return;
 
+
+                //// 衝突時のエネルギー交換
+                //var j = -(1 + restitution) * velocityAlongNormal;
+                //j /= 1 / _rb.mass + 1 / ball.Rb.mass; // 質量による調整
+
+                //var impulse = normal * j;
+
+                //_rb.AddForce(impulse, ForceMode.Impulse);
+                //ball.Rb.AddForce(-impulse, ForceMode.Impulse);
+
+
                 // 衝突時のエネルギー交換
                 var j = -(1 + restitution) * velocityAlongNormal;
+                j = Mathf.Clamp(j, clampVelocityRange.x, clampVelocityRange.y); // インパルスの最大値を制限
                 j /= 1 / _rb.mass + 1 / ball.Rb.mass; // 質量による調整
 
                 var impulse = normal * j;
 
-                _rb.AddForce(impulse, ForceMode.Impulse);
-                ball.Rb.AddForce(-impulse, ForceMode.Impulse);
+                _rb.AddForce(impulse * playerRestitution, ForceMode.Impulse); // プレイヤーに半分の力
+                ball.Rb.AddForce(-impulse, ForceMode.Impulse);  // ボールに通常の力
+
             }
 
             Vector3 CalculatePenetration(Vector3 point, float penetration)

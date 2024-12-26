@@ -41,6 +41,7 @@ namespace TechC
 
         [Header("Jump")]
         [SerializeField] private float jumpForce = 3f;            // ジャンプ力
+        private float jumpForwardForce = 100f; 
         [SerializeField] private float jumpCoolTime = 1f;         // ジャンプのクールタイム
         [SerializeField] private float teamJumpForce;
 
@@ -180,7 +181,13 @@ namespace TechC
         private void Jump()
         {
             //Break(Vector3.zero);
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // ジャンプの力
+            Vector3 jumpForceVector = Vector3.up * jumpForce;
+
+            // 前方向の力
+            Vector3 forwardForceVector = transform.forward * jumpForwardForce;
+            // 合成した力を加える
+            rb.AddForce(jumpForceVector + forwardForceVector, ForceMode.Impulse);
         }
 
         private IEnumerator CoolTime(bool isJump)
