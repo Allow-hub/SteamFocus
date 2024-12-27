@@ -5,7 +5,7 @@ namespace TechC
 {
     public class GoalManager : MonoBehaviour
     {
-        [SerializeField] private Transform goalCenter;
+        //[SerializeField] private Transform goalCenter;
         [SerializeField] private float goalRadius;
         [SerializeField] private float goalCount = 3;
 
