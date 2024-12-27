@@ -100,7 +100,8 @@ namespace TechC
         // “–‚½‚Á‚½‚Æ‚«‚Ìˆ—
         public void TouchLaser(GameObject obj)
         {
-            obj.transform.position = targetPos.position;
+            Debug.Log("Touch");
+            //obj.transform.position = targetPos.position;
         }
     }
 }

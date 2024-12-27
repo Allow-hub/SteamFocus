@@ -10,6 +10,7 @@ namespace TechC
         [SerializeField] private ObjectPool objectPool;
         [SerializeField] private GameObject createPrefab;
 
+        [SerializeField] private float appearTime = 10;
         [SerializeField] private int createNum = 1;       // 1度に生成する個数
         [SerializeField] private Transform createPosParent;
         [SerializeField] private Transform[] createPos;  // 生成位置の配列
@@ -25,6 +26,8 @@ namespace TechC
         [SerializeField] private Vector3 rotateDirection;
         private int currentIndex = 0; // 配列内の現在のインデックス
 
+        private List<GameObject> activeObj = new List<GameObject>();
+
         private void OnValidate()
         {
             objectPool = FindObjectOfType<ObjectPool>();
@@ -39,6 +42,7 @@ namespace TechC
         private void Start()
         {
             StartCoroutine(CreateObjectsRoutine());
+            StartCoroutine(ReturnOldObjectsRoutine()); // 古いオブジェクトを返却するルーチンを開始
         }
 
         private IEnumerator CreateObjectsRoutine()
@@ -54,6 +58,27 @@ namespace TechC
 
                 // すべて生成後にインターバルを待機
                 yield return new WaitForSeconds(interval);
+            }
+        }
+
+        private IEnumerator ReturnOldObjectsRoutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(appearTime); // 5秒ごとに処理
+                if (activeObj.Count > 0)
+                {
+                    GameObject oldestObj = activeObj[0];
+                    activeObj.RemoveAt(0); // リストから削除
+                    if (objectPool != null)
+                    {
+                        objectPool.ReturnObject(oldestObj); // オブジェクトプールに返却
+                    }
+                    else
+                    {
+                        Destroy(oldestObj); // プールがない場合は削除
+                    }
+                }
             }
         }
 
@@ -76,6 +101,9 @@ namespace TechC
                 rb.AddForce(direction.normalized * force, ForceMode.Impulse);
             }
 
+            // アクティブリストに追加
+            activeObj.Add(newObj);
+
             // 次の生成ポイントに進む
             currentIndex++;
             if (currentIndex >= createPos.Length)
@@ -92,7 +120,6 @@ namespace TechC
             Vector3 startPoint = transform.position;
             Vector3 endPoint = startPoint + direction.normalized * 10f;
             Gizmos.DrawLine(startPoint, endPoint);
-
         }
     }
 }
