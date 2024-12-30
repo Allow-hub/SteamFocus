@@ -16,11 +16,11 @@ namespace TechC
             Menu,       // メニュー
             Tutorial,
             Grassland,  // 草原エリア
-            Desert,     // 砂漠エリア
+            Desert,    // 砂漠エリア
             Building,   // 巨大ビルエリア
             Forest,     // 森エリア
-            Mountain,   // 山岳エリア
-            Cloud,      // 雲エリア
+            Mountain,   // 山岳エリア,森と統合
+            Cloud,      // 雲エリア,今回省略
             Ice,        // 氷エリア
             Volcano,    // 火山エリア
             Factory,    // 工場エリア
@@ -34,8 +34,12 @@ namespace TechC
         public GameState currentState;
         public GameState lastState;
         [SerializeField] private GameObject menuCanvas, matchCanvas;
+        
         private const int targetFrameRate = 144;
 
+        private SafeAreaPos safeAreaPos;
+        private GameObject ballObj;
+        private Transform currentCheckPoint;
         private List<GameObject> activePlayers = new List<GameObject>();
 
         protected override void Init()
@@ -201,11 +205,67 @@ namespace TechC
             }
         }
 
+
+        public  void GetSafeAreaPosScript()=> safeAreaPos = FindObjectOfType<SafeAreaPos>();
+        public void SetBallObj(GameObject obj)=>ballObj = obj;  
         public void AddListPlayer(GameObject obj)
         {
             activePlayers.Add(obj);
         }
 
+        public void BreakPlayer()
+        {
+            ballObj.SetActive(false);
+            currentCheckPoint = safeAreaPos.GetSafeAreaPos();
+            for (int i = 0; i < activePlayers.Count; i++)
+            {
+                Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
+                playerRb.isKinematic = true;
+                if (playerRb != null)
+                {
+                    Debug.Log(activePlayers.Count);
+
+                    // プレイヤーを山なりに移動させる
+                    LaunchPlayer(playerRb, currentCheckPoint.position);
+                }
+
+            }
+        }
+        /// <summary>
+        /// 指定の Rigidbody を山なりにターゲット位置まで移動させる
+        /// </summary>
+        /// <param name="playerRb">移動させる Rigidbody</param>
+        /// <param name="targetPosition">ターゲット位置</param>
+        private void LaunchPlayer(Rigidbody playerRb, Vector3 targetPosition)
+        {
+            Vector3 startPosition = playerRb.position;
+            Vector3 direction = targetPosition - startPosition;
+
+            // 距離がゼロの場合、無効な力を防ぐ
+            if (direction.sqrMagnitude <= 0.001f)
+            {
+                Debug.LogWarning("LaunchPlayer: Direction is too small, skipping launch.");
+                return;
+            }
+
+            float height = 5f;
+            float distance = new Vector3(direction.x, 0, direction.z).magnitude;
+
+            float gravity = Mathf.Abs(Physics.gravity.y);
+            float verticalSpeed = Mathf.Sqrt(2 * gravity * height);
+            float timeToApex = verticalSpeed / gravity;
+            float totalTime = timeToApex + Mathf.Sqrt(2 * (direction.y + height) / gravity);
+            float horizontalSpeed = distance / totalTime;
+
+            Vector3 horizontalVelocity = new Vector3(direction.x, 0, direction.z).normalized * horizontalSpeed;
+            Vector3 launchVelocity = horizontalVelocity + Vector3.up * verticalSpeed;
+
+            playerRb.isKinematic = false;
+            ballObj.SetActive(true);
+
+            playerRb.velocity = Vector3.zero; // 現在の速度をリセット
+            playerRb.AddForce(launchVelocity, ForceMode.VelocityChange);
+        }
         public GameObject GetPlayer(int playerIndex)
         {
             if (playerIndex < 0 || playerIndex >= activePlayers.Count)

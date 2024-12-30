@@ -215,56 +215,25 @@ namespace TechC
             isTaking = false;  // アタック終了
         }
 
-        public void Break(Vector3 checkPoint)
-        {
-            // プレイヤーオブジェクトを全取得
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            for (int i = 0; i < players.Length; i++)
-            {
-                Rigidbody playerRb = players[i].GetComponent<Rigidbody>();
+        //public void Break(Vector3 checkPoint)
+        //{
+        //    // プレイヤーオブジェクトを全取得
+        //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        //    for (int i = 0; i < players.Length; i++)
+        //    {
+        //        Rigidbody playerRb = players[i].GetComponent<Rigidbody>();
 
-                if (playerRb != null)
-                {
-                    Debug.Log(players.Length);
+        //        if (playerRb != null)
+        //        {
+        //            Debug.Log(players.Length);
 
-                    // プレイヤーを山なりに移動させる
-                    LaunchPlayer(playerRb, checkPoint);
-                }
-            }
-        }
+        //            // プレイヤーを山なりに移動させる
+        //            LaunchPlayer(playerRb, checkPoint);
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// 指定の Rigidbody を山なりにターゲット位置まで移動させる
-        /// </summary>
-        /// <param name="playerRb">移動させる Rigidbody</param>
-        /// <param name="targetPosition">ターゲット位置</param>
-        private void LaunchPlayer(Rigidbody playerRb, Vector3 targetPosition)
-        {
-            Vector3 startPosition = playerRb.position;
-            Vector3 direction = targetPosition - startPosition;
-
-            // 距離がゼロの場合、無効な力を防ぐ
-            if (direction.sqrMagnitude <= 0.001f)
-            {
-                Debug.LogWarning("LaunchPlayer: Direction is too small, skipping launch.");
-                return;
-            }
-
-            float height = 5f;
-            float distance = new Vector3(direction.x, 0, direction.z).magnitude;
-
-            float gravity = Mathf.Abs(Physics.gravity.y);
-            float verticalSpeed = Mathf.Sqrt(2 * gravity * height);
-            float timeToApex = verticalSpeed / gravity;
-            float totalTime = timeToApex + Mathf.Sqrt(2 * (direction.y + height) / gravity);
-            float horizontalSpeed = distance / totalTime;
-
-            Vector3 horizontalVelocity = new Vector3(direction.x, 0, direction.z).normalized * horizontalSpeed;
-            Vector3 launchVelocity = horizontalVelocity + Vector3.up * verticalSpeed;
-
-            playerRb.velocity = Vector3.zero; // 現在の速度をリセット
-            playerRb.AddForce(launchVelocity, ForceMode.VelocityChange);
-        }
+      
 
 
         private IEnumerator DelayStart()

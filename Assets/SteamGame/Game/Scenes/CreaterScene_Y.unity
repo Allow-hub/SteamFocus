@@ -1812,6 +1812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pos: {fileID: 98796933}
   avatarParent: {fileID: 1980267346}
+  ballObj: {fileID: 0}
   ballRb: {fileID: 2067892453}
 --- !u!4 &382061798
 Transform:
@@ -9846,17 +9847,17 @@ PrefabInstance:
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -103.4
+      value: 654
       objectReference: {fileID: 0}
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -69.3
+      value: 1537
       objectReference: {fileID: 0}
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.6
+      value: -3.9
       objectReference: {fileID: 0}
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
