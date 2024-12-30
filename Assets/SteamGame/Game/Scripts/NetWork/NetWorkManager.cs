@@ -8,9 +8,11 @@ namespace TechC
     {
         [SerializeField] private Transform pos;
         [SerializeField] private Transform avatarParent;
+        [SerializeField] private Rigidbody ballRb;
 
         private void Awake()
         {
+            ballRb.constraints = RigidbodyConstraints.FreezePosition;
             PhotonNetwork.NickName = "Player";
             // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
             PhotonNetwork.ConnectUsingSettings();
@@ -31,6 +33,8 @@ namespace TechC
             // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
             var position =pos.position;
             var obj =  PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+            ballRb.constraints = RigidbodyConstraints.None;
+
             if (avatarParent == null) return;
             obj.transform.SetParent(avatarParent);
             GameManager.I.AddListPlayer(obj);
