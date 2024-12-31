@@ -9,6 +9,7 @@ namespace TechC
     public class DeerGimmick : MonoBehaviour
     {
         [SerializeField] private float rotationSpeed = 30f;
+        [SerializeField] private float breakDuration = 3f;
         private float currentAngle = 0f;
         private bool rotatingFoward = true;
         private bool isBump = false; 
@@ -46,7 +47,7 @@ namespace TechC
             //‚Ô‚Â‚©‚Á‚½‚©‚Ç‚¤‚©
             if (collision.gameObject.CompareTag("Ball"))
             {
-                Debug.Log("”j—ô‚µ‚½");
+                GameManager.I.BreakPlayer(breakDuration);
                 isBump = true;
             }
         }

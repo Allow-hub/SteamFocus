@@ -40,6 +40,7 @@ namespace TechC
 
         private SafeAreaPos safeAreaPos;
         private GameObject ballObj;
+        private Rigidbody ballRb;
         private Transform currentCheckPoint;
         private List<GameObject> activePlayers = new List<GameObject>();
 
@@ -208,7 +209,11 @@ namespace TechC
 
 
         public  void GetSafeAreaPosScript()=> safeAreaPos = FindObjectOfType<SafeAreaPos>();
-        public void SetBallObj(GameObject obj)=>ballObj = obj;  
+        public void SetBallObj(GameObject obj)
+        {
+            ballObj = obj;
+            ballRb = obj.GetComponent<Rigidbody>();
+        } 
         public void AddListPlayer(GameObject obj)
         {
             activePlayers.Add(obj);
@@ -299,6 +304,43 @@ namespace TechC
             isBreakingPlayers = false; // フラグをリセット
         }
 
+        private void MenuPlayer(bool isIn)
+        {
+            if (isIn)
+            {
+                // BallのRigidbodyを位置のみに固定
+                ballRb.constraints = RigidbodyConstraints.FreezePosition;
+
+                // activePlayersリストの各プレイヤーのRigidbodyを位置のみに固定
+                foreach (var player in activePlayers)
+                {
+                    Rigidbody playerRb = player.GetComponent<Rigidbody>();
+                    if (playerRb != null)
+                    {
+                        playerRb.constraints = RigidbodyConstraints.FreezePosition;
+                    }
+                }
+            }
+            else
+            {
+                // BallのRigidbodyの位置固定を解除し、回転は固定
+                ballRb.constraints = RigidbodyConstraints.FreezeRotation;
+
+                // activePlayersリストの各プレイヤーのRigidbodyの位置固定を解除し、回転は固定
+                foreach (var player in activePlayers)
+                {
+                    Rigidbody playerRb = player.GetComponent<Rigidbody>();
+                    if (playerRb != null)
+                    {
+                        playerRb.constraints = RigidbodyConstraints.FreezeRotation;
+                    }
+                }
+            }
+        }
+
+
+
+
         public GameObject GetPlayer(int playerIndex)
         {
             if (playerIndex < 0 || playerIndex >= activePlayers.Count)
@@ -308,6 +350,8 @@ namespace TechC
             }
             return activePlayers[playerIndex];
         }
+
+
         public int GetActivePlayerCount() { return activePlayers.Count; }
 
         private void TitleInit() => ChangeCursorMode(true, CursorLockMode.None);
@@ -315,6 +359,7 @@ namespace TechC
         {
             menuCanvas.SetActive(true);
             ChangeCursorMode(true, CursorLockMode.None);
+            MenuPlayer(true);
         }
         private void NetWarkSettingInit()
         {
@@ -326,17 +371,59 @@ namespace TechC
         private void TutorialInit()
         {
             ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+
         }
-        private void GrasslandInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void DesertInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void BuildingInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void ForestInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void MountainInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void CloudInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void IceInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void VolcanoInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void FactoryInit() => ChangeCursorMode(true, CursorLockMode.Locked);
-        private void GameClearInit() => ChangeCursorMode(false, CursorLockMode.None);
+        private void GrasslandInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void DesertInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void BuildingInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void ForestInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void MountainInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void CloudInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void IceInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void VolcanoInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void FactoryInit()
+        {
+            ChangeCursorMode(true, CursorLockMode.Locked);
+            MenuPlayer(false);
+        }
+        private void GameClearInit()
+        {
+            ChangeCursorMode(false, CursorLockMode.None);
+            MenuPlayer(true);
+        }
 
         private void HandleTitleState() => Debug.Log("A");
         private void HandleMenuState() => Debug.Log("Handling Menu State");
