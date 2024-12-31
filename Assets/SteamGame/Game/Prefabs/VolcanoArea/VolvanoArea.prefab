@@ -5014,6 +5014,7 @@ GameObject:
   - component: {fileID: 8430747975802738404}
   - component: {fileID: 2524401252509423571}
   - component: {fileID: 8367698419062598020}
+  - component: {fileID: 8483416880587177731}
   m_Layer: 0
   m_Name: Lava (1)
   m_TagString: Untagged
@@ -5107,6 +5108,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8483416880587177731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101508141242485610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7978070ab66fb4b8e6b91e7cd6bf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6144620025386305715
 GameObject:
   m_ObjectHideFlags: 0
@@ -5290,6 +5303,7 @@ GameObject:
   - component: {fileID: 4661420096782264126}
   - component: {fileID: 3519469880691934290}
   - component: {fileID: 6802406551688010650}
+  - component: {fileID: 5259974158630114683}
   m_Layer: 0
   m_Name: Lava
   m_TagString: Untagged
@@ -5383,6 +5397,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5259974158630114683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6696822008224791432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7978070ab66fb4b8e6b91e7cd6bf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6791429324404233256
 GameObject:
   m_ObjectHideFlags: 0
@@ -6976,6 +7002,11 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3684738350459034991, guid: 30e6093ed7c469b46a4d4dcb8ebefb68,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6813277291434828806, guid: 30e6093ed7c469b46a4d4dcb8ebefb68,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -6994,12 +7025,12 @@ PrefabInstance:
     - target: {fileID: 6813277291434828806, guid: 30e6093ed7c469b46a4d4dcb8ebefb68,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 332.5
+      value: 335
       objectReference: {fileID: 0}
     - target: {fileID: 6813277291434828806, guid: 30e6093ed7c469b46a4d4dcb8ebefb68,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1775.8
+      value: 1774
       objectReference: {fileID: 0}
     - target: {fileID: 6813277291434828806, guid: 30e6093ed7c469b46a4d4dcb8ebefb68,
         type: 3}

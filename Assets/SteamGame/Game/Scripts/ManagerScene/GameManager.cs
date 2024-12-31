@@ -34,7 +34,8 @@ namespace TechC
         public GameState currentState;
         public GameState lastState;
         [SerializeField] private GameObject menuCanvas, matchCanvas;
-        
+        private bool isBreakingPlayers = false; // BreakPlayer 実行中を管理するフラグ
+
         private const int targetFrameRate = 144;
 
         private SafeAreaPos safeAreaPos;
@@ -213,59 +214,91 @@ namespace TechC
             activePlayers.Add(obj);
         }
 
-        public void BreakPlayer()
+
+        public void BreakPlayer(float duration)
         {
+            if (isBreakingPlayers)
+            {
+                Debug.LogWarning("BreakPlayer is already running!");
+                return; // 実行中であれば処理をスキップ
+            }
+
+            isBreakingPlayers = true; // 実行中に設定
             ballObj.SetActive(false);
             currentCheckPoint = safeAreaPos.GetSafeAreaPos();
+
             for (int i = 0; i < activePlayers.Count; i++)
             {
                 Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
-                playerRb.isKinematic = true;
                 if (playerRb != null)
                 {
-                    Debug.Log(activePlayers.Count);
-
-                    // プレイヤーを山なりに移動させる
-                    LaunchPlayer(playerRb, currentCheckPoint.position);
+                    playerRb.isKinematic = true; // 物理挙動を一時的に無効化
+                                                 // プレイヤーを山なりに移動させる
+                    StartCoroutine(LaunchPlayer(activePlayers[i].transform, currentCheckPoint.position, duration, playerRb));
                 }
-
             }
+
+            StartCoroutine(ResetBreakPlayerFlag()); // 処理終了後にフラグをリセット
         }
+
         /// <summary>
-        /// 指定の Rigidbody を山なりにターゲット位置まで移動させる
+        /// 指定のオブジェクトを山なりにターゲット位置まで移動させる
         /// </summary>
-        /// <param name="playerRb">移動させる Rigidbody</param>
+        /// <param name="objectTransform">移動させるオブジェクトの Transform</param>
         /// <param name="targetPosition">ターゲット位置</param>
-        private void LaunchPlayer(Rigidbody playerRb, Vector3 targetPosition)
+        /// <param name="duration">移動にかける時間（秒）</param>
+        /// <param name="rb">対象の Rigidbody</param>
+        private IEnumerator LaunchPlayer(Transform objectTransform, Vector3 targetPosition, float duration, Rigidbody rb)
         {
-            Vector3 startPosition = playerRb.position;
+            Vector3 startPosition = objectTransform.position;
             Vector3 direction = targetPosition - startPosition;
 
-            // 距離がゼロの場合、無効な力を防ぐ
+            // 距離がゼロの場合、無効な移動を防ぐ
             if (direction.sqrMagnitude <= 0.001f)
             {
                 Debug.LogWarning("LaunchPlayer: Direction is too small, skipping launch.");
-                return;
+                yield break;
             }
 
-            float height = 5f;
-            float distance = new Vector3(direction.x, 0, direction.z).magnitude;
+            float height = 10f; // 弾道の高さ
+            float elapsedTime = 0f;
 
-            float gravity = Mathf.Abs(Physics.gravity.y);
-            float verticalSpeed = Mathf.Sqrt(2 * gravity * height);
-            float timeToApex = verticalSpeed / gravity;
-            float totalTime = timeToApex + Mathf.Sqrt(2 * (direction.y + height) / gravity);
-            float horizontalSpeed = distance / totalTime;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration; // 0.0 ～ 1.0 の正規化時間
 
-            Vector3 horizontalVelocity = new Vector3(direction.x, 0, direction.z).normalized * horizontalSpeed;
-            Vector3 launchVelocity = horizontalVelocity + Vector3.up * verticalSpeed;
+                // パラボラ計算
+                float horizontalT = t;
+                float verticalT = t * (1 - t) * 4 * height; // 山なりを作る高さ
 
-            playerRb.isKinematic = false;
-            ballObj.SetActive(true);
+                Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition, horizontalT);
+                currentPosition.y += verticalT;
 
-            playerRb.velocity = Vector3.zero; // 現在の速度をリセット
-            playerRb.AddForce(launchVelocity, ForceMode.VelocityChange);
+                // Transformを更新
+                objectTransform.position = currentPosition;
+
+                yield return null; // 次のフレームを待機
+            }
+
+            // 最後に正確にターゲット位置に調整
+            objectTransform.position = targetPosition;
+            // Rigidbodyの設定を戻す
+            rb.isKinematic = false;
+            ballObj.transform.position = targetPosition;
+            ballObj.SetActive(true); // ボールを有効化
         }
+
+        /// <summary>
+        /// 処理終了後にフラグをリセットするコルーチン
+        /// </summary>
+        private IEnumerator ResetBreakPlayerFlag()
+        {
+            // 必要に応じて一定時間待機
+            yield return new WaitForSeconds(3f);
+            isBreakingPlayers = false; // フラグをリセット
+        }
+
         public GameObject GetPlayer(int playerIndex)
         {
             if (playerIndex < 0 || playerIndex >= activePlayers.Count)
@@ -294,16 +327,16 @@ namespace TechC
         {
             ChangeCursorMode(true, CursorLockMode.Locked);
         }
-        private void GrasslandInit() => Debug.Log("Initializing Grassland State");
-        private void DesertInit() => Debug.Log("Initializing Desert State");
-        private void BuildingInit() => Debug.Log("Initializing Building State");
-        private void ForestInit() => Debug.Log("Initializing Forest State");
-        private void MountainInit() => Debug.Log("Initializing Mountain State");
-        private void CloudInit() => Debug.Log("Initializing Cloud State");
-        private void IceInit() => Debug.Log("Initializing Ice State");
-        private void VolcanoInit() => Debug.Log("Initializing Volcano State");
-        private void FactoryInit() => Debug.Log("Initializing Factory State");
-        private void GameClearInit() => Debug.Log("Initializing Game Clear State");
+        private void GrasslandInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void DesertInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void BuildingInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void ForestInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void MountainInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void CloudInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void IceInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void VolcanoInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void FactoryInit() => ChangeCursorMode(true, CursorLockMode.Locked);
+        private void GameClearInit() => ChangeCursorMode(false, CursorLockMode.None);
 
         private void HandleTitleState() => Debug.Log("A");
         private void HandleMenuState() => Debug.Log("Handling Menu State");
