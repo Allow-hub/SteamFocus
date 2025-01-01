@@ -222,7 +222,6 @@ namespace TechC
 
         public void BreakPlayer(float duration)
         {
-            Debug.Log("ABB");
             if (isBreakingPlayers)
             {
                 Debug.LogWarning("BreakPlayer is already running!");

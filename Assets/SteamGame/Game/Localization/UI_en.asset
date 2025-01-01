@@ -42,6 +42,18 @@ MonoBehaviour:
     m_Localized: Back
     m_Metadata:
       m_Items: []
+  - m_Id: 7373701500506112
+    m_Localized: Goal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7375514882674688
+    m_Localized: Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7382188007755776
+    m_Localized: "Nice\uFF01"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

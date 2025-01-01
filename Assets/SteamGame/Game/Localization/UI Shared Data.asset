@@ -43,6 +43,18 @@ MonoBehaviour:
     m_Key: Back
     m_Metadata:
       m_Items: []
+  - m_Id: 7373701500506112
+    m_Key: Goal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7375514882674688
+    m_Key: Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7382188007755776
+    m_Key: Clear
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

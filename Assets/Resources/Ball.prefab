@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 20
   isDrawingGizmo: 1
+  velocityThreshold: 0
 --- !u!114 &-3624565679368712431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 10

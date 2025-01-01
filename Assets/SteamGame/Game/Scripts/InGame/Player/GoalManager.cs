@@ -16,6 +16,12 @@ namespace TechC
         private float elapsedTime = 0;
         private bool isCountingDown = false;
         private IEnumerator currentCountdown = null;
+        private ChaseCamera chaseCamera;
+
+        private void OnValidate()
+        {
+            chaseCamera = FindAnyObjectByType<ChaseCamera>();
+        }
 
         private void Awake()
         {
@@ -64,6 +70,7 @@ namespace TechC
                 {
                     goalText.SetActive(true);
                     once = true;    
+                    //chaseCamera.enabled = false;
                     Debug.Log("Goal achieved!");
                 }
             }

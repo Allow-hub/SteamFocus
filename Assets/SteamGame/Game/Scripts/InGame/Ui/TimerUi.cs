@@ -29,5 +29,7 @@ namespace TechC
 
             tex.text = $"{hours:D2}h{minutes:D2}m{seconds:D2}s";
         }
+
+        public string GetTime()=>tex.text;
     }
 }
