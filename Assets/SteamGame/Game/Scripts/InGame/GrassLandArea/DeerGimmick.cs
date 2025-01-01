@@ -49,6 +49,7 @@ namespace TechC
             {
                 GameManager.I.BreakPlayer(breakDuration);
                 isBump = true;
+                Debug.Log("A");
             }
         }
     }

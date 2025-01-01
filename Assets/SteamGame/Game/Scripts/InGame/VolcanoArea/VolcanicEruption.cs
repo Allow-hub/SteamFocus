@@ -40,7 +40,7 @@ namespace TechC
 
         void Start()
         {
-            GameManager.I.ChangeVolcanoState();
+            //GameManager.I.ChangeVolcanoState();
         }
 
         private void Update()
