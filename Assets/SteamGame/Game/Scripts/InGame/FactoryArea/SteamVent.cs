@@ -88,6 +88,8 @@ namespace TechC
 
         private void LaunchPlayer()
         {
+            if (SeManager.I != null)
+                SeManager.I.PlaySe(6, 0);
             // ƒvƒŒƒCƒ„[‚ÌRigidbody‚ÉãŒü‚«‚Ì—Í‚ğ‰Á‚¦‚é
             playerRb.AddForce(Vector3.up * launchForce, ForceMode.Impulse);
         }

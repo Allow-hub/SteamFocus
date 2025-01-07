@@ -39,6 +39,8 @@ namespace TechC
             // 衝突したオブジェクトが "Ball" タグを持っているか確認
             if (collision.gameObject.CompareTag("Ball"))
             {
+                if (SeManager.I != null)
+                    SeManager.I.PlaySe(6, 1);
                 Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
 
                 if (rb != null && explosionCenter != null)

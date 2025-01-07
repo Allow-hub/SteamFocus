@@ -41,7 +41,7 @@ namespace TechC
 
         [Header("Jump")]
         [SerializeField] private float jumpForce = 3f;            // ジャンプ力
-        private float jumpForwardForce = 100f; 
+        [SerializeField] private float jumpForwardForce = 100f; 
         [SerializeField] private float jumpCoolTime = 1f;         // ジャンプのクールタイム
         [SerializeField] private float teamJumpForce;
 
@@ -62,7 +62,7 @@ namespace TechC
             {
               ballRb =  GameObject.Find("Ball").gameObject.GetComponent<Rigidbody>();
             }
-            Physics.gravity = localGravity;
+            //Physics.gravity = localGravity;
 
             playerInput = GetComponent<PlayerInputController>();
             rb = GetComponent<Rigidbody>();
@@ -92,7 +92,7 @@ namespace TechC
             {
                 // 物理演算を使った移動処理
                 HandleMovement();
-                LimitSpeed();
+                //LimitSpeed();
             }
         }
 

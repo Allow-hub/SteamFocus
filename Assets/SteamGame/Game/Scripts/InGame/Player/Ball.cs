@@ -1,5 +1,3 @@
-    using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TechC
@@ -23,17 +21,17 @@ namespace TechC
         private void FixedUpdate()
         {
             if (_rb == null) return;
-            if (_rb.velocity.magnitude <= velocityThreshold)return;
-            _rb.velocity=Vector3.zero;
-            for (int i = 0;i<GameManager.I.GetActivePlayerCount();i++)
-            {
-                var player = GameManager.I.GetPlayer(i);
-                var playerRb = player.GetComponent<Rigidbody>();
-                if (playerRb == null) return;
-                player.transform.position =transform.position;
-                playerRb.velocity=Vector3.zero;
+            //if (_rb.velocity.magnitude <= velocityThreshold)return;
+            //_rb.velocity=Vector3.zero;
+            //for (int i = 0;i<GameManager.I.GetActivePlayerCount();i++)
+            //{
+            //    var player = GameManager.I.GetPlayer(i);
+            //    var playerRb = player.GetComponent<Rigidbody>();
+            //    if (playerRb == null) return;
+            //    player.transform.position =transform.position;
+            //    playerRb.velocity=Vector3.zero;
                 
-            }
+            //}
         }
 
 #if UNITY_EDITOR

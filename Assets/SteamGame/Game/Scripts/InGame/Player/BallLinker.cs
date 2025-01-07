@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
-using static TechC.GameManager;
 
 namespace TechC
 {
@@ -9,7 +7,7 @@ namespace TechC
     ///     ボールとの接続処理
     ///     閉じ込めるオブジェクトに適用すること
     /// </summary>
-    public class BallLinker : MonoBehaviour
+    public class BallLinker : MonoBehaviourPunCallbacks
     {
         /// <summary>
         ///     接続先ボール
@@ -24,8 +22,8 @@ namespace TechC
         [SerializeField]
         private float restitution = 0.5f;
 
-        private float playerRestitution = 0.5f;
-        private Vector2 clampVelocityRange = new Vector2(-200, 200);
+        [SerializeField] private float playerRestitution = 0.5f;
+        [SerializeField] private Vector2 clampVelocityRange = new Vector2(-200, 200);
 
         private Rigidbody _rb;
         private CapsuleCollider _collider;
