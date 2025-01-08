@@ -21,7 +21,7 @@ public class SandMine : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Ball"))
         {
             Explode(); // ƒvƒŒƒCƒ„[‚ªG‚ê‚é‚Æ”š”­
         }
