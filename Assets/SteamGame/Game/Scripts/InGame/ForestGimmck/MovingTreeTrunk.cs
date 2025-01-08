@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class MovingTreeTrunk : MonoBehaviour
 {
-    public float scaleSpeed = 1f;  // 伸び縮みの速度
-    public float maxScale = 5f;   // 最大スケール
-    public float minScale = 1f;   // 最小スケール
-    public float pauseDuration = 1f; // 最大または最小スケールで停止する時間
-    public float pushForce = 500f;   // プレイヤーを吹き飛ばす力
+    [SerializeField] private float scaleSpeed = 1f;      // 伸び縮みの速度
+    [SerializeField] private float maxScale = 5f;       // 最大スケール
+    [SerializeField] private float minScale = 1f;       // 最小スケール
+    [SerializeField] private float pauseDuration = 1f;  // 最大または最小スケールで停止する時間
+    [SerializeField] private float pushForce = 500f;    // プレイヤーを吹き飛ばす力
 
-    private bool isGrowing = true; // 現在スケールが拡大中かどうか
-    private Vector3 initialPosition; // 元の位置
+    private bool isGrowing = true;          // 現在スケールが拡大中かどうか
+    private Vector3 initialPosition;        // 元の位置
+    private Rigidbody rb;                   // Rigidbodyの参照（オプション）
 
     void Start()
     {
-        initialPosition = transform.position; // 初期位置を記録
+        // 初期位置を記録
+        initialPosition = transform.position;
+
+        // Rigidbodyの参照を取得（必要なら設定を調整）
+        rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;  // 物理演算で影響を受けないようにする
+        }
+
+        // コルーチン開始
         StartCoroutine(ScaleWall());
     }
 
@@ -45,7 +56,7 @@ public class MovingTreeTrunk : MonoBehaviour
             // 状態を反転させる（拡大→縮小、縮小→拡大）
             isGrowing = !isGrowing;
 
-            // 最大/最小で一時停止
+            // 最大/最小スケールで一時停止
             yield return new WaitForSeconds(pauseDuration);
         }
     }

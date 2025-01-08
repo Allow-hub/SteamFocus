@@ -20,7 +20,7 @@ public class TiltingFloor : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         // プレイヤーが床に乗った場合
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Ball"))
         {
             player = collision.transform;
             isPlayerOnFloor = true;
@@ -30,7 +30,7 @@ public class TiltingFloor : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         // プレイヤーが床から離れた場合
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Ball"))
         {
             isPlayerOnFloor = false;
             player = null;
