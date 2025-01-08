@@ -1,61 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
+using TechC;
 using UnityEngine;
 
 public class SandMine : MonoBehaviour
 {
-    public float explosionRadius = 5f;    // 爆発の範囲
-    public float explosionForce = 1000f; // 爆発の力
-    public GameObject explosionEffect;   // 爆発のエフェクト（プレハブ）
-    public AudioClip explosionSound;     // 爆発のサウンド
-    public float cameraShakeDuration = 0.5f; // カメラシェイクの時間
-    public float cameraShakeMagnitude = 0.2f; // カメラシェイクの強度
+    [SerializeField] private float explosionRadius = 5f;    // 爆発の範囲
+    [SerializeField] private float explosionForce = 10; // 爆発の力
 
-    private AudioSource audioSource;
+    [SerializeField] private float upwardsModifier = 5; // 爆発の力
+    [SerializeField] private GameObject mineObj;
+    [SerializeField] private GameObject explosionEffect;   // 爆発のエフェクト（プレハブ）
+    [SerializeField] private float cameraShakeDuration = 0.5f; // カメラシェイクの時間
+    [SerializeField] private float cameraShakeMagnitude = 0.2f; // カメラシェイクの強度
+    [SerializeField] private float popInterval = 10f;
+    [SerializeField] private bool canDraw = false;
 
-    void Start()
+    private CapsuleCollider capsuleCollider;
+
+    private void Awake()
     {
-        // オーディオソースを設定
-        audioSource = GetComponent<AudioSource>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ball"))
         {
-            Explode(); // プレイヤーが触れると爆発
+            Explode(other.gameObject); // プレイヤーが触れると爆発
         }
     }
 
-    void Explode()
+    void Explode(GameObject obj)
     {
-        // 爆発エフェクトを生成
-        if (explosionEffect != null)
-        {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        }
+        if (SeManager.I != null)
+            SeManager.I.PlaySe(6, 1); //爆発の音
+        Rigidbody rb = obj.gameObject.GetComponent<Rigidbody>();
 
-        // 爆発音を再生
-        if (explosionSound != null && audioSource != null)
+        if (rb != null && transform.position != null)
         {
-            audioSource.PlayOneShot(explosionSound);
-        }
-
-        // 爆発の影響を与える
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius); // 爆風で吹き飛ばす
-            }
+            // 爆発中心からAddExplosionForceで反発させる
+            rb.AddExplosionForce(
+                explosionForce,
+               transform.position,
+                explosionRadius,
+                upwardsModifier,
+                ForceMode.Impulse
+            );
         }
 
         // カメラシェイクを実行
-        CameraShake.Shake(cameraShakeDuration, cameraShakeMagnitude);
+        //CameraShake.Shake(cameraShakeDuration, cameraShakeMagnitude);
+        StartCoroutine(ResetObj());
 
-        // 地雷を消す
-        Destroy(gameObject);
+    }
+
+    private IEnumerator ResetObj()
+    {
+        mineObj.SetActive(false);
+        explosionEffect.SetActive(true);
+        capsuleCollider.enabled = false;
+        yield return new WaitForSeconds(popInterval);
+        mineObj.SetActive(true);
+        explosionEffect.SetActive(false);
+        capsuleCollider.enabled = true;
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!canDraw) return;
+        // Explosion範囲を示すギズモを描画
+        Gizmos.color = Color.red; // 赤色で表示
+        Gizmos.DrawWireSphere(transform.position, explosionRadius); // 爆発範囲を球形で表示
     }
 }

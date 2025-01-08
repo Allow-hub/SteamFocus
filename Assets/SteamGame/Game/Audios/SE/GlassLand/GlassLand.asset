@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c59e911253e7b489289becc2dd28b4, type: 3}
   m_Name: GlassLand
   m_EditorClassIdentifier: 
-  audioClips: []
+  audioClips:
+  - {fileID: 8300000, guid: 8f4b92a87cb59924e9e8e66fede0e1fb, type: 3}
+  - {fileID: 8300000, guid: 14c83c9679d89d242992115e714d1af6, type: 3}
