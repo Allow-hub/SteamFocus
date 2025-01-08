@@ -5,34 +5,31 @@ using UnityEngine;
 public class FallingRocks : MonoBehaviour
 {
     [Header("Rock Settings")]
-    public List<GameObject> rockObjects;  // インスペクターで設定する岩オブジェクトのリスト
-    public float fallInterval = 2.0f;    // 岩が落ちる間隔
-    public float spawnHeight = 10.0f;    // 岩が生成される高さ
-    public float fallDelay = 1.5f;       // 岩が落下を開始するまでの遅延時間
+    [SerializeField]private List<GameObject> rockObjects;  // インスペクターで設定する岩オブジェクトのリスト
+    [SerializeField] private float fallInterval = 2.0f;    // 岩が落ちる間隔
+    [SerializeField] private float spawnHeight = 10.0f;    // 岩が生成される高さ
+    [SerializeField] private float fallDelay = 1.5f;       // 岩が落下を開始するまでの遅延時間
+    [SerializeField] private Vector3 spawnAreaCenter;      // 岩が落ちるエリアの中心
+    [SerializeField] private Vector3 spawnAreaSize;        // 岩が落ちるエリアのサイズ
 
-    private bool isPlayerInZone = false; // プレイヤーがエリア内にいるか
     private int nextRockIndex = 0;       // 次に使用する岩のインデックス
+    [SerializeField] private GameObject spawnAreaObject; // スポーンエリア用オブジェクト
 
-    void OnTriggerEnter(Collider other)
+    void Start()
     {
-        if (other.CompareTag("Player"))
+        if (spawnAreaObject != null)
         {
-            isPlayerInZone = true;
-            StartCoroutine(DropRocks(other.transform));
+            // スポーンエリアの中心とサイズを取得
+            spawnAreaCenter = spawnAreaObject.transform.position;
+            spawnAreaSize = spawnAreaObject.GetComponent<BoxCollider>().size;
         }
+
+        StartCoroutine(DropRocks());
     }
 
-    void OnTriggerExit(Collider other)
+    IEnumerator DropRocks()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInZone = false;
-        }
-    }
-
-    IEnumerator DropRocks(Transform playerTransform)
-    {
-        while (isPlayerInZone)
+        while (true)
         {
             if (rockObjects.Count == 0)
             {
@@ -44,8 +41,9 @@ public class FallingRocks : MonoBehaviour
             GameObject rock = rockObjects[nextRockIndex];
             nextRockIndex = (nextRockIndex + 1) % rockObjects.Count;
 
-            // プレイヤーの上に岩を配置
-            Vector3 spawnPosition = playerTransform.position + Vector3.up * spawnHeight;
+            // ランダムな位置に岩を生成
+            Vector3 spawnPosition = GetRandomSpawnPosition();
+            spawnPosition.y += spawnHeight; // Y方向を調整
             rock.transform.position = spawnPosition;
             rock.SetActive(true);
 
@@ -72,36 +70,17 @@ public class FallingRocks : MonoBehaviour
         }
 
         // 一定時間後に岩をリセットして非表示
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.5f);
         rb.isKinematic = true;
         rock.SetActive(false); // 岩を非表示にして再利用可能にする
     }
-}
 
-public class RockCollision : MonoBehaviour
-{
-    public float knockbackForce = 10000f; // ボールを吹っ飛ばす力
-
-    void OnCollisionEnter(Collision collision)
+    private Vector3 GetRandomSpawnPosition()
     {
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            Rigidbody ballRb = collision.gameObject.GetComponent<Rigidbody>();
+        // スポーンエリア内でランダムな位置を生成
+        float x = Random.Range(spawnAreaCenter.x - spawnAreaSize.x / 2, spawnAreaCenter.x + spawnAreaSize.x / 2);
+        float z = Random.Range(spawnAreaCenter.z - spawnAreaSize.z / 2, spawnAreaCenter.z + spawnAreaSize.z / 2);
 
-            if (ballRb != null)
-            {
-                // 衝突方向を計算（横方向のみ）
-                Vector3 knockbackDirection = Vector3.right; // デフォルトでX方向に飛ばす
-                if (Random.value > 0.5f)
-                {
-                    knockbackDirection = Vector3.left; // 50%の確率で左方向に飛ばす
-                }
-
-                // ボールに力を加える
-                ballRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
-                Debug.Log("Ball hit by rock and knocked sideways!");
-            }
-        }
+        return new Vector3(x, spawnAreaCenter.y, z);
     }
 }
