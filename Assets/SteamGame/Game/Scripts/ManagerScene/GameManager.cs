@@ -55,7 +55,7 @@ namespace TechC
             Application.targetFrameRate = targetFrameRate;
 
             // èâä˙èÛë‘Çê›íËÅió·: TitleÅj
-            SetState(GameState.NetWarkSetting);
+            SetState(GameState.Title);
 
         }
 
@@ -306,6 +306,7 @@ namespace TechC
 
         private void MenuPlayer(bool isIn)
         {
+            if (ballObj == null) return;
             if (isIn)
             {
                 // BallÇÃRigidbodyÇà íuÇÃÇ›Ç…å≈íË
@@ -370,58 +371,58 @@ namespace TechC
 
         private void TutorialInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
 
         }
         private void GrasslandInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void DesertInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void BuildingInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void ForestInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void MountainInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void CloudInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void IceInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void VolcanoInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void FactoryInit()
         {
-            ChangeCursorMode(true, CursorLockMode.Locked);
+            ChangeCursorMode(false, CursorLockMode.Locked);
             MenuPlayer(false);
         }
         private void GameClearInit()
         {
-            ChangeCursorMode(false, CursorLockMode.None);
+            ChangeCursorMode(true, CursorLockMode.None);
             MenuPlayer(true);
         }
 

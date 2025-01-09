@@ -8,6 +8,8 @@ namespace TechC
         [SerializeField] private float radius = 1.5f;
         [SerializeField] private bool isDrawingGizmo;
         [SerializeField] private float velocityThreshold;
+        [SerializeField] private Transform initPos;
+        [SerializeField] private bool isDebug = true;
         public float Radius => radius;
 
         private Rigidbody _rb;
@@ -16,6 +18,12 @@ namespace TechC
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
+            if (isDebug) return;
+            transform.position=initPos.position;
+        }
+        private void Start()
+        {
+            GameManager.I.ChangeNetWarkSettingState();
         }
 
         private void FixedUpdate()
