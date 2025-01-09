@@ -222,28 +222,28 @@ namespace TechC
 
         public void BreakPlayer(float duration)
         {
-            if (isBreakingPlayers)
-            {
-                Debug.LogWarning("BreakPlayer is already running!");
-                return; // 実行中であれば処理をスキップ
-            }
+            //if (isBreakingPlayers)
+            //{
+            //    Debug.LogWarning("BreakPlayer is already running!");
+            //    return; // 実行中であれば処理をスキップ
+            //}
 
-            isBreakingPlayers = true; // 実行中に設定
-            ballObj.SetActive(false);
-            currentCheckPoint = safeAreaPos.GetSafeAreaPos();
+            //isBreakingPlayers = true; // 実行中に設定
+            //ballObj.SetActive(false);
+            //currentCheckPoint = safeAreaPos.GetSafeAreaPos();
 
-            for (int i = 0; i < activePlayers.Count; i++)
-            {
-                Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
-                if (playerRb != null)
-                {
-                    playerRb.isKinematic = true; // 物理挙動を一時的に無効化
-                                                 // プレイヤーを山なりに移動させる
-                    StartCoroutine(LaunchPlayer(activePlayers[i].transform, currentCheckPoint.position, duration, playerRb));
-                }
-            }
+            //for (int i = 0; i < activePlayers.Count; i++)
+            //{
+            //    Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
+            //    if (playerRb != null)
+            //    {
+            //        playerRb.isKinematic = true; // 物理挙動を一時的に無効化
+            //                                     // プレイヤーを山なりに移動させる
+            //        StartCoroutine(LaunchPlayer(activePlayers[i].transform, currentCheckPoint.position, duration, playerRb));
+            //    }
+            //}
 
-            StartCoroutine(ResetBreakPlayerFlag()); // 処理終了後にフラグをリセット
+            //StartCoroutine(ResetBreakPlayerFlag()); // 処理終了後にフラグをリセット
         }
 
         /// <summary>
