@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
       propertyPath: moveSpeed
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5555516054971952014, guid: b6573509c565b4a44b781ff0644ebae6,
         type: 3}
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 2
+  m_TeleportIfDistanceGreaterThan: 30
 --- !u!114 &3388267520073585636
 MonoBehaviour:
   m_ObjectHideFlags: 0
