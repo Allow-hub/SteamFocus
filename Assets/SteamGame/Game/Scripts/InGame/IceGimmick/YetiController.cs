@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TechC;
 using UnityEngine;
 
 public class YetiController : MonoBehaviour
 {
+    [SerializeField] private ObjectPool objectPool;
     public GameObject snowballPrefab; // á‹Ê‚ÌPrefab
     public Transform snowballSpawnPoint; // á‹Ê‚Ì¶¬ˆÊ’u
     public float snowballForce = 20f; // á‹Ê‚Ì‰‘¬“x
@@ -30,7 +32,9 @@ public class YetiController : MonoBehaviour
     private void ThrowSnowball()
     {
         // á‹Ê‚ğ¶¬
-        GameObject snowball = Instantiate(snowballPrefab, snowballSpawnPoint.position, Quaternion.identity);
+        GameObject snowball = objectPool.GetObject(snowballPrefab);
+        snowball.transform.position = snowballSpawnPoint.position;
+        //snowball.transform.rotation =Quaternion.identity;
 
         // á‹Ê‚ÌŒü‚«‚Æ‰‘¬“x‚ğİ’è
         Rigidbody rb = snowball.GetComponent<Rigidbody>();
@@ -42,6 +46,6 @@ public class YetiController : MonoBehaviour
         }
 
         // ˆê’èŠÔŒã‚Éá‹Ê‚ğíœ
-        Destroy(snowball, snowballDestroyTime);
+        //Destroy(snowball, snowballDestroyTime);
     }
 }

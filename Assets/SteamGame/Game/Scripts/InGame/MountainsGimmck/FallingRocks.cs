@@ -47,7 +47,7 @@ public class FallingRocks : MonoBehaviour
             rock.transform.position = spawnPosition;
             rock.SetActive(true);
 
-            Debug.Log("Rock spawned at: " + spawnPosition);
+            //Debug.Log("Rock spawned at: " + spawnPosition);
 
             // 落下コルーチンを開始
             StartCoroutine(FallRock(rock));
