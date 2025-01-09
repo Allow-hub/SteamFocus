@@ -10,7 +10,7 @@ public class SlipperyIceFloor : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Ball"))
         {
             // プレイヤーが氷の床に触れた場合、Rigidbodyのドラッグを変更して滑りやすくする
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
@@ -23,7 +23,7 @@ public class SlipperyIceFloor : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Ball"))
         {
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
             if (playerRb != null)
