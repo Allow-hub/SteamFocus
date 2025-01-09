@@ -20,6 +20,7 @@ namespace TechC
         [SerializeField] private float limit = 1.2f;             // ボールの速度の何倍まで許容するか
         [SerializeField] private float decelerationFactor = 2f;   // 減速の強さ
         [SerializeField] private Rigidbody ballRb;
+        [SerializeField] private float limitSpeed = 30;
         private const string walkAnimName = "IsWalking";
 
         private Camera playerCamera;
@@ -81,8 +82,6 @@ namespace TechC
                 // ジャンプやタックルの処理
                 HandleJump();
                 HandleAttack();
-                HandleMovement();
-
             }
         }
 
@@ -93,43 +92,76 @@ namespace TechC
             if (photonView.IsMine)
             {
                 // 物理演算を使った移動処理
-                //HandleMovement();
+                HandleMovement();
                 //LimitSpeed();
             }
         }
-
         private void HandleMovement()
         {
-            // 入力に基づく移動ベクトルを計算
             Vector3 inputVector = playerInput.InputVector;
-            Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed;
-
             if (inputVector == Vector3.zero)
             {
-                // 止まっている場合、移動アニメーションを停止
                 anim.SetBool(walkAnimName, false);
                 return;
             }
 
-            // カメラの向きに基づいて移動ベクトルを調整
+            // カメラの向きを基に移動方向を計算
             Vector3 cameraForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
             Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
-            Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
+            Vector3 movementDirection = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized;
 
-            // プレイヤーの移動
-            // 他の物理演算との干渉を防ぐために座標操作で移動させている
-            rb.MovePosition(rb.position + adjustedMovement * Time.deltaTime);
-            
-            // プレイヤーを移動方向に向ける
-            if (adjustedMovement != Vector3.zero)
+            // AddForceで移動
+            rb.AddForce(movementDirection * moveSpeed, ForceMode.Acceleration);
+
+            // 速度制限を適用
+            if (rb.velocity.magnitude > limitSpeed)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
+                rb.velocity = rb.velocity.normalized * limitSpeed;
+            }
+
+            // プレイヤーの向きを調整
+            if (movementDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
 
-            // 移動中はアニメーションを発火
+            // 移動アニメーションを再生
             anim.SetBool(walkAnimName, true);
         }
+
+        //private void HandleMovement()
+        //{
+        //    // 入力に基づく移動ベクトルを計算
+        //    Vector3 inputVector = playerInput.InputVector;
+        //    Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.z).normalized * moveSpeed;
+
+        //    if (inputVector == Vector3.zero)
+        //    {
+        //        // 止まっている場合、移動アニメーションを停止
+        //        anim.SetBool(walkAnimName, false);
+        //        return;
+        //    }
+
+        //    // カメラの向きに基づいて移動ベクトルを調整
+        //    Vector3 cameraForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
+        //    Vector3 cameraRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
+        //    Vector3 adjustedMovement = (cameraForward * inputVector.z + cameraRight * inputVector.x).normalized * moveSpeed;
+
+        //    // プレイヤーの移動
+        //    // 他の物理演算との干渉を防ぐために座標操作で移動させている
+        //    rb.MovePosition(rb.position + adjustedMovement * Time.deltaTime);
+            
+        //    // プレイヤーを移動方向に向ける
+        //    if (adjustedMovement != Vector3.zero)
+        //    {
+        //        Quaternion targetRotation = Quaternion.LookRotation(adjustedMovement);
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        //    }
+
+        //    // 移動中はアニメーションを発火
+        //    anim.SetBool(walkAnimName, true);
+        //}
 
         private void LimitSpeed()
         {
