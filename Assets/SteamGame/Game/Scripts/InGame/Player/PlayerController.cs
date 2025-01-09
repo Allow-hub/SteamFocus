@@ -81,6 +81,8 @@ namespace TechC
                 // ジャンプやタックルの処理
                 HandleJump();
                 HandleAttack();
+                HandleMovement();
+
             }
         }
 
@@ -91,7 +93,7 @@ namespace TechC
             if (photonView.IsMine)
             {
                 // 物理演算を使った移動処理
-                HandleMovement();
+                //HandleMovement();
                 //LimitSpeed();
             }
         }
