@@ -696,15 +696,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8294051114319017368, guid: 6168049554ebd9445824e7fc8a5e1ed6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5094772563996171896}
-    - targetCorrespondingSourceObject: {fileID: 8294051114319017368, guid: 6168049554ebd9445824e7fc8a5e1ed6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6468512776827142366}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6168049554ebd9445824e7fc8a5e1ed6, type: 3}
 --- !u!95 &1420383825294181791 stripped
 Animator:
@@ -718,59 +710,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5622506213304445487}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4403750880082059191 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8294051114319017368, guid: 6168049554ebd9445824e7fc8a5e1ed6,
-    type: 3}
-  m_PrefabInstance: {fileID: 5622506213304445487}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5094772563996171896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4403750880082059191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsWalking
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsJumping
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsAttacking
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
---- !u!114 &6468512776827142366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4403750880082059191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 5094772563996171896}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
