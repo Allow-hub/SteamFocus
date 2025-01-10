@@ -8,7 +8,7 @@ namespace TechC
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Ball"))
             {
                 if (GameManager.I == null) return;
                 GameManager.I.SetState(changeState);
