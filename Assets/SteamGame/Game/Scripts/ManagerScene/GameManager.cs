@@ -33,7 +33,7 @@ namespace TechC
         public float sensitivity = 2;
         public GameState currentState;
         public GameState lastState;
-        [SerializeField] private GameObject menuCanvas, matchCanvas;
+        [SerializeField] private GameObject menuCanvas, matchCanvas,waitCanvas;
         private bool isBreakingPlayers = false; // BreakPlayer 実行中を管理するフラグ
 
         private const int targetFrameRate = 144;
@@ -53,7 +53,7 @@ namespace TechC
 
             // fps 144 を目標に設定
             Application.targetFrameRate = targetFrameRate;
-
+            waitCanvas.SetActive(false);
             // 初期状態を設定（例: Title）
             SetState(GameState.Title);
 
@@ -431,11 +431,14 @@ namespace TechC
         private void HandleNetWarkSettingState()
         {
             if (PhotonNetwork.CurrentRoom == null) return;
+            waitCanvas.SetActive(true);
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
             if (isDebug)
             {
                 if (playerCount == 1)
                 {
+                    waitCanvas.SetActive(false);
+
                     canPlay = true;
                     ChangeTutorialState();
                 }
@@ -445,6 +448,7 @@ namespace TechC
                 /// プレイヤーがそろうまでの処理をここに書く
                 if (playerCount == 2)
                 {
+                    waitCanvas.SetActive(false);
                     canPlay = true;
                     ChangeTutorialState();
                 }

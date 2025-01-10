@@ -54,6 +54,16 @@ MonoBehaviour:
     m_Localized: "Nice\uFF01"
     m_Metadata:
       m_Items: []
+  - m_Id: 10469736967966720
+    m_Localized: Goal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10473318001807360
+    m_Localized: 'Please enter the room name using up to 6 numbers or alphabets.
+
+'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

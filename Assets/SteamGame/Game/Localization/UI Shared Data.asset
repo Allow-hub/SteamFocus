@@ -55,6 +55,14 @@ MonoBehaviour:
     m_Key: Clear
     m_Metadata:
       m_Items: []
+  - m_Id: 10469736967966720
+    m_Key: Height
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10473318001807360
+    m_Key: Room
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

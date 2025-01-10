@@ -46,7 +46,7 @@ namespace TechC
                 }
             }
 
-            lightProbeGroup.probePositions = probePositions.ToArray();
+            //lightProbeGroup.probePositions = probePositions.ToArray();
         }
     }
 }

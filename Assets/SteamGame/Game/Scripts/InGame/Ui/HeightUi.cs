@@ -36,7 +36,7 @@ namespace TechC
             if (Mathf.Abs(lastDistance - currentDistance) >= 1f)
             {
                 int distance = (int)currentDistance;
-                distanceText.text ="çÇÇ≥" + distance.ToString(); 
+                distanceText.text = distance.ToString(); 
                 lastDistance = currentDistance;
             }
 
