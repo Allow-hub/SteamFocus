@@ -20,7 +20,7 @@ public class FrozenLake : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Ball"))
         {
             // プレイヤーが氷に触れているとき、ひび割れが進行中でなければ
             if (!isCracking && !isPlayerNear)
@@ -35,7 +35,7 @@ public class FrozenLake : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         // プレイヤーが氷から離れた時
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Ball"))
         {
             isPlayerNear = false;  // プレイヤーが離れたことを記録
             StopAllCoroutines();   // ひび割れの進行を止める（コルーチンを中断）
