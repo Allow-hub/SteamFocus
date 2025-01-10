@@ -10,10 +10,13 @@ namespace TechC
 
         private void OnCollisionEnter(Collision collision)
         {
+            Debug.Log("Col");
+
             GameManager.I.BreakPlayer(duration);   
         }
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Tr");
             GameManager.I.BreakPlayer(duration);
         }
     }

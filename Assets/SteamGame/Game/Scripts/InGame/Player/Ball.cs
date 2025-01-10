@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TechC
@@ -10,6 +11,7 @@ namespace TechC
         [SerializeField] private float velocityThreshold;
         [SerializeField] private Transform initPos;
         [SerializeField] private bool isDebug = true;
+        [SerializeField] private GameObject breakEffect;
         public float Radius => radius;
 
         private Rigidbody _rb;
@@ -17,6 +19,7 @@ namespace TechC
 
         private void Awake()
         {
+            breakEffect.SetActive(false);   
             _rb = GetComponent<Rigidbody>();
             if (isDebug) return;
             transform.position=initPos.position;
@@ -26,20 +29,17 @@ namespace TechC
             GameManager.I.ChangeNetWarkSettingState();
         }
 
-        private void FixedUpdate()
+        public   void BreakEffect()
         {
-            if (_rb == null) return;
-            //if (_rb.velocity.magnitude <= velocityThreshold)return;
-            //_rb.velocity=Vector3.zero;
-            //for (int i = 0;i<GameManager.I.GetActivePlayerCount();i++)
-            //{
-            //    var player = GameManager.I.GetPlayer(i);
-            //    var playerRb = player.GetComponent<Rigidbody>();
-            //    if (playerRb == null) return;
-            //    player.transform.position =transform.position;
-            //    playerRb.velocity=Vector3.zero;
-                
-            //}
+            StartCoroutine(Effect());
+        }
+
+        private IEnumerator Effect()
+        {
+            breakEffect.SetActive(true);    
+            yield return new WaitForSeconds(2f);
+
+            breakEffect.SetActive(false);
         }
 
 #if UNITY_EDITOR

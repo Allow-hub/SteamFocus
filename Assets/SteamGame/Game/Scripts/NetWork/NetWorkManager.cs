@@ -19,6 +19,13 @@ namespace TechC
             PhotonNetwork.ConnectUsingSettings();
         }
 
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            ResetConnection();
+
+        }
+
         private void Start()
         {
             GameManager.I.GetSafeAreaPosScript();
@@ -44,6 +51,14 @@ namespace TechC
             if (avatarParent == null) return;
             obj.transform.SetParent(avatarParent);
             GameManager.I.AddListPlayer(obj);
+        }
+        // 接続をリセットするメソッド
+        public void ResetConnection()
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.Disconnect();
+            }
         }
     }
 }

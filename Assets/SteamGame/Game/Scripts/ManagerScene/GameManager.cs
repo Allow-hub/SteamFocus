@@ -34,12 +34,14 @@ namespace TechC
         public GameState currentState;
         public GameState lastState;
         [SerializeField] private GameObject menuCanvas, matchCanvas,waitCanvas;
+        [SerializeField] private FadeManager fadeManager;
         private bool isBreakingPlayers = false; // BreakPlayer 実行中を管理するフラグ
 
         private const int targetFrameRate = 144;
 
         private SafeAreaPos safeAreaPos;
         private GameObject ballObj;
+        private Ball ballScript;
         private Rigidbody ballRb;
         private Transform currentCheckPoint;
         private List<GameObject> activePlayers = new List<GameObject>();
@@ -213,6 +215,7 @@ namespace TechC
         {
             ballObj = obj;
             ballRb = obj.GetComponent<Rigidbody>();
+            ballScript = obj.GetComponent<Ball>();
         } 
         public void AddListPlayer(GameObject obj)
         {
@@ -222,28 +225,31 @@ namespace TechC
 
         public void BreakPlayer(float duration)
         {
-            //if (isBreakingPlayers)
-            //{
-            //    Debug.LogWarning("BreakPlayer is already running!");
-            //    return; // 実行中であれば処理をスキップ
-            //}
+            Debug.Log("AAAA");
 
-            //isBreakingPlayers = true; // 実行中に設定
-            //ballObj.SetActive(false);
-            //currentCheckPoint = safeAreaPos.GetSafeAreaPos();
+            if (isBreakingPlayers)
+            {
+                Debug.LogWarning("BreakPlayer is already running!");
+                return; // 実行中であれば処理をスキップ
+            }
 
-            //for (int i = 0; i < activePlayers.Count; i++)
-            //{
-            //    Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
-            //    if (playerRb != null)
-            //    {
-            //        playerRb.isKinematic = true; // 物理挙動を一時的に無効化
-            //                                     // プレイヤーを山なりに移動させる
-            //        StartCoroutine(LaunchPlayer(activePlayers[i].transform, currentCheckPoint.position, duration, playerRb));
-            //    }
-            //}
+            ballScript.BreakEffect();
+            isBreakingPlayers = true; // 実行中に設定
+            ballObj.SetActive(false);
+            currentCheckPoint = safeAreaPos.GetSafeAreaPos();
 
-            //StartCoroutine(ResetBreakPlayerFlag()); // 処理終了後にフラグをリセット
+            for (int i = 0; i < activePlayers.Count; i++)
+            {
+                Rigidbody playerRb = activePlayers[i].GetComponent<Rigidbody>();
+                if (playerRb != null)
+                {
+                    playerRb.isKinematic = true; // 物理挙動を一時的に無効化
+                                                 // プレイヤーを山なりに移動させる
+                    StartCoroutine(LaunchPlayer(activePlayers[i].transform, currentCheckPoint.position, duration, playerRb));
+                }
+            }
+
+            StartCoroutine(ResetBreakPlayerFlag()); // 処理終了後にフラグをリセット
         }
 
         /// <summary>
@@ -339,6 +345,7 @@ namespace TechC
             }
         }
 
+        public void ShotFade(float duration) => fadeManager.StartFade(duration);
 
 
 
@@ -426,8 +433,8 @@ namespace TechC
             MenuPlayer(true);
         }
 
-        private void HandleTitleState() => Debug.Log("A");
-        private void HandleMenuState() => Debug.Log("Handling Menu State");
+        private void HandleTitleState() { }
+        private void HandleMenuState() { }
         private void HandleNetWarkSettingState()
         {
             if (PhotonNetwork.CurrentRoom == null) return;
@@ -454,17 +461,17 @@ namespace TechC
                 }
             }
         }
-        private void HandleTutorialState() => Debug.Log("Handling Tutorial State");
-        private void HandleGrasslandState() => Debug.Log("Handling Grassland State");
-        private void HandleDesertState() => Debug.Log("Handling Desert State");
-        private void HandleBuildingState() => Debug.Log("Handling Building State");
-        private void HandleForestState() => Debug.Log("Handling Forest State");
-        private void HandleMountainState() => Debug.Log("Handling Mountain State");
-        private void HandleCloudState() => Debug.Log("Handling Cloud State");
-        private void HandleIceState() => Debug.Log("Handling Ice State");
-        private void HandleVolcanoState() => Debug.Log("Handling Volcano State");
-        private void HandleFactoryState() => Debug.Log("Handling Factory State");
-        private void HandleGameClearState() => Debug.Log("Handling Game Clear State");
+        private void HandleTutorialState() { }
+        private void HandleGrasslandState() { }
+        private void HandleDesertState() { }
+        private void HandleBuildingState() { }
+        private void HandleForestState() { }
+        private void HandleMountainState() { }
+        private void HandleCloudState() { }
+        private void HandleIceState() { }
+        private void HandleVolcanoState() { }
+        private void HandleFactoryState() { }
+        private void HandleGameClearState() { }
 
         /// <summary>
         /// ステートを変更したい場合

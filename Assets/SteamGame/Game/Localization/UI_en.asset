@@ -64,6 +64,14 @@ MonoBehaviour:
 '
     m_Metadata:
       m_Items: []
+  - m_Id: 10502915179286528
+    m_Localized: OnePlayer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10515612851638272
+    m_Localized: Title
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

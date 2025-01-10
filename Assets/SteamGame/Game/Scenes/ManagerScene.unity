@@ -410,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269978436}
   - component: {fileID: 269978437}
+  - component: {fileID: 269978438}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -449,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5861ed868df234497da3216ebdb014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 0
+  isDebug: 1
   canPlay: 0
   sensitivity: 2
   currentState: 0
@@ -457,6 +458,20 @@ MonoBehaviour:
   menuCanvas: {fileID: 1478612176}
   matchCanvas: {fileID: 1362066670}
   waitCanvas: {fileID: 910312802}
+  fadeManager: {fileID: 269978438}
+--- !u!114 &269978438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269978435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b2f5ac691d6d1479be8ea022f7c20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 696959659}
 --- !u!1 &292582842
 GameObject:
   m_ObjectHideFlags: 0

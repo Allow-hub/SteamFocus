@@ -47,9 +47,8 @@ namespace TechC
             //‚Ô‚Â‚©‚Á‚½‚©‚Ç‚¤‚©
             if (collision.gameObject.CompareTag("Ball"))
             {
-                GameManager.I.BreakPlayer(breakDuration);
+                //GameManager.I.BreakPlayer(breakDuration);
                 isBump = true;
-                Debug.Log("A");
             }
         }
     }

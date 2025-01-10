@@ -83,7 +83,7 @@ namespace TechC
                 }
 
                 // 全ての floor が minY に到達したことを確認
-                yield return new WaitUntil(() => AllFloorsReachedMinY());
+                yield return new WaitUntil(() => AllFloorsReachedMaxY());
                 yield return new WaitForSeconds(0.5f); //AllFloorsReachedMinY()の処理順がminYまでの移動のwhileよりも判定が速いため
             }
         }
@@ -100,11 +100,11 @@ namespace TechC
             {
                 GameObject currentFloor = floor[i];
                 currentFloor.SetActive(true );
-                StartCoroutine(MoveFloorToMinY(currentFloor, fallSpeedTime));
+                StartCoroutine(MoveFloorToMaxY(currentFloor, fallSpeedTime));
                 yield return new WaitForSeconds(stepDelay);
 
             }
-            yield return new WaitUntil(() => AllFloorsReachedMinY());
+            yield return new WaitUntil(() => AllFloorsReachedMaxY());
 
         }
 
@@ -119,47 +119,48 @@ namespace TechC
                 GameObject currentFloor = floor[i];
                 currentFloor.SetActive(true);
 
-                StartCoroutine(MoveFloorToMinY(currentFloor, UnityEngine.Random.Range(fallSpeedLenge.x, fallSpeedLenge.y)));
+                StartCoroutine(MoveFloorToMaxY(currentFloor, UnityEngine.Random.Range(fallSpeedLenge.x, fallSpeedLenge.y)));
                 yield return new WaitForSeconds(UnityEngine.Random.Range(randomFallDelay.x, randomFallDelay.y));
             }
-            yield return new WaitUntil(() => AllFloorsReachedMinY());
+            yield return new WaitUntil(() => AllFloorsReachedMaxY());
 
         }
 
 
 
-        private IEnumerator MoveFloorToMinY(GameObject floorObject, float speed)
+        private IEnumerator MoveFloorToMaxY(GameObject floorObject, float speed)
         {
-            // フロアが minY に到達するまで非同期で移動
-            while (floorObject.transform.position.y > minY.position.y)
+            while (floorObject.transform.position.y < maxY.position.y)
             {
                 floorObject.transform.position = Vector3.MoveTowards(
                     floorObject.transform.position,
-                    new Vector3(floorObject.transform.position.x, minY.position.y, floorObject.transform.position.z),
+                    new Vector3(floorObject.transform.position.x, maxY.position.y, floorObject.transform.position.z),
                     speed * Time.deltaTime);
-                yield return null; // 次フレームまで待機
+                yield return null;
             }
-            // 到達後、非アクティブ化
             floorObject.SetActive(false);
+
         }
 
 
 
-        private bool AllFloorsReachedMinY()
+
+        private bool AllFloorsReachedMaxY()
         {
             foreach (GameObject currentFloor in floor)
             {
-                if (currentFloor.transform.position.y > minY.position.y)
+                if (currentFloor.transform.position.y < maxY.position.y)
                     return false;
             }
-            for (int i = 0;i < floor.Length; i++)
+            for (int i = 0; i < floor.Length; i++)
             {
                 GameObject currentFloor = floor[i];
-                currentFloor.transform.position = new Vector3(currentFloor.transform.position.x, minY.position.y, currentFloor.transform.position.z);
+                currentFloor.transform.position = new Vector3(currentFloor.transform.position.x, maxY.position.y, currentFloor.transform.position.z);
             }
             return true;
         }
 
-    
+
+
     }
 }

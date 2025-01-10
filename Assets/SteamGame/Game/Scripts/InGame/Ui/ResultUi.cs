@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TechC
 {
@@ -9,14 +10,23 @@ namespace TechC
     {
         [SerializeField] private TextMeshProUGUI timeTex;
         [SerializeField] private  TimerUi timerUi;
-        private void OnValidate()
+        [SerializeField] private Button title;
+
+        private void Awake()
         {
-            timerUi = FindAnyObjectByType<TimerUi>();   
+            title.onClick.AddListener(OnTitle);
         }
+
+        private void OnTitle()
+        {
+            GameManager.I.LoadSceneAsync(0);
+        }
+
 
         private void OnEnable()
         {
             timeTex.text = timerUi.GetTime();
+            GameManager.I.ChangeGameClearState();
         }
     }
 }
