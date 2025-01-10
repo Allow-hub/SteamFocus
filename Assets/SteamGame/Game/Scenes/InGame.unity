@@ -9738,12 +9738,12 @@ PrefabInstance:
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -126.5
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 748.2
+      value: 883.9
       objectReference: {fileID: 0}
     - target: {fileID: 4211586432212437553, guid: 1d0cc853b9d2fa24288cf90d33ffcbea,
         type: 3}
@@ -68041,6 +68041,11 @@ PrefabInstance:
       propertyPath: crackingSound
       value: 
       objectReference: {fileID: 8300000, guid: e7bd43c5c6398904192fd29599d39c50, type: 3}
+    - target: {fileID: 3524601691273683715, guid: f836376eb7fc08840acdc8516f71299d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 294
+      objectReference: {fileID: 0}
     - target: {fileID: 4192487994141958507, guid: f836376eb7fc08840acdc8516f71299d,
         type: 3}
       propertyPath: m_LocalPosition.x
